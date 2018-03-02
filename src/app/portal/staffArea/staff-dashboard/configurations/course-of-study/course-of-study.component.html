@@ -1,0 +1,208 @@
+<!-- Modal -->
+<div id="openModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">{{feedBack?.formType}} {{feedBack?.moduleName}}</h4>
+            </div>
+            <div class="modal-body">
+                <!--begin::Form-->
+                <!--end::Form-->
+                <form [formGroup] = "createForm" class="m-form m-form--fit m-form--label-align-right">
+                    <div class="m-portlet__body">
+                        <div class="form-group m-form__group row" style="padding-bottom: 1px;">
+                            <label for="example-text-input" class="col-3 col-form-label">
+                              <span class="styleStar">*</span> Name
+                            </label>
+                            <div class="col-9">
+                                <input class="form-control m-input" formControlName="name" type="text" value="Artisanal kale" id="example-text-input">
+                                <div  class="alert alert-danger col-12" role="alert" *ngIf="createForm.get('name').invalid && createForm.get('name').touched">
+                                    <strong>
+                                        Name is Required
+                                    </strong>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group m-form__group row" style="padding-bottom: 1px;">
+                            <label class="col-3 col-form-label">
+                              <span class="styleStar">*</span> Degree
+                            </label>
+                            <div class="col-lg-9 col-md-9 col-sm-12">
+
+                                <select class="form-control" formControlName = "degree_id" style="width: 100%">
+                                    <option></option>
+                                    <option *ngFor="let type of feedBack?.degreeType " [value] = "type?.id">
+                                        {{type?.name}}
+                                    </option>
+                                </select>
+                                <div  class="alert alert-danger col-12" role="alert" *ngIf="createForm.get('degree_id').invalid && createForm.get('degree_id').touched">
+                                    <strong>
+                                        Degree is Required
+                                    </strong>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group m-form__group row" style="padding-bottom: 1px;">
+                            <label class="col-3 col-form-label">
+                              <span class="styleStar">*</span> Department
+                            </label>
+                            <div class="col-lg-9 col-md-9 col-sm-12">
+
+                                <select class="form-control" formControlName = "department_id" style="width: 100%">
+                                    <option></option>
+                                    <option *ngFor="let type of feedBack?.departmentType " [value] = "type?.id">
+                                        {{type?.name}}
+                                    </option>
+                                </select>
+                                <div  class="alert alert-danger col-12" role="alert" *ngIf="createForm.get('department_id').invalid && createForm.get('department_id').touched">
+                                    <strong>
+                                        Department is Required
+                                    </strong>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group m-form__group row" style="padding-bottom: 1px;">
+                            <label class="col-3 col-form-label">
+                              <span class="styleStar">*</span> Programme
+                            </label>
+                            <div class="col-lg-9 col-md-9 col-sm-12">
+
+                                <select class="form-control" formControlName = "programme_type_id" style="width: 100%">
+                                    <option></option>
+                                    <option *ngFor="let type of feedBack?.programmeType " [value] = "type?.id">
+                                        {{type?.name}}
+                                    </option>
+                                </select>
+                                <div  class="alert alert-danger col-12" role="alert" *ngIf="createForm.get('programme_type_id').invalid && createForm.get('programme_type_id').touched">
+                                    <strong>
+                                        Programme is Required
+                                    </strong>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" *ngIf="!feedBack.showUpdateButton" (click)="createFormModal()" class="btn btn-success btn-xm" data-dismiss="modal" [disabled] ="feedBack.submitStatus || createForm.invalid">
+                    Submit <i class="fa fa-spinner fa-spin" *ngIf="feedBack.submitStatus"></i>
+                </button>
+                <button type="button" *ngIf="feedBack.showUpdateButton" (click)="updateFormModal()" class="btn btn-success btn-xm" data-dismiss="modal" [disabled] ="feedBack.submitStatus || createForm.invalid">
+                    Update <i class="fa fa-spinner fa-spin" *ngIf="feedBack.submitStatus"></i>
+                </button>
+                <button type="button" class="btn btn-danger btn-xm" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+<!-- Modal -->
+<div id="viewModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">{{feedBack?.moduleName}} Details</h4>
+            </div>
+            <div class="modal-body">
+                <form [formGroup] = "createForm" class="m-form m-form--fit m-form--label-align-right">
+                    <div class="m-portlet__body">
+                        <div class="form-group m-form__group row text-center" style="padding-bottom: 1px;">
+                            <div for="example-text-input" class="col-6 col-form-label text-right">
+                                Name:
+                            </div>
+                            <div for="example-text-input" class="col-6 col-form-label text-left">
+                                {{feedBack?.viewDetails.name}}
+                            </div>
+                        </div>
+                        <div class="form-group m-form__group row text-center" style="padding-bottom: 1px;">
+                            <div for="example-text-input" class="col-6 col-form-label text-right">
+                                Programme:
+                            </div>
+                            <div for="example-text-input" class="col-6 col-form-label text-left">
+                                {{feedBack?.viewDetails?.programme?.name}}
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger btn-xm" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- BEGIN: Subheader -->
+<!-- END: Subheader -->
+<div class="m-content">
+    <div class="m-portlet m-portlet--mobile">
+        <div class="m-portlet__head">
+            <div class="m-portlet__head-caption">
+                <div class="m-portlet__head-title">
+                    <h3 class="m-portlet__head-text">
+                        {{feedBack?.moduleName}}
+                    </h3>
+                </div>
+            </div>
+        </div>
+        <div style="float: right; margin: 10px; margin-right: 4%">
+            <button class="btn btn-success btn-xm"  (click)="openModal()">
+                <i class="fa fa-plus"></i>
+                Create
+            </button>
+        </div>
+        <div class="m-portlet__body table-responsive">
+            <!--end: Ss"></ Form -->  		<!--begin: Datatable -->
+            <table id="myTable" class="table table-striped table-bordered">
+                <thead class="thead-color">
+                <tr>
+                    <th title="Field #1" class="serialnum">
+                        #
+                    </th>
+                    <th title="Field #2">
+                        Name
+                    </th>
+                    <th title="Field #2">
+                        Programme
+                    </th>
+                    <th title="Field #3">
+                        Created date
+                    </th>
+                    <th title="Field #4">
+                        Action
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let data of feedBack?.allResponse; let i = index">
+                    <td scope="row">{{i+1}}</td>
+                    <td>{{data?.name}}</td>
+                    <td>{{data?.programme?.name}}</td>
+                    <td>{{data?.created_at | date}}</td>
+                    <td>
+                        <button (click)="onEdit(data)" class="btn btn-primary btn-xm" >
+                            <i class="fa fa-pencil"></i>
+                        </button>
+                        <button (click)="onView(data)" class="btn btn-primary btn-xm" >
+                            <i class="fa fa-eye"></i>
+                        </button>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="5" *ngIf="feedBack.loader">
+                        <div  class="text-center">Loading {{feedBack?.moduleName}} <i class="fa fa-spinner fa-spin"></i></div>
+                    </td>
+                    <td colspan="5" *ngIf="!feedBack.loader && feedBack?.allResponse.length === 0">
+                        <div  class="text-center">No Content Found</div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+         </div>
+    </div>
+</div>

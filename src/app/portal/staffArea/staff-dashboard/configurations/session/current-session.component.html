@@ -1,0 +1,226 @@
+<!-- Modal -->
+<div id="openModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">{{feedBack?.formType}} {{feedBack?.moduleName}}</h4>
+            </div>
+            <div class="modal-body">
+                <!--begin::Form-->
+                <!--end::Form-->
+                <form [formGroup] = "createForm" class="m-form m-form--fit m-form--label-align-right">
+                    <div class="m-portlet__body">
+                        <div class="form-group m-form__group row" style="padding-bottom: 1px;">
+                            <label class="col-3 col-form-label">
+                              <span class="styleStar">*</span>Session Year
+                            </label>
+                            <div class="col-lg-9 col-md-9 col-sm-12">
+
+                                <select class="form-control" formControlName = "year" style="width: 100%">
+                                    <option></option>
+                                    <option *ngFor="let year of feedBack?.years " [value] = "year">
+                                        {{year}}
+                                    </option>
+                                </select>
+                                <div  class="alert alert-danger col-12" role="alert" *ngIf="createForm.get('year').invalid && createForm.get('year').touched">
+                                    <strong>
+                                        Year is Required
+                                    </strong>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group m-form__group row" style="padding-bottom: 1px;">
+                            <label class="col-form-label col-lg-3 col-sm-12">
+                              <span class="styleStar">*</span>Start Session
+                            </label>
+                            <div class="col-lg-9 col-md-9 col-sm-12" >
+                                <div class="input-group date">
+                                    <input type="date" class="form-control" formControlName="date_start" placeholder="Select date"/>
+                                    <div class="input-group-append">
+								<span class="input-group-text">
+									<i class="la la-calendar-check-o"></i>
+								</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--<div class="form-group m-form__group row" style="padding-bottom: 1px;">-->
+                            <!--<label class="col-form-label col-lg-3 col-sm-12">-->
+                                <!--End Session-->
+                            <!--</label>-->
+                            <!--<div class="col-lg-9 col-md-9 col-sm-12">-->
+                                <!--<div class="input-group date">-->
+                                    <!--<input type="date" class="form-control" formControlName="date_end" placeholder="Select date"/>-->
+                                    <!--<div class="input-group-append">-->
+								<!--<span class="input-group-text">-->
+									<!--<i class="la la-calendar-check-o"></i>-->
+								<!--</span>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <div class="form-group m-form__group row" style="padding-bottom: 1px;">
+                            <label class="col-3 col-form-label">
+                              <span class="styleStar">*</span>Programme
+                            </label>
+                            <div class="col-lg-9 col-md-9 col-sm-12">
+
+                                <select class="form-control" formControlName = "programme_id" style="width: 100%">
+                                    <option></option>
+                                    <option *ngFor="let type of feedBack?.programmeType " [value] = "type?.id">
+                                        {{type?.name}}
+                                    </option>
+                                </select>
+                                <div  class="alert alert-danger col-12" role="alert" *ngIf="createForm.get('programme_id').invalid && createForm.get('programme_id').touched">
+                                    <strong>
+                                        Programme is Required
+                                    </strong>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" *ngIf="!feedBack.showUpdateButton" (click)="createFormModal()" class="btn btn-success btn-xm" data-dismiss="modal" [disabled] ="feedBack.submitStatus || createForm.invalid">
+                    Submit <i class="fa fa-spinner fa-spin" *ngIf="feedBack.submitStatus"></i>
+                </button>
+                <button type="button" *ngIf="feedBack.showUpdateButton" (click)="updateFormModal()" class="btn btn-success btn-xm" data-dismiss="modal" [disabled] ="feedBack.submitStatus || createForm.invalid">
+                    Update <i class="fa fa-spinner fa-spin" *ngIf="feedBack.submitStatus"></i>
+                </button>
+                <button type="button" class="btn btn-danger btn-xm" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+<!-- Modal -->
+<div id="viewModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">{{feedBack?.moduleName}} Details</h4>
+            </div>
+            <div class="modal-body">
+                <form [formGroup] = "createForm" class="m-form m-form--fit m-form--label-align-right">
+                    <div class="m-portlet__body">
+                        <div class="form-group m-form__group row text-center" style="padding-bottom: 1px;">
+                            <div for="example-text-input" class="col-6 col-form-label text-right">
+                                Year:
+                            </div>
+                            <div for="example-text-input" class="col-6 col-form-label text-left">
+                                {{feedBack?.viewDetails?.year}}
+                            </div>
+                        </div>
+                        <div class="form-group m-form__group row text-center" style="padding-bottom: 1px;">
+                            <div for="example-text-input" class="col-6 col-form-label text-right">
+                                Start Session:
+                            </div>
+                            <div for="example-text-input" class="col-6 col-form-label text-left">
+                                {{feedBack?.viewDetails?.date_start}}
+                            </div>
+                        </div>
+                        <div class="form-group m-form__group row text-center" style="padding-bottom: 1px;">
+                            <div for="example-text-input" class="col-6 col-form-label text-right">
+                                Programme:
+                            </div>
+                            <div for="example-text-input" class="col-6 col-form-label text-left">
+                                {{feedBack?.viewDetails?.programme?.name}}
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger btn-xm" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- BEGIN: Subheader -->
+<!-- END: Subheader -->
+<div class="m-content">
+    <div class="m-portlet m-portlet--mobile">
+        <div class="m-portlet__head">
+            <div class="m-portlet__head-caption">
+                <div class="m-portlet__head-title">
+                    <h3 class="m-portlet__head-text">
+                        {{feedBack?.moduleName}}
+                    </h3>
+                </div>
+            </div>
+        </div>
+        <div style="float: right; margin: 10px; margin-right: 4%">
+            <button class="btn btn-success btn-xm"  (click)="openModal()">
+                <i class="fa fa-plus"></i>
+                Create
+            </button>
+        </div>
+        <!--Current session-->
+        <div class="m-portlet__body table-responsive">
+            <!--end: Ss"></ Form -->  		<!--begin: Datatable -->
+            <table id="myTable2" class="table table-striped table-bordered table-advance table-hover">
+                <thead class="thead-color">
+                <tr>
+                    <th title="Field #1" class="serialnum">
+                        #
+                    </th>
+                    <th title="Field #2">
+                        Year
+                    </th>
+                    <th title="Field #2">
+                        Start date
+                    </th>
+                    <!--<th title="Field #3">
+                        End Date
+                    </th>-->
+                    <th title="Field #3">
+                        Programme
+                    </th>
+                    <th title="Field #3">
+                        Date Created
+                    </th>
+                    <th title="Field #4">
+                        Action
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let data of feedBack?.allCurrentSession; let i = index">
+                    <td scope="row">{{i+1}}</td>
+                    <td>{{data?.year}}</td>
+                    <td *ngIf='data?.date_start !== null'>{{data?.date_start | date}}</td>
+                    <td *ngIf='data?.date_start === null'>
+                        <button class="btn btn-success btn-xm" (click)="startSession(data?.id)"> start<i class="fa fa-spinner fa-spin" *ngIf="feedBack?.startLoader"></i> </button>
+                    </td>
+                    <!--<td>{{data?.date_end | date}}</td>-->
+                    <td>{{data?.programme?.name || 'Null'}}</td>
+                    <td>{{data?.created_at | date}}</td>
+                    <td>
+                        <button (click)="onView(data)" class="btn btn-info btn-xm" >
+                            <i class="fa fa-eye"></i>
+                        </button>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="7" *ngIf="feedBack.loader">
+                        <div  class="text-center">Loading {{feedBack?.moduleName}} <i class="fa fa-spinner fa-spin"></i></div>
+                    </td>
+                    <td colspan="7" *ngIf="!feedBack.loader && feedBack?.allCurrentSession.length === 0">
+                        <div  class="text-center">No Content Found</div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <!--<div class="text-center" *ngIf="feedBack.loader"> Loading {{feedBack?.moduleName}} <i class="fa fa-spinner fa-spin"></i></div>-->
+            <!--end: Datatable -->
+        </div>
+
+    </div>
+</div>

@@ -1,0 +1,284 @@
+<div id="createResult" class="modal fade" role="dialog">
+    <form [formGroup]="createResultForm" (ngSubmit)="createResult()">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+
+                    <h4 class="modal-title">Create Result</h4>
+                    <button class="close" type="button" (click)="triggerModalOrOverlay('close','createResult')">&times;</button>
+
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+
+
+                        <div class="row">
+
+
+                            <div class="col-md-6">
+
+                                <label for="course">Course of Study:</label>
+                                <i class="fa fa-spinner fa-spin" *ngIf="load.courses.loading"></i>
+                                <select class="form-control" #course formControlName="course_of_study_id" id="course" [disabled]="!load.courses.list || load.courses.loading">
+                                    <option value="" disabled>Select Course</option>
+                                    <option *ngFor="let course of allCurriculumCourses; let ind=index" value="{{course.id}}">{{course.name}}</option>
+                                </select>
+
+                            </div>
+                        </div>
+
+                        <div class="row">
+
+                            <div class="col-md-6">
+                                <label for="matric_no">Continuous Assessment:</label>
+                                <input class="form-control" formControlName="ca" id="matric_no" placeholder="CA">
+
+                            </div>
+                            <div class="col-md-6">
+
+                                <label for="matric_no">Exam Score:</label>
+                                <input class="form-control" formControlName="exam" id="matric_no" placeholder="Exam Score">
+
+                            </div>
+                        </div>
+
+
+                        <div class="row">
+                            <div class="col-md-6">
+
+
+                                <label for="country">Student Registration:</label>
+                                <select class="form-control" #country formControlName="country_id" id="country">
+                                    <option value="" disabled>Select Student Registration</option>
+                                    <option *ngFor="let studentRegistration of allstudentRegistrationS; let ind=index" value="{{studentRegistration.id}}">{{studentRegistration.name}}</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="matric_no">Comment:</label>
+                                <input class="form-control" formControlName="comment" id="matric_no" placeholder="Comment">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success btn-sm" [disabled]="createResultForm.invalid || load.requesting.create">{{load.message.create}}
+                        <i *ngIf="load.requesting.create" class="m-loader m-loader-brand"></i>
+                    </button>
+
+                    <button type="button" class="btn btn-danger btn-sm" (click)="triggerModalOrOverlay('close','createResult')">Close</button>
+
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div id="updateResult" class="modal fade" role="dialog">
+    <form [formGroup]="updateResultForm" (ngSubmit)="updateResult()">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+
+                    <h4 class="modal-title">Update {{updatedResult?.first_name}} {{updatedResult?.last_name}}</h4>
+                    <!-- <button class="btn btn-danger btn-xs pull-right" type="button" (click)="triggerModalOrOverlay('close','updateResult')">Close</button> -->
+                    <button class="close" type="button" (click)="triggerModalOrOverlay('close','updateResult')">&times;</button>
+
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+
+
+                        <div class="row">
+
+
+                            <div class="col-md-6">
+
+                                <label for="course">Course of Study:</label>
+                                <i class="fa fa-spinner fa-spin" *ngIf="load.courses.loading"></i>
+                                <select class="form-control" #course formControlName="course_of_study_id" id="course" [disabled]="!load.courses.list || load.courses.loading">
+                                    <option value="" disabled>Select Course</option>
+                                    <option *ngFor="let course of allCurriculumCourses; let ind=index" value="{{course.id}}">{{course.name}}</option>
+                                </select>
+
+                            </div>
+                        </div>
+
+                        <div class="row">
+
+                            <div class="col-md-6">
+                                <label for="matric_no">Continuous Assessment:</label>
+                                <input class="form-control" formControlName="ca" id="matric_no" placeholder="Matric No">
+
+                            </div>
+                            <div class="col-md-6">
+
+                                <label for="matric_no">Exam Score:</label>
+                                <input class="form-control" formControlName="exam" id="matric_no" placeholder="Matric No">
+
+                            </div>
+                        </div>
+
+
+                        <div class="row">
+                            <div class="col-md-6">
+
+
+                                <label for="country">Student Registration:</label>
+                                <select class="form-control" #country formControlName="country_id" id="country">
+                                    <option value="" disabled>Select Student Registration</option>
+                                    <option *ngFor="let studentRegistration of allstudentRegistrationS; let ind=index" value="{{studentRegistration.id}}">{{studentRegistration.name}}</option>
+                                </select>
+
+
+
+
+                            </div>
+                            <div class="col-md-6">
+
+                                <label for="matric_no">Comment:</label>
+                                <input class="form-control" formControlName="comment" id="matric_no" placeholder="Comment">
+
+
+                            </div>
+
+                        </div>
+
+
+
+
+
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+
+                    <button type="submit" class="btn btn-success btn-sm" [disabled]="updateResultForm.invalid || load.requesting.create">{{load.message.update}}
+                        <i *ngIf="load.requesting.create" class="m-loader m-loader-brand"></i>
+                    </button>
+
+
+                    <button type="button" class="btn btn-danger btn-sm" (click)="triggerModalOrOverlay('close','updateResult')">Close</button>
+
+
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+<div class="m-content">
+    <div class="m-portlet m-portlet--mobile">
+        <div class="m-portlet__head">
+            <div class="m-portlet__head-caption">
+                <div class="m-portlet__head-title">
+                    <h3 class="m-portlet__head-text">
+                        School Profile / Results
+                    </h3>
+                </div>
+            </div>
+        </div>
+        <div class="m-portlet__body">
+            <!--begin: Search Form -->
+            <div class="m-form m-form--label-align-right m--margin-top-20 m--margin-bottom-30">
+                <div class="row align-items-center">
+                    <div class="col-xl-8 order-2 order-xl-1">
+                        <div class="form-group m-form__group row align-items-center">
+                            <div class="col-md-4">
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-4 order-1 order-xl-2 m--align-right">
+                        <button type="button" class="btn btn-success btn-sm" style="padding: 4px" (click)="triggerModalOrOverlay('open','createResult')">
+                            <i class="fa fa-plus"></i>
+                            Create
+                        </button>
+
+                    </div>
+                </div>
+            </div>
+            <!--end: Search Form -->
+            <!--begin: Datatable -->
+            <div class="table-responsive">
+                <table class="table table-hover table-striped table-bordered table-sm">
+                    <thead class="thead-color">
+                        <tr>
+                            <th>
+                                #
+                            </th>
+                            <th>
+
+                            </th>
+                            <th>
+                                Course
+                            </th>
+                            <th>
+                                Session
+                            </th>
+                            <th>
+                                Curriculum
+                            </th>
+                            <th>
+                                Programme
+                            </th>
+                            <th>
+                                Ca
+                            </th>
+                            <th>
+                                Exam
+                            </th>
+                            <th>
+
+                            </th>
+                            <th>
+                                Status
+                            </th>
+                            <th>
+                                Action
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="text-center">
+                            <td colspan="11" *ngIf="allResults.length==0">
+                                <span *ngIf="allResults.length==0 && !load.requesting.list">No Record Found</span>
+                                <span *ngIf="load.requesting.list">Fetching Results..
+                                    <i class="fa fa-spinner fa-spin"></i>
+                                </span>
+                            </td>
+                        </tr>
+                        <tr *ngFor="let result of allResults; let ind=index">
+                            <td>{{ind+1}}</td>
+                            <td>{{result?.student_registration_name}}</td>
+                            <td>{{result?.curriculum_course_name}</td>
+                            <td>{{result?.ca}}</td>
+                            <td>{{result?.exam}}</td>
+                            <td *ngIf="result.status==='1'" style="color:green">
+                                <i class="fa fa-check fa-2x"></i>
+                            </td>
+                            <td *ngIf="result.status==='0'" style="color:red">
+                                <i class="fa fa-times fa-2x"></i>
+                            </td>
+                            <td>
+                                <button class="btn btn-info btn-xs" (click)="triggerModalOrOverlay('open','updateResult',ind)">
+                                    <i class="fa fa-eye" *ngIf="!result?.loading"></i>
+                                    <i class="fa fa-spinner fa-spin" *ngIf="result?.loading"></i>
+
+                                </button>
+                            </td>
+
+
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!--end: Datatable -->
+        </div>
+    </div>
+</div>

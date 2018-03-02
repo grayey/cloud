@@ -1,0 +1,806 @@
+<!-- BEGIN: Subheader -->
+<!-- END: Subheader -->
+
+<div id="myView" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Staff Details</h4>
+                <button class="close" type="button" (click)="triggerModalOrOverlay('close','createStaff')">&times;
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+
+                    <div class="row">
+                        <label for="state" class="col-md-3">Assigned Department(s):</label>
+                        <div class="col-lg-9 col-md-9 col-sm-12">
+                            <div style="float: right">
+                                <button type="button" class="btn btn-success btn-xs" (click)="openAssignment()">
+                                    <i class="fa fa-plus"></i></button>
+                            </div>
+                            <div id="assignment" *ngIf="hideAssignmentStatus">
+                                <form [formGroup]='assignDepartmentForm'
+                                      class="m-form m-form--fit m-form--label-align-right">
+                                    <div class="m-portlet__body">
+                                        <div class="form-group m-form__group row" style="padding-bottom: 1px;">
+                                            <label class="col-3 col-form-label">
+                                                <span class="styleStar">*</span>Faculty
+                                            </label>
+                                            <div class="col-lg-9 col-md-9 col-sm-12">
+
+                                                <select class="form-control" formControlName="faculty_id"
+                                                        style="width: 100%"
+                                                        (change)="extractId($event)">
+                                                    <option></option>
+                                                    <option *ngFor="let type of facultyList " [value]="type?.id">
+                                                        {{type?.name}}
+                                                    </option>
+                                                </select>
+                                                <div class="alert alert-danger col-12" role="alert"
+                                                     *ngIf="assignDepartmentForm.get('faculty_id').invalid && assignDepartmentForm.get('faculty_id').touched">
+                                                    <strong>
+                                                        Faculty is Required
+                                                    </strong>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="text-center" *ngIf="loadDepartment">loading department(s)<i
+                                                class="fa fa-spinner fa-spin"></i></div>
+                                        <div class="text-center"
+                                             *ngIf="checkEmptyDepartment && departmentList.length === 0">No
+                                            department(s) found
+                                        </div>
+                                        <div class="form-group m-form__group row" style="padding-bottom: 1px;"
+                                             *ngIf="departmentList.length !== 0">
+                                            <label class="col-3 col-form-label">
+                                                <span class="styleStar">*</span>Department
+                                            </label>
+                                            <div class="col-lg-9 col-md-9 col-sm-12">
+
+                                                <select class="form-control" formControlName="department_id"
+                                                        style="width: 100%">
+                                                    <option></option>
+                                                    <option *ngFor="let type of departmentList " [value]="type?.id">
+                                                        {{type?.name}}
+                                                    </option>
+                                                </select>
+                                                <div class="alert alert-danger col-12" role="alert"
+                                                     *ngIf="assignDepartmentForm.get('department_id').invalid && assignDepartmentForm.get('department_id').touched">
+                                                    <strong>
+                                                        Department is Required
+                                                    </strong>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div style="float:right; margin-right: 5px">
+                                            <button type="button" (click)="assignDepartment()"
+                                                    class="btn btn-success btn-xm"
+                                                    data-dismiss="modal"
+                                                    [disabled]="assignLoader || assignDepartmentForm.invalid">
+                                                Submit <i class="fa fa-spinner fa-spin" *ngIf="assignLoader"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <table id="myTable" class="table table-striped table-bordered">
+                                <thead class="thead-color">
+                                <tr>
+                                    <th title="Field #1" class="serialnum">
+                                        #
+                                    </th>
+                                    <th title="Field #2">
+                                        Name
+                                    </th>
+                                    <th title="Field #2">
+                                        Code
+                                    </th>
+                                    <th title="Field #3">
+                                        Creation date
+                                    </th>
+                                    <th title="Field #3">
+                                        Action
+                                    </th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr *ngFor="let data of staffDetails?.departments; let i = index">
+                                    <td scope="row">{{i + 1}}</td>
+                                    <td>{{data?.name}}</td>
+                                    <td>{{data?.code || 'Null'}}</td>
+                                    <td>{{data?.created_at || 'Null'}}</td>
+                                    <td>
+                                        <button class="btn btn-danger btn-xs" (click)="ondeleteDepartment(data?.id)"
+                                                [disabled]="deleteStatus">
+                                            <i class="fa fa-remove"></i><i class="fa fa-spinner fa-spin"
+                                                                           *ngIf="deleteStatus && data?.id == id"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="5" class="text-center"
+                                        *ngIf="!loadStaff && staffDetails?.departments?.length === 0"> No
+                                        department Found
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <label for="state" class="col-md-3">Assigned Course(s):</label>
+                        <div class="col-lg-9 col-md-9 col-sm-12">
+                            <button type="button" class="btn btn-info" (click)="openCourse()">Assign Course</button>
+                            <div *ngIf="hideCourseStatus">
+                                <form [formGroup]='assignCourseForm'
+                                      class="m-form m-form--fit m-form--label-align-right">
+                                    <div class="m-portlet__body">
+                                        <div class="form-group m-form__group row" style="padding-bottom: 1px;">
+                                            <label class="col-3 col-form-label">
+                                                <span class="styleStar">*</span>Department
+                                            </label>
+                                            <div class="col-lg-9 col-md-9 col-sm-12">
+
+                                                <select class="form-control" formControlName="department_id"
+                                                        style="width: 100%"
+                                                        (change)="extractCourseId($event)">
+                                                    <option></option>
+                                                    <option *ngFor="let type of staffDetails?.departments"
+                                                            [value]="type?.id">
+                                                        {{type?.name}}
+                                                    </option>
+                                                </select>
+                                                <div class="alert alert-danger col-12" role="alert"
+                                                     *ngIf="assignCourseForm.get('department_id').invalid && assignCourseForm.get('department_id').touched">
+                                                    <strong>
+                                                        Department is Required
+                                                    </strong>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="text-center" *ngIf="loadCourse">loading course(s)<i
+                                                class="fa fa-spinner fa-spin"></i>
+                                        </div>
+                                        <div class="text-center" *ngIf="checkEmptyCourse && courseList.length === 0">No
+                                            Course of Study
+                                            found
+                                        </div>
+                                        <div class="form-group m-form__group row" style="padding-bottom: 1px;"
+                                             *ngIf="courseList.length !== 0">
+                                            <label class="col-3 col-form-label">
+                                                <span class="styleStar">*</span>Course of Study
+                                            </label>
+                                            <div class="col-lg-9 col-md-9 col-sm-12">
+
+                                                <select class="form-control" formControlName="course_of_study_id"
+                                                        style="width: 100%"
+                                                        (change)="getCourseById($event)">
+                                                    <option></option>
+                                                    <option *ngFor="let type of courseList " [value]="type?.id">
+                                                        {{type?.name}}
+                                                    </option>
+                                                </select>
+                                                <div class="alert alert-danger col-12" role="alert"
+                                                     *ngIf="assignCourseForm.get('course_of_study_id').invalid && assignCourseForm.get('course_of_study_id').touched">
+                                                    <strong>
+                                                        Course is Required
+                                                    </strong>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="text-center" *ngIf="loadLevel">loading level(s) <i
+                                                class="fa fa-spinner fa-spin"></i></div>
+                                        <div class="text-center" *ngIf="checkEmptyLevel && levelList.length === 0">No
+                                            level(s) found
+                                        </div>
+
+                                        <div class="form-group m-form__group row" style="padding-bottom: 1px;"
+                                             *ngIf="levelList.length !== 0 ">
+                                            <label class="col-3 col-form-label">
+                                                <span class="styleStar">*</span>Level
+                                            </label>
+                                            <div class="col-lg-9 col-md-9 col-sm-12">
+
+                                                <select class="form-control" formControlName="level_id"
+                                                        style="width: 100%"
+                                                        (change)="openSession()">
+                                                    <option></option>
+                                                    <option *ngFor="let type of levelList " [value]="type?.id">
+                                                        {{type?.name}}
+                                                    </option>
+                                                </select>
+                                                <div class="alert alert-danger col-12" role="alert"
+                                                     *ngIf="assignCourseForm.get('level_id').invalid && assignCourseForm.get('level_id').touched">
+                                                    <strong>
+                                                        Level is Required
+                                                    </strong>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="text-center" *ngIf="checkEmptyLevel && sessionList.length === 0">No
+                                            session found
+                                        </div>
+                                        <div class="form-group m-form__group row" style="padding-bottom: 1px;"
+                                             *ngIf="sessionList.length !== 0 || levelList.length !== 0 || showSession">
+                                            <label class="col-3 col-form-label">
+                                                <span class="styleStar">*</span>Session
+                                            </label>
+                                            <div class="col-lg-9 col-md-9 col-sm-12">
+
+                                                <select class="form-control" formControlName="session_id"
+                                                        style="width: 100%"
+                                                        (change)="ongetCurriculum()">
+                                                    <option></option>
+                                                    <option *ngFor="let type of sessionList " [value]="type?.id">
+                                                        {{type?.year}}
+                                                    </option>
+                                                </select>
+                                                <div class="alert alert-danger col-12" role="alert"
+                                                     *ngIf="assignCourseForm.get('session_id').invalid && assignCourseForm.get('session_id').touched">
+                                                    <strong>
+                                                        Session is Required
+                                                    </strong>
+                                                </div>
+                                            </div>
+                                            <div class="text-center" *ngIf="showCurriculum">loading curriculum(s) <i
+                                                    class="fa fa-spinner fa-spin"></i></div>
+                                            <div class="text-center"
+                                                 *ngIf="course_curriculumList.length === 0 && !checkEmptyCurriculum">No
+                                                Curriculum found
+                                            </div>
+                                        </div>
+                                        <br>
+
+                                        <div *ngIf="course_curriculumList.length !== 0">
+                                            <div class="form-group m-form__group row" style="padding-bottom: 1px;">
+                                                <label class="col-3 col-form-label">
+                                                    <span class="styleStar">*</span>Curriculum
+                                                </label>
+                                                <div class="col-lg-9 col-md-9 col-sm-12">
+
+                                                    <select class="form-control" formControlName="curriculum_id"
+                                                            style="width: 100%"
+                                                            (change)="onSelectCourse_of_study($event)">
+                                                        <option></option>
+                                                        <option *ngFor="let type of course_curriculumList; let i = index "
+                                                                [value]="i">
+                                                            {{type?.session?.date_start | date}}
+                                                        </option>
+                                                    </select>
+                                                    <div class="alert alert-danger col-12" role="alert"
+                                                         *ngIf="assignCourseForm.get('curriculum_id').invalid && assignCourseForm.get('curriculum_id').touched">
+                                                        <strong>
+                                                            Curriculum is Required
+                                                        </strong>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group m-form__group row" style="padding-bottom: 1px;"
+                                                 *ngIf="curriculumCourseList.length !== 0 ">
+                                                <label class="col-3 col-form-label">
+                                                    <span class="styleStar">*</span>Curriculum Course
+                                                </label>
+                                                <div class="col-lg-9 col-md-9 col-sm-12">
+
+                                                    <select class="form-control" formControlName="curriculum_course_id"
+                                                            style="width: 100%">
+                                                        <option></option>
+                                                        <option *ngFor="let type of curriculumCourseList; let i = index "
+                                                                [value]="type?.id">
+                                                            {{type?.title}}
+                                                        </option>
+                                                    </select>
+                                                    <div class="alert alert-danger col-12" role="alert"
+                                                         *ngIf="assignCourseForm.get('curriculum_course_id').invalid && assignCourseForm.get('curriculum_course_id').touched">
+                                                        <strong>
+                                                            Curriculum Course is Required
+                                                        </strong>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                        <div style="float:right; margin-right: 5px">
+                                            <button type="button" (click)="assignCourse()"
+                                                    class="btn btn-success btn-xm"
+                                                    data-dismiss="modal"
+                                                    [disabled]="assignLoader || assignCourseForm.invalid">
+                                                Submit <i class="fa fa-spinner fa-spin" *ngIf="assignLoader"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger btn-sm"
+                        (click)="triggerModalOrOverlay('close','createStaff')">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="createStaff" class="modal fade" role="dialog">
+    <form [formGroup]="createStaffForm" (ngSubmit)="createStaff()">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+
+                    <h4 class="modal-title">Create Staff</h4>
+                    <!-- <button class="btn btn-danger btn-xs pull-right" type="button" (click)="triggerModalOrOverlay('close','createStaff')">Close</button> -->
+                    <button class="close" type="button" (click)="triggerModalOrOverlay('close','createStaff')">&times;
+                    </button>
+
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-6">
+
+                                <label for="schoolname">Full Name:</label>
+                                <input class="form-control" formControlName="fullname" id="schoolname"
+                                       placeholder="Full Name">
+
+                            </div>
+                            <div class="col-md-6">
+
+                                <label for="middle_name">Email:</label>
+                                <input class="form-control" id="domain" formControlName="email" placeholder="Email">
+                                <!--  -->
+
+
+                                <!--  -->
+                            </div>
+
+                        </div>
+
+
+                        <div class="row">
+                            <div class="col-md-6">
+
+                                <label for="schoolname">Staff Id:</label>
+                                <input class="form-control" formControlName="employee_id" id="schoolname"
+                                       placeholder="Staff Id">
+
+                            </div>
+                            <div class="col-md-6">
+
+                                <label for="country">Group:</label>
+                                <select class="form-control" formControlName="group_id" id="country">
+                                    <option value="" disabled>Select Group</option>
+                                    <option *ngFor="let group of allGroups; let ind=index" value="{{group.id}}">
+                                        {{group?.name}}
+                                    </option>
+                                </select>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="row">
+                            <div class="col-md-6">
+
+                                <label for="state">Active Hours:</label>
+                                <select class="form-control" formControlName="active_hour_id" id="state">
+                                    <option value="" disabled>Choose Active Hours</option>
+                                    <option *ngFor="let activeHour of allActiveHours; let ind=index"
+                                            value="{{activeHour.id}}">
+                                        {{activeHour?.name}}
+                                    </option>
+                                </select>
+
+                            </div>
+
+                            <div class="col-md-6">
+
+
+                            </div>
+
+                        </div>
+
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success btn-sm"
+                            [disabled]="createStaffForm.invalid || load.requesting.create">{{load.message.create}}
+                        <i *ngIf="load.requesting.create" class="m-loader m-loader-brand"></i>
+                    </button>
+                    <button type="button" class="btn btn-danger btn-sm"
+                            (click)="triggerModalOrOverlay('close','createStaff')">
+                        Close
+                    </button>
+
+
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div id="updateStaff" class="modal fade" role="dialog">
+    <form [formGroup]="updateStaffForm" (ngSubmit)="updateStaff()">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+
+                    <h4 class="modal-title">Update {{updatedStaff?.fullname}}</h4>
+                    <!-- <button class="btn btn-danger btn-xs pull-right" type="button" (click)="triggerModalOrOverlay('close','updateStaff')">Close</button> -->
+                    <button class="close" type="button" (click)="triggerModalOrOverlay('close','updateStaff')">&times;
+                    </button>
+
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-6">
+
+                                <label for="schoolname">Full Name:</label>
+                                <input class="form-control" formControlName="fullname" id="schoolname"
+                                       placeholder="Full Name">
+
+                            </div>
+                            <div class="col-md-6">
+
+                                <label for="middle_name">Email:</label>
+                                <input class="form-control" id="domain" formControlName="email" placeholder="Email">
+                                <!--  -->
+
+
+                                <!--  -->
+                            </div>
+
+                        </div>
+
+
+                        <div class="row">
+                            <div class="col-md-6">
+
+
+                                <label for="country">Group:</label>
+                                <select class="form-control" formControlName="group_id" id="country">
+                                    <option value="" disabled>Select Group</option>
+                                    <option *ngFor="let group of allGroups; let ind=index" value="{{group.id}}">
+                                        {{group?.name}}
+                                    </option>
+                                </select>
+
+
+                            </div>
+                            <div class="col-md-6">
+
+                                <label for="state">Active Hours:</label>
+                                <select class="form-control" formControlName="active_hour_id" id="state">
+                                    <option value="" disabled>Choose Active Hours</option>
+                                    <option *ngFor="let activeHour of allActiveHours; let ind=index"
+                                            value="{{activeHour.id}}">
+                                        {{activeHour?.name}}
+                                    </option>
+                                </select>
+
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- <div class="row">
+                                            <div class="col-md-6">
+
+
+                                                <label for="course">Faculty:</label>
+                                                <select class="form-control" #faculty formControlName="faculty_id" id="faculty" (change)="getDepartmentByByFacultyId(faculty.value)">
+                                                    <option value="" disabled>Select Faculty</option>
+                                                    <option *ngFor="let faculty of allFaculties; let ind=index" value="{{faculty.id}}">{{faculty.name}}</option>
+                                                </select>
+
+
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="department">Department:</label>
+                                                <i class="fa fa-spinner fa-spin" *ngIf="load.departments.loading"></i>
+                                                <select class="form-control" #deprtmnt formControlName="department_id" id="department"
+                                                    (change)="getCourseByDepartmentId(deprtmnt.value)" [disabled]="!load.departments.list || load.departments.loading">
+                                                    <option value="" disabled>Select Department</option>
+                                                    <option *ngFor="let department of allDepartments; let ind=index" value="{{department.id}}">{{department.name}}</option>
+                                                </select>
+
+
+                                            </div>
+
+                                        </div>
+
+                 -->
+
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success btn-sm"
+                            [disabled]="updateStaffForm.invalid || load.requesting.create">{{load.message.update}}
+                        <i *ngIf="load.requesting.create" class="m-loader m-loader-brand"></i>
+                    </button>
+                    <button type="button" class="btn btn-danger btn-sm"
+                            (click)="triggerModalOrOverlay('close','updateStaff')">
+                        Close
+                    </button>
+
+
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+<div class="m-portlet m-portlet--mobile ">
+    <div class="m-portlet__head">
+        <div class="m-portlet__head-caption">
+            <div class="m-portlet__head-title">
+                <h3 class="m-portlet__head-text">
+                    Students
+                </h3>
+            </div>
+        </div>
+        <div class="m-portlet__head-tools">
+            <ul class="m-portlet__nav">
+                <li class="m-portlet__nav-item">
+                    <div class="m-dropdown m-dropdown--inline m-dropdown--arrow m-dropdown--align-right m-dropdown--align-push"
+                         data-dropdown-toggle="hover"
+                         aria-expanded="true">
+                        <a href="#"
+                           class="m-portlet__nav-link btn btn-lg btn-secondary  m-btn m-btn--icon m-btn--icon-only m-btn--pill  m-dropdown__toggle">
+                            <i class="la la-ellipsis-h m--font-brand"></i>
+                        </a>
+                        <div class="m-dropdown__wrapper">
+                            <span class="m-dropdown__arrow m-dropdown__arrow--right m-dropdown__arrow--adjust"></span>
+                            <div class="m-dropdown__inner">
+                                <div class="m-dropdown__body">
+                                    <div class="m-dropdown__content">
+                                        <ul class="m-nav">
+                                            <li class="m-nav__section m-nav__section--first">
+                                                <span class="m-nav__section-text">
+                                                    Quick Actions
+                                                </span>
+                                            </li>
+                                            <li class="m-nav__item">
+                                                <a href="" class="m-nav__link">
+                                                    <i class="m-nav__link-icon flaticon-share"></i>
+                                                    <span class="m-nav__link-text">
+                                                        Create Post
+                                                    </span>
+                                                </a>
+                                            </li>
+                                            <li class="m-nav__item">
+                                                <a href="" class="m-nav__link">
+                                                    <i class="m-nav__link-icon flaticon-chat-1"></i>
+                                                    <span class="m-nav__link-text">
+                                                        Send Messages
+                                                    </span>
+                                                </a>
+                                            </li>
+                                            <li class="m-nav__item">
+                                                <a href="" class="m-nav__link">
+                                                    <i class="m-nav__link-icon flaticon-multimedia-2"></i>
+                                                    <span class="m-nav__link-text">
+                                                        Upload File
+                                                    </span>
+                                                </a>
+                                            </li>
+                                            <li class="m-nav__section">
+                                                <span class="m-nav__section-text">
+                                                    Useful Links
+                                                </span>
+                                            </li>
+                                            <li class="m-nav__item">
+                                                <a href="" class="m-nav__link">
+                                                    <i class="m-nav__link-icon flaticon-info"></i>
+                                                    <span class="m-nav__link-text">
+                                                        FAQ
+                                                    </span>
+                                                </a>
+                                            </li>
+                                            <li class="m-nav__item">
+                                                <a href="" class="m-nav__link">
+                                                    <i class="m-nav__link-icon flaticon-lifebuoy"></i>
+                                                    <span class="m-nav__link-text">
+                                                        Support
+                                                    </span>
+                                                </a>
+                                            </li>
+                                            <li class="m-nav__separator m-nav__separator--fit m--hide"></li>
+                                            <li class="m-nav__item m--hide">
+                                                <a href="#"
+                                                   class="btn btn-outline-danger m-btn m-btn--pill m-btn--wide btn-sm">
+                                                    Submit
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="m-portlet__body">
+        <!--begin: Search Form -->
+
+        <!--end: Search Form -->
+        <!--begin: Datatable -->
+        <!--<div class="m_datatable m-datatable m-datatable&#45;&#45;default m-datatable&#45;&#45;scroll m-datatable&#45;&#45;loaded" id="m_datatable_latest_orders"-->
+        <!--style="">-->
+        <!--<table class="m-datatable__table">-->
+        <!--<thead class="m-datatable__head">-->
+        <!--<tr class="m-datatable__row">-->
+        <!--<th class="m-datatable__cell&#45;&#45;center m-datatable__cell m-datatable__cell&#45;&#45;check">-->
+        <!--#-->
+        <!--</th>-->
+        <!--<th class="m-datatable__cell m-datatable__cell&#45;&#45;sort" data-sort="desc">-->
+        <!--Full Name-->
+        <!--</th>-->
+
+        <!--<th class="m-datatable__cell m-datatable__cell&#45;&#45;sort">-->
+        <!--Staff Id-->
+        <!--</th>-->
+        <!--<th class="m-datatable__cell m-datatable__cell&#45;&#45;sort">-->
+        <!--Email-->
+        <!--</th>-->
+        <!--<th class="m-datatable__cell m-datatable__cell&#45;&#45;sort">-->
+        <!--Group-->
+        <!--</th>-->
+        <!--<th class="m-datatable__cell m-datatable__cell&#45;&#45;sort">-->
+        <!--Staff Type-->
+        <!--</th>-->
+
+        <!--<th class="m-datatable__cell m-datatable__cell&#45;&#45;sort">-->
+        <!--Status-->
+        <!--</th>-->
+        <!--&lt;!&ndash; <th>-->
+        <!--Action-->
+        <!--</th> &ndash;&gt;-->
+        <!--<th class="m-datatable__cell m-datatable__cell&#45;&#45;sort">-->
+        <!--Action-->
+        <!--</th>-->
+        <!--</tr>-->
+        <!--</thead>-->
+        <!--<tbody class="m-datatable__body m-datatable__body mCustomScrollbar _mCS_46 mCS-autoHide">-->
+        <!--<tr class="text-center">-->
+
+        <!--<td colspan="11" *ngIf="allStaffs.length==0">-->
+        <!--<span *ngIf="allStaffs.length==0 && !load.requesting.list">No Record Found</span>-->
+        <!--<span *ngIf="load.requesting.list">Fetching Staff..-->
+        <!--<i class="fa fa-spinner fa-spin"></i>-->
+        <!--</span>-->
+        <!--</td>-->
+
+        <!--</tr>-->
+        <!--<tr *ngFor="let Staff of allStaffs; let ind=index">-->
+        <!--<td>{{ind+1}}-->
+        <!--<td>{{Staff?.fullname}}</td>-->
+        <!--<td>{{Staff?.employee_id}}</td>-->
+        <!--<td>{{Staff?.email}}</td>-->
+        <!--<td>{{Staff?.group?.role}}</td>-->
+        <!--<td>-->
+        <!--<span *ngIf="Staff?.type==0">Non - Academic</span>-->
+        <!--<span *ngIf="Staff?.type==1">Academic</span>-->
+
+
+        <!--</td>-->
+        <!--<td *ngIf="Staff.enabled==='1'" style="color:green">-->
+        <!--<i class="fa fa-check fa-2x"></i>-->
+        <!--</td>-->
+        <!--<td *ngIf="Staff.enabled==='0'" style="color:red">-->
+        <!--<i class="fa fa-times fa-2x"></i>-->
+        <!--</td>-->
+        <!--<td>-->
+        <!--<button class="btn btn-primary btn-xs" (click)="triggerModalOrOverlay('open','updateStaff',ind)">-->
+        <!--<i class="fa fa-pencil" *ngIf="!Staff?.loading"></i>-->
+        <!--<i class="fa fa-spinner fa-spin" *ngIf="Staff?.loading"></i>-->
+        <!--</button>-->
+        <!--<button class="btn btn-info btn-xs" (click)="getStaff(Staff?.id)"-->
+        <!--[disabled]="loadStaff && Staff.id === id">-->
+        <!--<i class="fa fa-street-view"></i> <i class="fa fa-spinner fa-spin"-->
+        <!--*ngIf="loadStaff && Staff.id === id"></i>-->
+        <!--</button>-->
+        <!--</td>-->
+        <!--</tr>-->
+        <!--</tbody>-->
+        <!--</table>-->
+
+        <!--</div>-->
+        <!--end: Datatable -->
+
+        <div class="m-datatable m-datatable--default m-datatable--brand m-datatable--loaded">
+            <table class="m-datatable__table" id="html_table" width="100%"
+                   style="display: block; min-height: 300px; overflow-x: auto;">
+                <thead class="m-datatable__head">
+                <tr class="m-datatable__row" style="left: 0px;" >
+                    <th title="Field #1" class="m-datatable__cell m-datatable__cell--sort" data-field="Order ID"><span
+                            style="width: 110px;"> #</span></th>
+                    <th title="Field #2" class="m-datatable__cell m-datatable__cell--sort" data-field="Owner"><span
+                            style="width: 110px;">Full Name</span></th>
+                    <th title="Field #3" class="m-datatable__cell m-datatable__cell--sort" data-field="Contact"><span
+                            style="width: 110px;">Staff Id</span></th>
+                    <th title="Field #4" class="m-datatable__cell m-datatable__cell--sort" data-field="Car Make"><span
+                            style="width: 110px;">Email</span></th>
+                    <th title="Field #5" class="m-datatable__cell m-datatable__cell--sort" data-field="Car Model"><span
+                            style="width: 110px;">Group</span></th>
+                    <th title="Field #6" class="m-datatable__cell m-datatable__cell--sort" data-field="Color"><span
+                            style="width: 110px;">Staff Type</span></th>
+                    <th title="Field #6" class="m-datatable__cell m-datatable__cell--sort" data-field="Color"><span
+                            style="width: 110px;">Status</span></th>
+                    <th title="Field #10" class="m-datatable__cell m-datatable__cell--sort" data-field="Type"><span
+                            style="width: 110px;"> Action</span></th>
+                </tr>
+                </thead>
+                <tbody class="m-datatable__body" style="">
+                <tr data-row="0" class="m-datatable__row" style="left: 0px;" *ngFor="let Staff of allStaffs; let ind=index">
+                    <td  class="m-datatable__cell"><span style="width: 110px;">{{ind + 1}}</span>
+                    </td>
+
+                    <td  class="m-datatable__cell"><span style="width: 110px;">{{Staff?.fullname}}</span>
+                    </td>
+
+                    <td class="m-datatable__cell"><span style="width: 110px;">{{Staff?.employee_id}}</span>
+                    </td>
+                    <td  class="m-datatable__cell"><span style="width: 110px;">{{Staff?.email}}</span></td>
+                    <td  class="m-datatable__cell"><span style="width: 110px;">{{Staff?.group?.role}}</span>
+                    </td>
+                    <td  class="m-datatable__cell">
+                        <span style="width: 110px;" *ngIf="Staff?.type==0">Non - Academic</span>
+                        <span style="width: 110px;" *ngIf="Staff?.type==1">Academic</span>
+                    </td>
+                    <td  class="m-datatable__cell" *ngIf="Staff.enabled==='1'" >
+                        <i class="fa fa-check fa-2x"></i>
+                    </td>
+                    <td  class="m-datatable__cell" *ngIf="Staff.enabled==='0'">
+                        <span style="width: 110px;">
+                        <i class="fa fa-times fa-2x"></i>
+                    </span>
+                    </td>
+                    <td data-field="Status" class="m-datatable__cell">
+
+                        <button class="btn btn-primary btn-xs" (click)="triggerModalOrOverlay('open','updateStaff',ind)">
+                            <i class="fa fa-pencil" *ngIf="!Staff?.loading"></i>
+                            <i class="fa fa-spinner fa-spin" *ngIf="Staff?.loading"></i>
+                        </button>
+                        <button class="btn btn-info btn-xs" (click)="getStaff(Staff?.id)"
+                                [disabled]="loadStaff && Staff.id === id">
+                            <i class="fa fa-street-view"></i> <i class="fa fa-spinner fa-spin"
+                                                                 *ngIf="loadStaff && Staff.id === id"></i>
+                        </button>
+                    </td>
+                    <!--<td data-field="Type" class="m-datatable__cell"><span style="width: 110px;"><span-->
+                            <!--class="m-badge m-badge&#45;&#45;primary m-badge&#45;&#45;dot"></span>&nbsp;<span-->
+                            <!--class="m&#45;&#45;font-bold m&#45;&#45;font-primary">Retail</span></span></td>-->
+                </tr>
+
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+

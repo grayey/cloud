@@ -1,0 +1,364 @@
+<div id="createApplications" class="modal fade" role="dialog">
+  <form [formGroup]="createApplicationsForm" (ngSubmit)="createApplications()">
+    <div class="modal-dialog">
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+
+          <h4 class="modal-title">Create Available  Applications</h4>
+          <button class="close" type="button" (click)="triggerModalOrOverlay('close','createApplications')">&times;</button>
+
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <div class="row">
+              <div class="col-md-6">
+
+                <label for="course">Name:</label>
+                <input class="form-control" id="domain" formControlName="name" placeholder="Name" type="text">
+
+
+              </div>
+              <div class="col-md-6">
+
+                <label for="course">Year:</label>
+                <select class="form-control" formControlName="year" id="faculty">
+                  <option value="" disabled>Select Year</option>
+                  <option *ngFor="let year of yearsArray; let ind=index" value="year">{{year}}</option>
+                </select>
+
+
+              </div>
+
+            </div>
+
+
+
+            <div class="row">
+              <div class="col-md-6">
+
+                <label for="country">Programme:</label>
+                <select class="form-control" formControlName="programme_id" id="country">
+                  <option value="" disabled>Select Programme</option>
+                  <option *ngFor="let programme of allProgrammes; let ind=index" value="{{programme.id}}">{{programme.name}}</option>
+                </select>
+
+              </div>
+
+
+              <div class="col-md-6">
+                
+                  <label for="schoolname">Start Date:</label>
+                  <input class="form-control" formControlName="start_date" id="schoolname" placeholder="Start Date" type="date">
+  
+              </div>
+            </div>
+
+
+            <div class="row">
+
+
+              <div class="col-md-6">
+
+
+                  <label for="middle_name">End Date:</label>
+                  <input class="form-control" id="domain" formControlName="end_date" placeholder="End Date" type="date">
+  
+              </div>
+
+              <div class="col-md-6">
+
+                  <label for="schooldomain">Profile Strength:</label>
+                  
+                                  <select class="form-control" formControlName="profile_strenght">
+                                    <option value="" disabled>Select Profile Strength</option>
+                                    <option value="1">O'level</option>
+                                    <option value="2">Diploma</option>
+                                    <option value="3">First Degree</option>
+                                    <option value="4">Post Graduate</option>
+                                    <option value="5">Post Graduate</option>
+                                    <option value="6">Post Graduate</option>
+                                  </select>
+
+               
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6">
+                  <label for="state">Level:</label>
+                  <select class="form-control" formControlName="level_id" id="level">
+                    <option value="" disabled>Select Level</option>
+                    <option *ngFor="let level of allLevels; let ind=index" value="{{level.id}}">{{level.name}}</option>
+                  </select>
+
+              </div>
+              <div class="col-md-6">
+
+                  <label for="course">Application Fee:</label>
+                  <input class="form-control" id="domain" formControlName="amount" placeholder="Amount" type="text">
+  
+              </div>
+            </div>
+
+
+
+
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-success btn-sm" [disabled]="createApplicationsForm.invalid || load.requesting.create">{{load.message.create}}
+            <i *ngIf="load.requesting.create" class="m-loader m-loader-brand"></i>
+          </button>
+
+          <button type="button" class="btn btn-danger btn-sm" (click)="triggerModalOrOverlay('close','createApplications')">Close</button>
+
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+
+<div id="updateApplications" class="modal fade" role="dialog">
+  <form [formGroup]="updateApplicationsForm" (ngSubmit)="updateApplications()">
+    <div class="modal-dialog">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+
+          <h4 class="modal-title">Update {{updatedApplications?.name}} for Year {{updatedApplications?.year}}</h4>
+          <!-- <button class="btn btn-danger btn-xs pull-right" type="button" (click)="triggerModalOrOverlay('close','updateApplications')">Close</button> -->
+          <button class="close" type="button" (click)="triggerModalOrOverlay('close','updateApplications')">&times;</button>
+
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <div class="row">
+              <div class="col-md-6">
+
+                <label for="course">Name:</label>
+                <input class="form-control" id="domain" formControlName="name" placeholder="Name" type="text">
+
+
+              </div>
+              <div class="col-md-6">
+
+                <label for="course">Year:</label>
+                <select class="form-control" formControlName="year" id="faculty">
+                  <option value="" disabled>Select Year</option>
+                  <option *ngFor="let year of yearsArray; let ind=index" value="year">{{year}}</option>
+                </select>
+
+
+              </div>
+
+            </div>
+
+
+
+            <div class="row">
+              <div class="col-md-6">
+
+                <label for="country">Programme:</label>
+                <select class="form-control" formControlName="programme_id" id="country">
+                  <option value="" disabled>Select Programme</option>
+                  <option *ngFor="let programme of allProgrammes; let ind=index" value="{{programme.id}}">{{programme.name}}</option>
+                </select>
+
+              </div>
+
+
+              <div class="col-md-6">
+                
+                  <label for="schoolname">Start Date:</label>
+                  <input class="form-control" formControlName="start_date" id="schoolname" placeholder="Start Date" type="date">
+  
+              </div>
+            </div>
+
+
+            <div class="row">
+
+
+              <div class="col-md-6">
+
+
+                  <label for="middle_name">End Date:</label>
+                  <input class="form-control" id="domain" formControlName="end_date" placeholder="End Date" type="date">
+  
+              </div>
+
+              <div class="col-md-6">
+
+                  <label for="schooldomain">Profile Strength:</label>
+                  
+                                  <select class="form-control" formControlName="profile_strenght">
+                                    <option value="" disabled>Select Profile Strength</option>
+                                    <option value="1">O'level</option>
+                                    <option value="2">Diploma</option>
+                                    <option value="3">First Degree</option>
+                                    <option value="4">Post Graduate</option>
+                                    <option value="5">M.SC</option>
+                                    <option value="6">Ph.D</option>
+                                  </select>
+
+               
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6">
+                  <label for="state">Level:</label>
+                  <select class="form-control" formControlName="level_id" id="level">
+                    <option value="" disabled>Select Level</option>
+                    <option *ngFor="let level of allLevels; let ind=index" value="{{level.id}}">{{level.name}}</option>
+                  </select>
+
+              </div>
+              <div class="col-md-6">
+
+                  <label for="course">Application Fee:</label>
+                  <input class="form-control" id="domain" formControlName="amount" placeholder="Amount" type="text">
+  
+              </div>
+            </div>
+
+
+
+
+          </div>
+        </div>
+        <div class="modal-footer">
+
+          <button type="submit" class="btn btn-success btn-sm" [disabled]="updateApplicationsForm.invalid || load.requesting.create">{{load.message.update}}
+            <i *ngIf="load.requesting.create" class="m-loader m-loader-brand"></i>
+          </button>
+
+
+          <button type="button" class="btn btn-danger btn-sm" (click)="triggerModalOrOverlay('close','updateApplications')">Close</button>
+
+
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+
+
+<div class="m-content">
+  <div class="m-portlet m-portlet--mobile">
+    <div class="m-portlet__head">
+      <div class="m-portlet__head-caption">
+        <div class="m-portlet__head-title">
+          <h3 class="m-portlet__head-text">
+            Admissions / Applications
+          </h3>
+        </div>
+      </div>
+    </div>
+    <div class="m-portlet__body">
+      <!--begin: Search Form -->
+      <div class="m-form m-form--label-align-right m--margin-top-20 m--margin-bottom-30">
+        <div class="row align-items-center">
+          <div class="col-xl-8 order-2 order-xl-1">
+            <div class="form-group m-form__group row align-items-center">
+              <div class="col-md-4">
+              
+              </div>
+            </div>
+          </div>
+
+          <div class="col-xl-4 order-1 order-xl-2 m--align-right">
+            <button type="button" class="btn btn-success btn-sm" style="padding: 4px" (click)="triggerModalOrOverlay('open','createApplications')">
+              <i class="fa fa-plus"></i>
+              Create
+            </button>
+
+          </div>
+        </div>
+      </div>
+      <!--end: Search Form -->
+      <!--begin: Datatable -->
+      <div class="table-responsive">
+        <table class="table table-hover table-striped table-bordered table-sm">
+          <thead class="thead-color">
+            <tr>
+              <th>
+                #
+              </th>
+              <th>
+                Name
+              </th>
+              <th>
+                Year
+              </th>
+              <th>
+                Start Date
+              </th>
+              <th>
+                End Date
+              </th>
+              <th>
+                Profile Strength
+              </th>
+              <th>
+                Level
+              </th>
+              <th>
+                  Programme
+                </th>
+              <th>
+                Application Fee
+              </th>
+              <th>
+                Status
+              </th>
+              <th>
+                Action
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="text-center">
+              <td colspan="11">
+                <span *ngIf="!load.requesting.list && allApplicationss.length==0">No Record Found</span>
+                <span *ngIf="load.requesting.list">Fetching Applications..
+                  <i class="fa fa-spinner fa-spin"></i>
+                </span>
+              </td>
+            </tr>
+            <tr *ngFor="let applicationStatus of allApplicationss; let ind=index">
+              <td>{{ind+1}}
+                <td>{{applicationStatus?.name}}</td>
+                <td>{{applicationStatus?.year}}</td>
+                <td>{{applicationStatus?.start_date}}</td>
+                <td>{{applicationStatus?.end_date}}</td>
+                <td>{{applicationStatus?.profile_strenght}}</td>
+                <td>{{applicationStatus?.level_name}}</td>
+                <td>{{applicationStatus?.programme_name}}</td>
+                <td>{{applicationStatus?.amount}}</td>
+                <td *ngIf="applicationStatus?.is_active==='1'" style="color:green">
+                  <i class="fa fa-check fa-2x"></i>
+                </td>
+                <td *ngIf="applicationStatus?.is_active==='0'" style="color:red">
+                  <i class="fa fa-times fa-2x"></i>
+                </td>
+                <td>
+                  <button class="btn btn-info btn-xs" (click)="triggerModalOrOverlay('open','updateApplications',ind)">
+                    <i class="fa fa-pencil" *ngIf="!Applications?.loading"></i>
+                    <i class="fa fa-spinner fa-spin" *ngIf="Applications?.loading"></i>
+
+                  </button>
+                </td>
+
+
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!--end: Datatable -->
+    </div>
+  </div>
+</div>

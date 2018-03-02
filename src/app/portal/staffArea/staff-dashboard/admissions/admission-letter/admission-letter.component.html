@@ -1,0 +1,407 @@
+
+<div id="createAdmissionLetter" class="modal fade" role="dialog">
+  <form [formGroup]="createAdmissionLetterForm" (ngSubmit)="createAdmissionLetter()">
+      <div class="modal-dialog">
+          <!-- Modal content-->
+          <div class="modal-content">
+              <div class="modal-header">
+
+                  <h4 class="modal-title">Create Admission </h4>
+                  <button class="close" type="button" (click)="triggerModalOrOverlay('close','createAdmissionLetter')">&times;</button>
+
+              </div>
+              <div class="modal-body">
+                  <div class="form-group">
+                      <div class="row">
+                          <div class="col-md-6">
+
+                              <label for="schoolname">First Name:</label>
+                              <input class="form-control" formControlName="first_name" id="schoolname" placeholder="First Name">
+
+                          </div>
+                          <div class="col-md-6">
+
+                              <label for="middle_name">Middle Name:</label>
+                              <input class="form-control" id="domain" formControlName="middle_name" placeholder="Middle Name">
+                              <!--  -->
+
+
+                              <!--  -->
+                          </div>
+
+                      </div>
+
+                      <div class="row">
+                          <div class="col-md-6">
+                              <label for="schooldomain">Last Name:</label>
+                              <input class="form-control" id="domain" formControlName="last_name" placeholder="Last Name">
+
+                          </div>
+
+                          <div class="col-md-6">
+
+                              <label for="email">Email:</label>
+                              <input class="form-control" formControlName="email" id="email" placeholder="Email">
+
+
+
+                          </div>
+                      </div>
+
+                      <div class="row">
+                          <div class="col-md-6">
+
+
+                              <label for="country">Country:</label>
+                              <select class="form-control" #newCountry formControlName="country_id" id="country" (change)="getStateByCountryId(newCountry.value)">
+                                  <option value="" disabled>Select Country</option>
+                                  <option *ngFor="let country of allCountries; let ind=index" value="{{country.id}}">{{country.name}}</option>
+                              </select>
+
+
+
+
+                          </div>
+                          <div class="col-md-6">
+
+                              <label for="state">State:</label>
+                              <select class="form-control" formControlName="state_id" id="state">
+                                  <option value="" disabled>Select State</option>
+                                  <option *ngFor="let state of allStates; let ind=index" value="{{state.id}}">{{state.name}}</option>
+                              </select>
+
+
+                          </div>
+
+                      </div>
+
+
+                      <div class="row">
+                          <div class="col-md-6">
+
+
+                              <label for="course">Faculty:</label>
+                              <select class="form-control" #faculty formControlName="faculty_id" id="faculty" (change)="getDepartmentByByFacultyId(faculty.value)">
+                                  <option value="" disabled>Select Faculty</option>
+                                  <option *ngFor="let faculty of allFaculties; let ind=index" value="{{faculty.id}}">{{faculty.name}}</option>
+                              </select>
+
+
+                          </div>
+                          <div class="col-md-6">
+                              <label for="department">Department:</label>
+                              <i class="fa fa-spinner fa-spin" *ngIf="load.departments.loading"></i>
+                              <select class="form-control" #deprtmnt formControlName="department_id" id="department" (change)="getCourseByDepartmentId(deprtmnt.value)"
+                                  [disabled]="!load.departments.list || load.departments.loading">
+                                  <option value="" disabled>Select Department</option>
+                                  <option *ngFor="let department of allDepartments; let ind=index" value="{{department.id}}">{{department.name}}</option>
+                              </select>
+
+
+                          </div>
+
+                      </div>
+
+
+
+
+
+                      <div class="row">
+
+                          <div class="col-md-6">
+                              <label for="course">Course of Study:</label>
+                              <i class="fa fa-spinner fa-spin" *ngIf="load.courses.loading"></i>
+                              <select class="form-control" #course formControlName="course_of_study_id" id="course" [disabled]="!load.courses.list || load.courses.loading">
+                                  <option value="" disabled>Select Course</option>
+                                  <option *ngFor="let course of allCourses; let ind=index" value="{{course.id}}">{{course.name}}</option>
+                              </select>
+                          </div>
+                          <div class="col-md-6">
+
+                              <label for="matric_no">Matriculation Number:</label>
+                              <input class="form-control" formControlName="matric_no" id="matric_no" placeholder="Matric No">
+
+                          </div>
+                      </div>
+
+
+
+
+
+                  </div>
+              </div>
+              <div class="modal-footer">
+                      <button type="submit" class="btn btn-success btn-sm" [disabled]="createAdmissionLetterForm.invalid || load.requesting.create">{{load.message.create}}
+                              <i *ngIf="load.requesting.create" class="m-loader m-loader-brand"></i>
+                          </button>
+      
+                  <button type="button" class="btn btn-danger btn-sm" (click)="triggerModalOrOverlay('close','createAdmissionLetter')">Close</button>
+                
+              </div>
+          </div>
+      </div>
+  </form>
+</div>
+
+<div id="updateAdmissionLetter" class="modal fade" role="dialog">
+  <form [formGroup]="updateAdmissionLetterForm" (ngSubmit)="updateAdmissionLetter()">
+      <div class="modal-dialog">
+
+          <!-- Modal content-->
+          <div class="modal-content">
+              <div class="modal-header">
+
+                  <h4 class="modal-title">Update {{updatedAdmissionLetter?.first_name}} {{updatedAdmissionLetter?.last_name}}</h4>
+                  <!-- <button class="btn btn-danger btn-xs pull-right" type="button" (click)="triggerModalOrOverlay('close','updateAdmissionLetter')">Close</button> -->
+                  <button class="close" type="button" (click)="triggerModalOrOverlay('close','updateAdmissionLetter')">&times;</button>
+                  
+              </div>
+              <div class="modal-body">
+                  <div class="form-group">
+                      <div class="row">
+                          <div class="col-md-6">
+
+                              <label for="schoolname">First Name:</label>
+                              <input class="form-control" formControlName="first_name" id="schoolname" placeholder="First Name">
+
+                          </div>
+                          <div class="col-md-6">
+
+                              <label for="middle_name">Middle Name:</label>
+                              <input class="form-control" id="domain" formControlName="middle_name" placeholder="Middle Name">
+                          </div>
+
+                      </div>
+
+                      <div class="row">
+                          <div class="col-md-6">
+                              <label for="schooldomain">Last Name:</label>
+                              <input class="form-control" id="domain" formControlName="last_name" placeholder="Last Name">
+
+                          </div>
+
+                          <div class="col-md-6">
+
+                              <label for="email">Email:</label>
+                              <input class="form-control" formControlName="email" id="email" placeholder="Email">
+
+
+
+                          </div>
+                      </div>
+
+                      <div class="row">
+                          <div class="col-md-6">
+
+
+                              <label for="country">Country:</label>
+                              <select class="form-control" #country formControlName="country_id" id="country" (change)="getStateByCountryId(country.value)">
+                                  <option value="" disabled>Select Country</option>
+                                  <option *ngFor="let country of allCountries; let ind=index" value="{{country.id}}">{{country.name}}</option>
+                              </select>
+
+
+
+
+                          </div>
+                          <div class="col-md-6">
+
+                              <label for="state">State:</label>
+                              <select class="form-control" formControlName="state_id" id="state">
+                                  <option value="" disabled>Select State</option>
+                                  <option *ngFor="let state of allStates; let ind=index" value="{{state.id}}">{{state.name}}</option>
+                              </select>
+
+
+                          </div>
+
+                      </div>
+
+
+                      <!-- <div class="row">
+                                  <div class="col-md-6">
+      
+      
+                                      <label for="course">Faculty:</label>
+                                      <select class="form-control" #faculty formControlName="faculty_id" id="faculty" (change)="getDepartmentByByFacultyId(faculty.value)">
+                                          <option value="" disabled>Select Faculty</option>
+                                          <option *ngFor="let faculty of allFaculties; let ind=index" value="{{faculty.id}}">{{faculty.name}}</option>
+                                      </select>
+      
+      
+                                  </div>
+                                  <div class="col-md-6">
+                                      <label for="department">Department:</label>
+                                      <i class="fa fa-spinner fa-spin" *ngIf="load.departments.loading"></i>
+                                      <select class="form-control" #deprtmnt formControlName="department_id" id="department"
+                                          (change)="getCourseByDepartmentId(deprtmnt.value)" [disabled]="!load.departments.list || load.departments.loading">
+                                          <option value="" disabled>Select Department</option>
+                                          <option *ngFor="let department of allDepartments; let ind=index" value="{{department.id}}">{{department.name}}</option>
+                                      </select>
+      
+      
+                                  </div>
+      
+                              </div>
+      
+       -->
+
+
+
+                      <div class="row">
+
+                          <div class="col-md-6">
+                              <label for="course">Course of Study:</label>
+                              <i class="fa fa-spinner fa-spin" *ngIf="load.courses.loading"></i>
+                              <select class="form-control" #course formControlName="course_of_study_id" id="course" [disabled]="!load.courses.list || load.courses.loading">
+                                  <option value="" disabled>Select Course</option>
+                                  <option *ngFor="let course of allCourses; let ind=index" value="{{course.id}}">{{course.name}}</option>
+                              </select>
+                          </div>
+                          <div class="col-md-6">
+
+                              <label for="matric_no">Matriculation Number:</label>
+                              <input class="form-control" formControlName="matric_no" id="matric_no" placeholder="Matric No" readonly disabled>
+
+                          </div>
+                      </div>
+
+
+
+
+
+                  </div>
+              </div>
+              <div class="modal-footer">
+
+                      <button type="submit" class="btn btn-success btn-sm" [disabled]="updateAdmissionLetterForm.invalid || load.requesting.create">{{load.message.update}}
+                              <i *ngIf="load.requesting.create" class="m-loader m-loader-brand"></i>
+                          </button>
+
+
+                  <button type="button" class="btn btn-danger btn-sm" (click)="triggerModalOrOverlay('close','updateAdmissionLetter')">Close</button>
+                 
+
+              </div>
+          </div>
+      </div>
+  </form>
+</div>
+
+
+<div class="m-content">
+  <div class="m-portlet m-portlet--mobile">
+      <div class="m-portlet__head">
+          <div class="m-portlet__head-caption">
+              <div class="m-portlet__head-title">
+                  <h3 class="m-portlet__head-text">
+                      Admissions /Admission Letter
+                  </h3>
+              </div>
+          </div>
+      </div>
+      <div class="m-portlet__body">
+          <!--begin: Search Form -->
+          <div class="m-form m-form--label-align-right m--margin-top-20 m--margin-bottom-30">
+              <div class="row align-items-center">
+                  <div class="col-xl-8 order-2 order-xl-1">
+                      <div class="form-group m-form__group row align-items-center">
+                          <div class="col-md-4">
+                             
+                          </div>
+                      </div>
+                  </div>
+
+                  <div class="col-xl-4 order-1 order-xl-2 m--align-right">
+                      <button type="button" class="btn btn-success btn-sm" style="padding: 4px" (click)="triggerModalOrOverlay('open','createAdmissionLetter')">
+                          <i class="fa fa-plus"></i>
+                          Create
+                      </button>
+
+                  </div>
+              </div>
+          </div>
+          <!--end: Search Form -->
+          <!--begin: Datatable -->
+          <div class="table-responsive">
+              <table class="table table-hover table-striped table-bordered table-sm">
+                  <thead class="thead-color">
+                      <tr>
+                          <th>
+                              #
+                          </th>
+                          <th>
+                              First Name
+                          </th>
+                          <th>
+                              Last Name
+                          </th>
+                          <th>
+                              Matric No.
+                          </th>
+                          <th>
+                              Email
+                          </th>
+                          <th>
+                              Programme
+                          </th>
+                          <th>
+                              Faculty
+                          </th>
+                          <th>
+                              Department
+                          </th>
+                          <th>
+                              Course of Study
+                          </th>
+                          <th>
+                              Status
+                          </th>
+                          <th>
+                              Action
+                          </th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      <tr class="text-center">
+                          <td colspan="11" *ngIf="mnmn">
+                              <span *ngIf="!load.requesting.list">No Record Found</span>
+                              <span *ngIf="load.requesting.list">Fetching AdmissionLetters.. <i class="fa fa-spinner fa-spin"></i></span>
+                          </td>
+                      </tr>
+                      <tr *ngFor="let AdmissionLetter of allAdmissionLetters; let ind=index">
+                          <td>{{ind+1}}
+                              <td>{{AdmissionLetter?.first_name}}</td>
+                              <td>{{AdmissionLetter?.last_name}}</td>
+                              <td>{{AdmissionLetter?.matric_no}}</td>
+                              <td>{{AdmissionLetter?.email}}</td>
+                              <td>{{AdmissionLetter?.course_of_study?.degree?.programme?.name}}</td>
+                              <td>{{AdmissionLetter?.course_of_study?.department?.faculty?.name}}</td>
+                              <td>{{AdmissionLetter?.course_of_study?.department?.name}}</td>
+                              <td>{{AdmissionLetter?.course_of_study?.name}}</td>
+                              <td *ngIf="AdmissionLetter.status==='1'" style="color:green">
+                                  <i class="fa fa-check fa-2x"></i>
+                              </td>
+                              <td *ngIf="AdmissionLetter.status==='0'" style="color:red">
+                                  <i class="fa fa-times fa-2x"></i>
+                              </td>
+                              <td>
+                                  <button class="btn btn-info btn-xs" (click)="triggerModalOrOverlay('open','updateAdmissionLetter',ind)">
+                                      <i class="fa fa-pencil" *ngIf="!AdmissionLetter?.loading"></i>
+                                      <i class="fa fa-spinner fa-spin" *ngIf="AdmissionLetter?.loading"></i>
+                                      
+                                  </button>
+                              </td>
+
+                             
+                      </tr>
+                  </tbody>
+              </table>
+
+              <!-- <div [froalaEditor]>Hello, Froala!</div> -->
+          </div>
+
+          <!--end: Datatable -->
+      </div>
+  </div>
+</div>

@@ -1,0 +1,248 @@
+<!-- Modal -->
+<div id="openModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">{{feedBack?.formType}} {{feedBack?.moduleName}}</h4>
+      </div>
+      <div class="modal-body">
+        <!--begin::Form-->
+        <!--end::Form-->
+        <form [formGroup] = "createForm" class="m-form m-form--fit m-form--label-align-right">
+          <div class="m-portlet__body">
+            <div class="form-group m-form__group row" style="padding-bottom: 1px;">
+              <label class="col-3 col-form-label">
+                <span class="styleStar">*</span> Name
+              </label>
+              <div class="col-lg-9 col-md-9 col-sm-12">
+                <input class="form-control" formControlName="hostel_name" >
+                <div  class="alert alert-danger col-12" role="alert" *ngIf="createForm.get('hostel_name').invalid && createForm.get('hostel_name').touched">
+                  <strong>
+                    Name is Required
+                  </strong>
+                </div>
+              </div>
+            </div>
+            <div class="form-group m-form__group row" style="padding-bottom: 1px;">
+              <label class="col-3 col-form-label">
+                <span class="styleStar">*</span>Capacity
+              </label>
+              <div class="col-lg-9 col-md-9 col-sm-12">
+                <input class="form-control" formControlName="hostel_capacity" >
+                <div  class="alert alert-danger col-12" role="alert" *ngIf="createForm.get('hostel_capacity').invalid && createForm.get('hostel_capacity').touched">
+                  <strong>
+                    Capacity is Required
+                  </strong>
+                </div>
+              </div>
+            </div>
+            <div class="form-group m-form__group row" style="padding-bottom: 1px;">
+              <label class="col-3 col-form-label">
+                <span class="styleStar">*</span>Address
+              </label>
+              <div class="col-lg-9 col-md-9 col-sm-12">
+                <input class="form-control" formControlName="hostel_address" >
+                <div  class="alert alert-danger col-12" role="alert" *ngIf="createForm.get('hostel_address').invalid && createForm.get('hostel_address').touched">
+                  <strong>
+                    Address is Required
+                  </strong>
+                </div>
+              </div>
+            </div>
+            <div class="form-group m-form__group row" style="padding-bottom: 1px;">
+              <label class="col-3 col-form-label">
+                <span class="styleStar">*</span> Cost
+              </label>
+              <div class="col-lg-9 col-md-9 col-sm-12">
+                <input class="form-control" formControlName="hostel_amount" >
+                <div  class="alert alert-danger col-12" role="alert" *ngIf="createForm.get('hostel_amount').invalid && createForm.get('hostel_amount').touched">
+                  <strong>
+                    Cost is Required
+                  </strong>
+                </div>
+              </div>
+
+            </div>
+            <div class="form-group m-form__group row" style="padding-bottom: 1px;">
+              <label class="col-3 col-form-label">
+                <span class="styleStar">*</span>Gender
+              </label>
+              <div class="col-lg-9 col-md-9 col-sm-12">
+                <label class="col-3 col-form-label"> Male:</label>  <input  formControlName="hostel_gender" type="radio" value="male">
+                <label class="col-3 col-form-label"> Female:</label>  <input  formControlName="hostel_gender" type="radio" value="female">
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" *ngIf="!feedBack.showUpdateButton" (click)="createFormModal()" class="btn btn-success btn-xm" data-dismiss="modal" [disabled] ="feedBack.submitStatus || createForm.invalid">
+          Submit <i class="fa fa-spinner fa-spin" *ngIf="feedBack.submitStatus"></i>
+        </button>
+        <button type="button" *ngIf="feedBack.showUpdateButton" (click)="updateFormModal()" class="btn btn-success btn-xm" data-dismiss="modal" [disabled] ="feedBack.submitStatus || createForm.invalid">
+          Update <i class="fa fa-spinner fa-spin" *ngIf="feedBack.submitStatus"></i>
+        </button>
+        <button type="button" class="btn btn-danger btn-xm" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+<!-- Modal -->
+<div id="viewModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">{{feedBack?.moduleName}} Details</h4>
+      </div>
+      <div class="modal-body">
+        <div class="m-portlet__body">
+          <div class="form-group m-form__group row text-center" style="padding-bottom: 1px;">
+            <div for="example-text-input" class="col-6 col-form-label text-right">
+              Name
+            </div>
+            <div for="example-text-input" class="col-6 col-form-label text-left">
+              {{feedBack?.viewDetails?.hostel_name}}
+            </div>
+          </div>
+          <div class="form-group m-form__group row text-center" style="padding-bottom: 1px;">
+            <div for="example-text-input" class="col-6 col-form-label text-right">
+              Amount
+            </div>
+            <div for="example-text-input" class="col-6 col-form-label text-left">
+              {{feedBack?.viewDetails?.hostel_amount}}
+            </div>
+          </div>
+
+         <div class="form-group m-form__group row text-center" style="padding-bottom: 1px;">
+            <div for="example-text-input" class="col-6 col-form-label text-right">
+              Capacity
+            </div>
+            <div for="example-text-input" class="col-6 col-form-label text-left">
+              {{feedBack?.viewDetails?.hostel_capacity}}
+            </div>
+          </div>
+
+        <div class="form-group m-form__group row text-center" style="padding-bottom: 1px;">
+            <div for="example-text-input" class="col-6 col-form-label text-right">
+              Gender
+            </div>
+            <div for="example-text-input" class="col-6 col-form-label text-left">
+              {{feedBack?.viewDetails?.hostel_gender}}
+            </div>
+          </div>
+
+        <div class="form-group m-form__group row text-center" style="padding-bottom: 1px;">
+            <div for="example-text-input" class="col-6 col-form-label text-right">
+              Address
+            </div>
+            <div for="example-text-input" class="col-6 col-form-label text-left">
+              {{feedBack?.viewDetails?.hostel_address}}
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger btn-xm" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- BEGIN: Subheader -->
+<!-- END: Subheader -->
+<div class="m-content">
+  <div class="m-portlet m-portlet--mobile">
+    <div class="m-portlet__head">
+      <div class="m-portlet__head-caption">
+        <div class="m-portlet__head-title">
+          <h3 class="m-portlet__head-text">
+            {{feedBack?.moduleName}}
+          </h3>
+        </div>
+      </div>
+    </div>
+    <div style="float: right; margin: 10px; margin-right: 4%">
+      <button class="btn btn-success btn-xm"  (click)="openModal()">
+        <i class="fa fa-plus"></i>
+        Create
+      </button>
+    </div>
+    <!--Current session-->
+    <div class="m-portlet__body table-responsive">
+      <!--end: Ss"></ Form -->  		<!--begin: Datatable -->
+      <table id="myTable2" class="table table-striped table-bordered table-advance table-hover">
+        <thead class="thead-color">
+        <tr>
+          <th  class="serialnum">
+            #
+          </th>
+          <th>
+            Name
+          </th>
+          <th>
+            Amount
+          </th>
+          <th>
+            Gender
+          </th>
+          <th>
+            Capacity
+          </th>
+          <th>
+            Address
+          </th>
+          <th>
+            Date Created
+          </th>
+          <th title="Field #4">
+            Action
+          </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let data of feedBack?.allResponse; let i = index">
+          <td scope="row">{{i+1}}</td>
+          <td>{{data?.hostel_name}}</td>
+          <td>{{data?.hostel_amount}}</td>
+          <td>{{data?.hostel_gender}}</td>
+          <td>{{data?.hostel_capacity}}</td>
+          <td>{{data?.hostel_address}}</td>
+          <td>{{data?.created_at | date}}</td>
+          <td>
+            <button (click)="onEdit(data)" class="btn btn-primary btn-xm" >
+              <i class="fa fa-pencil"></i>
+            </button>
+            <button (click)="onView(data)" class="btn btn-info btn-xm" >
+              <i class="fa fa-eye"></i>
+            </button>
+            <button (click)="onViewRooms(data?.id)" class="btn btn-success btn-xm" >
+              <i class="fa fa-list"></i>
+            </button>
+            <button (click)="onDeleteRoom(data?.id)" class="btn btn-danger btn-xm" [disabled] = "feedBack.deleteStatus">
+              <i class="fa fa-remove"></i> <i class="fa fa-spinner fa-spin" *ngIf="feedBack.deleteStatus && data?.id === id"></i>
+            </button>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="7" *ngIf="feedBack.loader">
+            <div  class="text-center">Loading {{feedBack?.moduleName}} <i class="fa fa-spinner fa-spin"></i></div>
+          </td>
+          <td colspan="7" *ngIf="!feedBack.loader && feedBack?.allResponse.length === 0">
+            <div  class="text-center">No Content Found</div>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+      <!--<div class="text-center" *ngIf="feedBack.loader"> Loading {{feedBack?.moduleName}} <i class="fa fa-spinner fa-spin"></i></div>-->
+      <!--end: Datatable -->
+    </div>
+
+  </div>
+</div>

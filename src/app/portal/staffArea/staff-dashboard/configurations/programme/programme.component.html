@@ -1,0 +1,254 @@
+<!-- Modal -->
+<div id="openModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">{{feedBack?.formType}} {{feedBack?.moduleName}}</h4>
+            </div>
+            <div class="modal-body">
+                <form [formGroup] = "createForm" class="m-form m-form--fit m-form--label-align-right">
+                    <div class="m-portlet__body">
+                        <div class="form-group m-form__group row" style="padding-bottom: 1px;">
+                            <label for="example-text-input" class="col-2 col-form-label">
+                              <span class="styleStar">*</span>Name
+                            </label>
+                            <div class="col-10">
+                                <input class="form-control m-input" formControlName="name" type="text" value="Artisanal kale" id="example-text-input">
+                                <div  class="alert alert-danger col-12" role="alert" *ngIf="createForm.get('name').invalid && createForm.get('name').touched">
+                                    <strong>
+                                        Name is Required
+                                    </strong>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group m-form__group row" style="padding-bottom: 1px;">
+                            <label for="example-text-input2" class="col-2 col-form-label">
+                              <span class="styleStar">*</span>Semester
+                            </label>
+                            <div class="col-10">
+                                <input class="form-control m-input" formControlName="semesters" type="number" value="Artisanal kale" id="example-text-input2">
+                                <div  class="alert alert-danger col-12" role="alert" *ngIf="createForm.get('semesters').invalid && createForm.get('semesters').touched">
+                                    <strong>
+                                        Semester is Required
+                                    </strong>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" *ngIf="!feedBack.showUpdateButton" (click)="createFormModal()" class="btn btn-success btn-xm" data-dismiss="modal" [disabled] ="feedBack.submitStatus || createForm.invalid">
+                    Submit <i class="fa fa-spinner fa-spin" *ngIf="feedBack.submitStatus"></i>
+                </button>
+                <button type="button" *ngIf="feedBack.showUpdateButton" (click)="updateFormModal()" class="btn btn-success btn-xm" data-dismiss="modal" [disabled] ="feedBack.submitStatus || createForm.invalid">
+                    Update <i class="fa fa-spinner fa-spin" *ngIf="feedBack.submitStatus"></i>
+                </button>
+                <button type="button" class="btn btn-danger btn-xm" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+<!-- Modal -->
+<div id="viewModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">{{feedBack?.moduleName}} Details</h4>
+            </div>
+            <div class="modal-body">
+                    <div class="m-portlet__body">
+                        <div class="form-group m-form__group row text-center" style="padding-bottom: 1px;">
+                            <div for="example-text-input" class="col-6 col-form-label text-right">
+                                Name:
+                            </div>
+                            <div for="example-text-input" class="col-6 col-form-label text-left">
+                                {{feedBack?.viewDetails.name}}
+                            </div>
+                        </div>
+                        <div class="form-group m-form__group row text-center form-details-style">
+                            <div for="example-text-input" class="col-6 col-form-label text-right">
+                               No. of Semester:
+                            </div>
+                            <div for="example-text-input" class="col-6 col-form-label text-left" >
+                                {{feedBack?.viewDetails.semesters}}
+                            </div>
+                        </div>
+                    <div class="form-group m-form__group row text-center form-details-style">
+                            <div for="example-text-input" class="col-6 col-form-label text-right">
+                               Current Semester:
+                            </div>
+                            <div for="example-text-input" class="col-6 col-form-label text-left" >
+                                {{feedBack?.currentSemester?.name }}
+                                <span *ngIf="feedBack?.currentSemester.length === 0 && !feedBack?.currentSemesterLoader">None</span>
+                                <i class="fa fa-spinner fa-spin" *ngIf="feedBack?.currentSemesterLoader"></i>
+                            </div>
+                        </div>
+                       <div class="form-group m-form__group row text-center form-details-style">
+                            <div for="example-text-input" class="col-6 col-form-label text-right">
+                               Current Session:
+                            </div>
+                            <div for="example-text-input" class="col-6 col-form-label text-left" >
+                                {{feedBack?.currentSession?.year}}
+                                <span *ngIf="feedBack?.currentSession.length === 0 && !feedBack?.currentSessionLoader">None</span>
+                                <i class="fa fa-spinner fa-spin" *ngIf="feedBack?.currentSessionLoader"></i>
+                            </div>
+                        </div>
+                       <div class="form-group m-form__group row text-center form-details-style">
+
+                           <div for="example-text-input" class="col-6 col-form-label text-right">
+                               Semesters:
+                            </div>
+                            <div for="example-text-input" class="col-6 col-form-label text-left" >
+                                {{feedBack?.currentSession?.year}}
+                                <span *ngIf="feedBack?.currentSession.length === 0 && !feedBack?.currentSessionLoader">None</span>
+                                <i class="fa fa-spinner fa-spin" *ngIf="feedBack?.currentSessionLoader"></i>
+                            </div>
+                        </div>
+                       <div class="form-group m-form__group row text-center form-details-style">
+                            <div for="example-text-input" class="col-6 col-form-label text-right">
+                               Level:
+                            </div>
+                            <div for="example-text-input" class="col-6 col-form-label text-left" *ngFor="let level of feedBack?.programDetails?.levels">
+                                {{level?.name}}
+                            </div>
+                           <span *ngIf="feedBack?.currentSession.length === 0 && !feedBack?.currentSessionLoader">None</span>
+                           <i class="fa fa-spinner fa-spin" *ngIf="feedBack?.currentSessionLoader"></i>
+                        </div>
+                        <div class="form-group m-form__group row text-center form-details-style">
+                            <div for="example-text-input" class="col-12 col-form-label text-center">
+                               Sessions
+                            </div>
+                            <div for="example-text-input" class="col-12 col-form-label text-left" >
+                                <!--{{feedBack?.session?.year}}
+                                <span *ngIf="feedBack?.session.length === 0 && !feedBack?.SessionLoader">None</span>
+                                <i class="fa fa-spinner fa-spin" *ngIf="feedBack?.SessionLoader"></i>-->
+                                <div class="m-portlet__body table-responsive">
+                                    <!--end: Ss"></ Form -->  		<!--begin: Datatable -->
+                                    <table id="myTable" class="table table-striped table-bordered">
+                                        <thead class="thead-color">
+                                        <tr>
+                                            <th title="Field #1" class="serialnum">
+                                                #
+                                            </th>
+                                            <th title="Field #2">
+                                                Year
+                                            </th>
+                                            <th title="Field #2">
+                                                Start date
+                                            </th>
+                                            <th title="Field #3">
+                                                End date
+                                            </th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr *ngFor="let data of feedBack?.programDetails?.sessions; let i = index">
+                                            <td scope="row">{{i + 1}}</td>
+                                            <td>{{data?.year}}</td>
+                                            <td>{{data?.date_start || 'Null'}}</td>
+                                            <td>{{data?.date_end || 'Null'}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="4" *ngIf="feedBack?.SessionLoader">
+                                                <div  class="text-center">Loading session <i class="fa fa-spinner fa-spin"></i></div>
+                                            </td>
+                                            <td colspan="4" *ngIf="!feedBack?.SessionLoader && feedBack?.session.length === 0">
+                                                <div  class="text-center">No Content Found</div>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                    <!--<div class="text-center" *ngIf="feedBack.loader"> Loading {{feedBack?.moduleName}} <i class="fa fa-spinner fa-spin"></i></div>-->
+                                    <!--end: Datatable -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger btn-xm" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- BEGIN: Subheader -->
+<!-- END: Subheader -->
+<div class="m-content">
+    <div class="m-portlet m-portlet--mobile">
+        <div class="m-portlet__head">
+            <div class="m-portlet__head-caption">
+                <div class="m-portlet__head-title">
+                    <h3 class="m-portlet__head-text">
+                        {{feedBack?.moduleName}}
+                    </h3>
+                </div>
+            </div>
+        </div>
+        <div style="float: right; margin: 10px; margin-right: 4%">
+            <button class="btn btn-success btn-xm"  (click)="openModal()">
+                <i class="fa fa-plus"></i>
+                Create
+            </button>
+        </div>
+        <div class="m-portlet__body table-responsive">
+            <!--end: Ss"></ Form -->  		<!--begin: Datatable -->
+            <table id="myTable" class="table table-striped table-bordered">
+                <thead class="thead-color">
+                <tr>
+                    <th title="Field #1" class="serialnum">
+                        #
+                    </th>
+                    <th title="Field #2">
+                        Name
+                    </th>
+                    <th title="Field #2">
+                        Semester
+                    </th>
+                    <th title="Field #3">
+                        Created date
+                    </th>
+                    <th title="Field #4">
+                        Action
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let data of feedBack.allResponse; let i = index">
+                    <td scope="row">{{i + 1}}</td>
+                    <td>{{data?.name}}</td>
+                    <td>{{data?.semesters}}</td>
+                    <td>{{data?.created_at | date}}</td>
+                    <td>
+                        <button (click)="onEdit(data)" class="btn btn-primary btn-xm" >
+                            <i class="fa fa-pencil"></i>
+                        </button>
+                        <button (click)="onView(data)" class="btn btn-primary btn-xm" >
+                            <i class="fa fa-eye"></i>
+                        </button>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="5" *ngIf="feedBack.loader">
+                        <div  class="text-center">Loading {{feedBack?.moduleName}} <i class="fa fa-spinner fa-spin"></i></div>
+                    </td>
+                    <td colspan="5" *ngIf="!feedBack.loader && feedBack?.allResponse.length === 0">
+                        <div  class="text-center">No Content Found</div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+
+            <!--<div class="text-center" *ngIf="feedBack.loader"> Loading {{feedBack?.moduleName}} <i class="fa fa-spinner fa-spin"></i></div>-->
+            <!--end: Datatable -->
+        </div>
+    </div>
+</div>

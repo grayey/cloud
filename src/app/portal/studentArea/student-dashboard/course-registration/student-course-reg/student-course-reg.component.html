@@ -1,0 +1,52 @@
+<div>
+  <form class="m-form m-form--fit m-form--label-align-right">
+    <div class="m-portlet__body">
+      <div class="form-group m-form__group row">
+        <div class="col-10 ml-auto">
+          <h3 class="m-form__section">
+            Courses for the Session
+          </h3>
+        </div>
+      </div>
+      <div style="padding: 2%">
+        <table class="table table-bordered">
+          <thead>
+          <tr>
+            <th>#</th>
+            <th>Title</th>
+            <th>Code</th>
+            <th>Units</th>
+            <th>Action</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let course of feedBack.courses?.curriculum_courses; let i = index ">
+            <td>{{i+1}}</td>
+            <td>{{course?.title}}</td>
+            <td>{{course?.code}}</td>
+            <td>{{course?.unit}}</td>
+            <td><input type="checkbox" (change)="onSelectCourse(course?.id)"></td>
+          </tr>
+          <tr>
+            <td class="text-center" colspan="5" *ngIf="!feedBack?.loader && feedBack.courses?.curriculum_courses?.length === 0">No Course Found</td>
+            <td colspan="5" *ngIf="feedBack?.loader" class="text-center">Loading Course(s) <i class="fa fa-spinner fa-spin"></i></td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="m-portlet__foot m-portlet__foot--fit">
+      <div class="m-form__actions">
+        <div class="row">
+          <div class="col-2"></div>
+          <div class="col-7">
+            <button type="reset" class="btn btn-accent m-btn m-btn--air m-btn--custom" (click)="postRegisterCourses()"
+                    [disabled] = "feedBack.courses?.curriculum_courses?.length === 0 || courseArray.length === 0">
+              Register <i class="fa fa-spinner fa-spin" *ngIf="feedBack.registerLoader"></i>
+            </button>
+            </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

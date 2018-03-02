@@ -1,0 +1,419 @@
+<!-- Modal -->
+<div id="openModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">
+                    <p>{{feedBack?.formType}} {{feedBack?.moduleName}}</p>
+                </div>
+            </div>
+            <div class="modal-body">
+                <!--begin::Form-->
+                <!--end::Form-->
+                <form [formGroup]="createForm" class="m-form m-form--fit m-form--label-align-right">
+                    <div class="m-portlet__body">
+                        <div class="form-group m-form__group row" style="padding-bottom: 1px;">
+                            <label class="col-3 col-form-label">
+                              <span class="styleStar">*</span>Title
+                            </label>
+                            <div class="col-9">
+                                <input class="form-control m-input" formControlName="title" type="text"
+                                       value="Artisanal kale">
+                                <div class="alert alert-danger col-12" role="alert"
+                                     *ngIf="createForm.get('title').invalid && createForm.get('title').touched">
+                                    <strong>
+                                        Title is Required
+                                    </strong>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group m-form__group row" style="padding-bottom: 1px;">
+                            <label class="col-3 col-form-label">
+                              <span class="styleStar">*</span>Code
+                            </label>
+                            <div class="col-9">
+                                <input class="form-control m-input" formControlName="code" type="text"
+                                       value="Artisanal kale">
+                                <div class="alert alert-danger col-12" role="alert"
+                                     *ngIf="createForm.get('code').invalid && createForm.get('code').touched">
+                                    <strong>
+                                        Code is Required
+                                    </strong>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group m-form__group row" style="padding-bottom: 1px;">
+                            <label class="col-3 col-form-label">
+                              <span class="styleStar">*</span>Unit
+                            </label>
+                            <div class="col-9">
+                                <input class="form-control m-input" formControlName="unit" type="text"
+                                       value="Artisanal kale">
+                                <div class="alert alert-danger col-12" role="alert"
+                                     *ngIf="createForm.get('unit').invalid && createForm.get('unit').touched">
+                                    <strong>
+                                        Unit is Required
+                                    </strong>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group m-form__group row" style="padding-bottom: 1px;">
+                            <label class="col-3 col-form-label">
+                              <span class="styleStar">*</span>Type
+                            </label>
+                            <div class="col-lg-9 col-md-9 col-sm-12">
+
+                                <select class="form-control" formControlName="type" style="width: 100%">
+                                    <option></option>
+                                    <option value=2>Elective</option>
+                                    <option value=1>Required</option>
+                                    <option value=0>Core</option>
+                                </select>
+                                <div class="alert alert-danger col-12" role="alert"
+                                     *ngIf="createForm.get('type').invalid && createForm.get('type').touched">
+                                    <strong>
+                                        Type is Required
+                                    </strong>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group m-form__group row" style="padding-bottom: 1px;">
+                            <label class="col-3 col-form-label">
+                              <span class="styleStar">*</span>Faculty
+                            </label>
+                            <div class="col-lg-9 col-md-9 col-sm-12">
+
+                                <select class="form-control" formControlName="faculty_id" style="width: 100%"
+                                        (change)="extractId($event)">
+                                    <option></option>
+                                    <option *ngFor="let type of feedBack?.facultyList?.data " [value]="type?.id">
+                                        {{type?.name}}
+                                    </option>
+                                </select>
+                                <div class="alert alert-danger col-12" role="alert"
+                                     *ngIf="createForm.get('faculty_id').invalid && createForm.get('faculty_id').touched">
+                                    <strong>
+                                        Faculty is Required
+                                    </strong>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-center" *ngIf="feedBack.loadDepartment">loading department(s)<i
+                                class="fa fa-spinner fa-spin"></i></div>
+                        <div class="text-center"
+                             *ngIf="feedBack.checkEmptyDepartment && feedBack?.departmentsPerFaculty.length === 0">No
+                            level found
+                        </div>
+                        <div class="form-group m-form__group row" style="padding-bottom: 1px;"
+                             *ngIf="feedBack?.departmentsPerFaculty.length !== 0">
+                            <label class="col-3 col-form-label">
+                              <span class="styleStar">*</span> Department
+                            </label>
+                            <div class="col-lg-9 col-md-9 col-sm-12">
+
+                                <select class="form-control" formControlName="department_id" style="width: 100%"
+                                        (change)="extractCourseId($event)">
+                                    <option></option>
+                                    <option *ngFor="let type of feedBack?.departmentsPerFaculty " [value]="type?.id">
+                                        {{type?.name}}
+                                    </option>
+                                </select>
+                                <div class="alert alert-danger col-12" role="alert"
+                                     *ngIf="createForm.get('department_id').invalid && createForm.get('department_id').touched">
+                                    <strong>
+                                        Department is Required
+                                    </strong>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-center" *ngIf="feedBack.loadCourse">loading course(s)<i
+                                class="fa fa-spinner fa-spin"></i></div>
+                        <div class="text-center" *ngIf="feedBack.checkEmptyCourse && feedBack?.courseList.length === 0">
+                            No Course of Study found
+                        </div>
+                        <div class="form-group m-form__group row" style="padding-bottom: 1px;"
+                             *ngIf="feedBack?.courseList.length !== 0">
+                            <label class="col-3 col-form-label">
+                              <span class="styleStar">*</span>Course of Study
+                            </label>
+                            <div class="col-lg-9 col-md-9 col-sm-12">
+
+                                <select class="form-control" formControlName="course_of_study_id" style="width: 100%"
+                                        (change)="onSelectCourseById($event)">
+                                    <option></option>
+                                    <option *ngFor="let type of feedBack?.courseList " [value]="type?.id">
+                                        {{type?.name}}
+                                    </option>
+                                </select>
+                                <div class="alert alert-danger col-12" role="alert"
+                                     *ngIf="createForm.get('course_of_study_id').invalid && createForm.get('course_of_study_id').touched">
+                                    <strong>
+                                        Course of Study is Required
+                                    </strong>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="text-center" *ngIf="feedBack.loadCourseById">loading course(s)<i
+                                class="fa fa-spinner fa-spin"></i></div>
+                        <div class="text-center"
+                             *ngIf="feedBack.checkEmptyCourseById && feedBack?.courseByIdList.length === 0">No Course(s)
+                            found
+                        </div>
+                        <div class="form-group m-form__group row" style="padding-bottom: 1px;"
+                             *ngIf="feedBack?.courseByIdList.length !== 0">
+                            <label class="col-3 col-form-label">
+                              <span class="styleStar">*</span>Course
+                            </label>
+                            <div class="col-lg-9 col-md-9 col-sm-12">
+
+                                <select class="form-control" formControlName="course_id" style="width: 100%">
+                                    <option></option>
+                                    <option *ngFor="let type of feedBack?.getCourseList " [value]="type?.id">
+                                        {{type?.title}}
+                                    </option>
+                                </select>
+                                <div class="alert alert-danger col-12" role="alert"
+                                     *ngIf="createForm.get('course_id').invalid && createForm.get('course_id').touched">
+                                    <strong>
+                                        Course is Required
+                                    </strong>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group m-form__group row" style="padding-bottom: 1px;">
+                            <label class="col-3 col-form-label">
+                              <span class="styleStar">*</span> Course (sample)
+                            </label>
+                            <div class="col-lg-9 col-md-9 col-sm-12">
+
+                                <select class="form-control" formControlName="course_id" style="width: 100%">
+                                    <option></option>
+                                    <option *ngFor="let type of feedBack?.getCourseList " [value]="type?.id">
+                                        {{type?.title}}
+                                    </option>
+                                </select>
+                                <div class="alert alert-danger col-12" role="alert"
+                                     *ngIf="createForm.get('course_id').invalid && createForm.get('course_id').touched">
+                                    <strong>
+                                        Course is Required
+                                    </strong>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--<div class="form-group m-form__group row" style="padding-bottom: 1px;">-->
+                        <!--<label class="col-3 col-form-label">-->
+                        <!--Curriculum-->
+                        <!--</label>-->
+                        <!--<div class="col-lg-9 col-md-9 col-sm-12">-->
+
+                        <!--<select class="form-control" formControlName = "curriculum_id" style="width: 100%">-->
+                        <!--<option></option>-->
+                        <!--<option *ngFor="let type of feedBack?.getCurriculumList " [value] = "type?.id" >-->
+                        <!--{{type?.course_of_study?.name}}-->
+                        <!--</option>-->
+                        <!--</select>-->
+                        <!--<div  class="alert alert-danger col-12" role="alert" *ngIf="createForm.get('curriculum_id').invalid && createForm.get('curriculum_id').touched">-->
+                        <!--<strong>-->
+                        <!--Curriculum is Required-->
+                        <!--</strong>-->
+                        <!--</div>-->
+                        <!--</div>-->
+                        <!--</div>-->
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" *ngIf="!feedBack.showUpdateButton" (click)="createFormModal()"
+                        class="btn btn-success btn-xm" data-dismiss="modal"
+                        [disabled]="feedBack.submitStatus || createForm.invalid">
+                    Submit <i class="fa fa-spinner fa-spin" *ngIf="feedBack.submitStatus"></i>
+                </button>
+                <button type="button" *ngIf="feedBack.showUpdateButton" (click)="updateFormModal()"
+                        class="btn btn-success btn-xm" data-dismiss="modal"
+                        [disabled]="feedBack.submitStatus || createForm.invalid">
+                    Update <i class="fa fa-spinner fa-spin" *ngIf="feedBack.submitStatus"></i>
+                </button>
+                <button type="button" class="btn btn-danger btn-xm" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+<!-- Modal -->
+<div id="viewModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">{{feedBack?.moduleName}} Details For
+                    {{feedBack?.allResponse?.course_of_study?.name}}</h5>
+            </div>
+            <div class="modal-body">
+                <form [formGroup]="createForm" class="m-form m-form--fit m-form--label-align-right">
+                    <div class="m-portlet__body">
+                        <div class="form-group m-form__group row text-center" style="padding-bottom: 1px;">
+                            <div for="example-text-input" class="col-6 col-form-label text-right">
+                                Title:
+                            </div>
+                            <div for="example-text-input" class="col-6 col-form-label text-left">
+                                {{feedBack?.viewDetails?.title}}
+                            </div>
+                        </div>
+                        <div class="form-group m-form__group row text-center" style="padding-bottom: 1px;">
+                            <div for="example-text-input" class="col-6 col-form-label text-right">
+                                Code
+                            </div>
+                            <div for="example-text-input" class="col-6 col-form-label text-left">
+                                {{feedBack?.viewDetails?.code}}
+                            </div>
+                        </div>
+                        <div class="form-group m-form__group row text-center" style="padding-bottom: 1px;">
+                            <div for="example-text-input" class="col-6 col-form-label text-right">
+                                Unit
+                            </div>
+                            <div for="example-text-input" class="col-6 col-form-label text-left">
+                                {{feedBack?.viewDetails?.unit}}
+                            </div>
+                        </div>
+                        <div class="form-group m-form__group row text-center" style="padding-bottom: 1px;">
+                            <div for="example-text-input" class="col-6 col-form-label text-right">
+                                type
+                            </div>
+                            <div for="example-text-input" class="col-6 col-form-label text-left">
+                                {{feedBack?.viewDetails?.type === '0'? 'Core': ''}}
+                                {{feedBack?.viewDetails?.type === '2'? 'Elective': ''}}
+                                {{feedBack?.viewDetails?.type === '1'? 'Required': ''}}
+                            </div>
+                        </div>
+                        <div class="form-group m-form__group row text-center" style="padding-bottom: 1px;">
+                            <div for="example-text-input" class="col-6 col-form-label text-right">
+                                Course of Study
+                            </div>
+                            <div for="example-text-input" class="col-6 col-form-label text-left">
+                                {{feedBack?.viewDetails?.curriculum?.course_of_study?.name}}
+                            </div>
+                        </div>
+                        <div class="form-group m-form__group row text-center" style="padding-bottom: 1px;">
+                            <div for="example-text-input" class="col-6 col-form-label text-right">
+                                Department
+                            </div>
+                            <div for="example-text-input" class="col-6 col-form-label text-left">
+                                {{feedBack?.viewDetails?.department?.name}}
+                            </div>
+                        </div>
+                        <div class="form-group m-form__group row text-center" style="padding-bottom: 1px;">
+                            <div for="example-text-input" class="col-6 col-form-label text-right">
+                                Faculty
+                            </div>
+                            <div for="example-text-input" class="col-6 col-form-label text-left">
+                                {{feedBack?.viewDetails?.faculty?.name}}
+                            </div>
+                        </div>
+
+
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger btn-xm" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- BEGIN: Subheader -->
+<!-- END: Subheader -->
+<div class="m-content">
+    <div class="m-portlet m-portlet--mobile">
+        <div class="m-portlet__head">
+            <div class="m-portlet__head-caption">
+                <div class="m-portlet__head-title">
+                    <h3 class="m-portlet__head-text" *ngIf="!feedBack.loader">
+                        {{feedBack?.moduleName}} For {{feedBack?.allResponse?.course_of_study?.name}}
+                    </h3>
+                </div>
+            </div>
+        </div>
+        <div style="float: right; margin-bottom: -20px; margin-top: 2%; margin-right: 4%">
+            <button class="btn btn-success btn-xm" (click)="openModal()">
+                <i class="fa fa-plus"></i>
+                Create
+            </button>
+        </div>
+        <div style="margin-bottom: -20px; margin-top: 2%;margin-left: 4%">
+            <button class="btn btn-info btn-xm" (click)="redirect()">
+                Back to Curriculum <i class="fa fa-arrow-right"></i>
+            </button>
+        </div>
+        <div class="m-portlet__body table-responsive">
+            <!--end: Ss"></ Form -->        <!--begin: Datatable -->
+            <table id="myTable" class="table table-striped table-bordered">
+                <thead class="thead-color">
+                <tr>
+                    <th title="Field #1" class="serialnum">
+                        #
+                    </th>
+                    <th title="Field #2">
+                        Title
+                    </th>
+                    <th title="Field #2">
+                        Unit
+                    </th>
+                    <th title="Field #2">
+                        Code
+                    </th>
+                    <th title="Field #2">
+                        Type
+                    </th>
+                    <th title="Field #3">
+                        Created date
+                    </th>
+                    <th title="Field #4">
+                        Action
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let data of feedBack?.allResponse?.curriculum_courses; let i = index">
+                    <td scope="row">{{i+1}}</td>
+                    <td>{{data?.title}}</td>
+                    <td>{{data?.unit}}</td>
+                    <td>{{data?.code}}</td>
+                    <td>
+                        {{data?.type === '0'? 'Core': ''}}
+                        {{data?.type === '2'? 'Elective': ''}}
+                        {{data?.type === '1'? 'Required': ''}}
+                    </td>
+                    <td>{{data?.created_at | date}}</td>
+                    <td>
+                        <button (click)="onEdit(data)" class="btn btn-primary btn-xm">
+                            <i class="fa fa-pencil"></i>
+                        </button>
+                        <button (click)="onView(data)" class="btn btn-primary btn-xm" [disabled]='feedBack.viewStatus'>
+                            <i class="fa fa-eye"></i><i class="fa fa-spinner fa-spin" *ngIf="feedBack.viewStatus"></i>
+                        </button>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="9" *ngIf="feedBack.loader">
+                        <div class="text-center">Loading {{feedBack?.moduleName}} <i class="fa fa-spinner fa-spin"></i>
+                        </div>
+                    </td>
+                    <td colspan="9" *ngIf="!feedBack.loader && feedBack?.allResponse?.curriculum_courses.length === 0">
+                        <div class="text-center">No Content Found</div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <!--<div class="text-center" *ngIf="feedBack.loader"> Loading {{feedBack?.moduleName}} <i class="fa fa-spinner fa-spin"></i></div>-->
+            <!--end: Datatable -->
+        </div>
+    </div>
+</div>

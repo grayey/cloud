@@ -1,0 +1,345 @@
+<div id="createFeeItem" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+
+                <h4 class="modal-title">All Fee Items</h4>
+                <button class="close" type="button" (click)="triggerModalOrOverlay('close','createFeeItem')">&times;</button>
+
+            </div>
+            <div class="modal-body">
+                <div class="pull-right">
+                    <button class="btn btn-primary" (click)="toggleFeeItem()" *ngIf="!showCreateFeeItem">
+                        <i class="fa fa-plus"></i>
+                        Add Fee Item
+                    </button>
+
+                    <button class="btn" (click)="toggleFeeItem()" *ngIf="showCreateFeeItem">
+                            <i class="fa fa-undo"></i>
+                        </button>
+                </div>
+                <div class="form-group">
+
+                    <form [formGroup]="createFeeItemsForm" (ngSubmit)="createFeeItems()" *ngIf="showCreateFeeItem">
+
+                        <div class="row">
+                            <div class="col-md-6">
+
+                                <label for="schoolname">Fee Item:</label>
+                                <input class="form-control" formControlName="name" id="schoolname" placeholder="Fee Item Name">
+
+                            </div>
+                            <div class="col-md-6">
+
+                                <button type="submit" class="btn btn-success btn-sm" [disabled]="createFeeItemsForm.invalid || load.requesting.create" style="margin-top:30px">{{load.message.create}}
+                                    <i *ngIf="load.requesting.create" class="m-loader m-loader-brand"></i>
+                                </button>
+                            </div>
+
+                        </div>
+
+
+                    </form>
+                </div>
+
+                <table class="table table-hover table-striped table-bordered table-sm">
+                    <thead>
+                        <tr>
+                            <th>
+                                #
+                            </th>
+                            <th>
+                                Full Name
+                            </th>
+
+                            <th>
+                                Status
+                            </th>
+                            <!-- <th>
+                                Action
+                            </th> -->
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="text-center">
+                            <td colspan="11" *ngIf="allFeeItems.length==0">No Record Found</td>
+                        </tr>
+                        <tr *ngFor="let FeeItems of allFeeItems; let ind=index">
+                            <td>{{ind+1}}</td>
+                            <td>{{FeeItems}}</td>
+
+                            <td  style="color:green">
+                                <i class="fa fa-check fa-2x"></i>
+                            </td>
+                            <!-- <td *ngIf="FeeItems.enabled==='0'" style="color:red">
+                                <i class="fa fa-times fa-2x"></i>
+                            </td> -->
+                            <!-- <td>
+                                <button class="btn btn-info btn-xs" (click)="triggerModalOrOverlay('open','updateFeeItems',ind)">
+                                    <i class="fa fa-pencil" *ngIf="!FeeItems?.loading"></i>
+                                    <i class="fa fa-spinner fa-spin" *ngIf="FeeItems?.loading"></i>
+
+                                </button>
+                            </td> -->
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+
+                <button type="button" class="btn btn-danger btn-sm" (click)="triggerModalOrOverlay('close','createFeeItem')">Close</button>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+<div id="createFee" class="modal fade" role="dialog">
+    <form [formGroup]="createFeeForm" (ngSubmit)="createFee()">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+
+                    <h4 class="modal-title">Create Fee</h4>
+                    <button class="close" type="button" (click)="triggerModalOrOverlay('close','createFee')">&times;</button>
+
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-6">
+
+                                <label for="schoolname">Amount:</label>
+                                <input class="form-control" formControlName="amount" id="schoolname" placeholder="First Name">
+
+                            </div>
+                            <div class="col-md-6">
+
+                                <label for="country">Fee Item:</label>
+                                <select class="form-control" formControlName="fee_item_id" id="country">
+                                    <option value="" disabled>Select Fee Item</option>
+                                   
+                                    
+                                    <option *ngFor="let feeItem of allFeeItems; let ind=index" value="{{ind+1}}">{{feeItem}}</option>
+                                </select>
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label for="schooldomain">Session Year:</label>
+                                <select class="form-control" formControlName="session_year" id="country">
+                                        <option value="" disabled>Select Session Year</option>
+                                       
+                                        
+                                        <option *ngFor="let year of yearsArray; let ind=index" value="{{ind+1}}">{{year}}</option>
+                                    </select>
+                                <!-- <input class="form-control" id="domain" formControlName="session_year" placeholder="Session Year" type="date"> -->
+
+                            </div>
+
+                            <div class="col-md-6">
+
+
+
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success btn-sm" [disabled]="createFeeForm.invalid || load.requesting.create">{{load.message.create}}
+                        <i *ngIf="load.requesting.create" class="m-loader m-loader-brand"></i>
+                    </button>
+
+                    <button type="button" class="btn btn-danger btn-sm" (click)="triggerModalOrOverlay('close','createFee')">Close</button>
+
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div id="updateFee" class="modal fade" role="dialog">
+    <form [formGroup]="updateFeeForm" (ngSubmit)="updateFee()">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+
+                    <h4 class="modal-title">Update {{updatedFee?.first_name}} {{updatedFee?.last_name}}</h4>
+                    <!-- <button class="btn btn-danger btn-xs pull-right" type="button" (click)="triggerModalOrOverlay('close','updateFee')">Close</button> -->
+                    <button class="close" type="button" (click)="triggerModalOrOverlay('close','updateFee')">&times;</button>
+
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-6">
+
+                                <label for="schoolname">Amount:</label>
+                                <input class="form-control" formControlName="amount" id="schoolname" placeholder="First Name">
+
+                            </div>
+                            <div class="col-md-6">
+
+                                <label for="country">Fee Item:</label>
+                                <select class="form-control" formControlName="fee_item_id" id="country">
+                                    <option value="" disabled>Select Fee Item</option>
+                                    <option *ngFor="let feeItem of allFeeItems; let ind=index" value="{{feeItem.id}}">{{feeItem.name}}</option>
+                                </select>
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label for="schooldomain">Session Year:</label>
+                                <input class="form-control" id="domain" formControlName="session_year" placeholder="Session Year" type="date">
+
+                            </div>
+
+                            <div class="col-md-6">
+
+
+
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+
+                    <button type="submit" class="btn btn-success btn-sm" [disabled]="updateFeeForm.invalid || load.requesting.create">{{load.message.update}}
+                        <i *ngIf="load.requesting.create" class="m-loader m-loader-brand"></i>
+                    </button>
+
+
+                    <button type="button" class="btn btn-danger btn-sm" (click)="triggerModalOrOverlay('close','updateFee')">Close</button>
+
+
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+<div class="m-content">
+    <div class="m-portlet m-portlet--mobile">
+        <div class="m-portlet__head">
+            <div class="m-portlet__head-caption">
+                <div class="m-portlet__head-title">
+                    <h3 class="m-portlet__head-text">
+                        School Profile / Fees
+                    </h3>
+                </div>
+            </div>
+        </div>
+        <div class="m-portlet__body">
+            <!--begin: Search Form -->
+            <div class="m-form m-form--label-align-right m--margin-top-20 m--margin-bottom-30">
+                <div class="row align-items-center">
+                    <div class="col-xl-8 order-2 order-xl-1">
+                        <div class="form-group m-form__group row align-items-center">
+                            <div class="col-md-4">
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-4 order-1 order-xl-2 m--align-right">
+                        <button type="button" class="btn btn-success btn-sm" style="padding: 4px" (click)="triggerModalOrOverlay('open','createFee')">
+                            <i class="fa fa-plus"></i>
+                            Create
+                        </button>
+
+                        <button type="button" class="btn btn-info btn-sm" style="padding: 4px" (click)="triggerModalOrOverlay('open','createFeeItem')">
+                            <i class="fa fa-eye"></i>
+                            Fee Items
+                        </button>
+
+                    </div>
+                </div>
+            </div>
+            <!--end: Search Form -->
+            <!--begin: Datatable -->
+            <div class="table-responsive">
+                <table class="table table-hover table-striped table-bordered table-sm">
+                    <thead class="thead-color">
+                        <tr>
+                            <th>
+                                #
+                            </th>
+                            <th>
+                                Amount
+                            </th>
+                            <th>
+                           Fee Item
+                            </th>
+                            <th>
+                           Session Year
+                            </th>
+        
+                            <th>
+                                Status
+                            </th>
+                            <th>
+                                Action
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="text-center">
+                            <td colspan="11" *ngIf="allFees.length==0">
+                                <span *ngIf="allFees.length==0 && !load.requesting.list">No Record Found</span>
+                                <span *ngIf="load.requesting.list">Fetching Fees..
+                                    <i class="fa fa-spinner fa-spin"></i>
+                                </span>
+                            </td>
+                        </tr>
+                        <tr *ngFor="let fee of allFees; let ind=index">
+                            <td>{{ind+1}}</td>
+                                <td>{{fee?.first_name}}</td>
+                                <td>{{fee?.last_name}}</td>
+                                <td>{{fee?.matric_no}}</td>
+                                <td>{{fee?.email}}</td>
+                                <td>{{fee?.course_of_study?.name}}</td>
+                                <td *ngIf="fee?.status==='1'" style="color:green">
+                                    <i class="fa fa-check fa-2x"></i>
+                                </td>
+                                <td *ngIf="fee?.status==='0'" style="color:red">
+                                    <i class="fa fa-times fa-2x"></i>
+                                </td>
+                                <td>
+                                    <button class="btn btn-info btn-xs" (click)="triggerModalOrOverlay('open','updateFee',ind)">
+                                        <i class="fa fa-pencil" *ngIf="!fee?.loading"></i>
+                                        <i class="fa fa-spinner fa-spin" *ngIf="fee?.loading"></i>
+
+                                    </button>
+                                </td>
+
+
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!--end: Datatable -->
+        </div>
+    </div>
+</div>

@@ -1,0 +1,511 @@
+<div id="createApplicant" class="modal fade" role="dialog">
+    <form [formGroup]="createApplicantForm" (ngSubmit)="createApplicant()">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+
+                    <h4 class="modal-title">Create Applicant</h4>
+                    <button class="close" type="button" (click)="triggerModalOrOverlay('close','createApplicant')">&times;</button>
+
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-6">
+
+                                <label for="schoolname">First Name:</label>
+                                <input class="form-control" formControlName="first_name" id="schoolname" placeholder="First Name">
+
+                            </div>
+                            <div class="col-md-6">
+
+                                <label for="middle_name">Middle Name:</label>
+                                <input class="form-control" id="domain" formControlName="middle_name" placeholder="Middle Name">
+
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label for="schooldomain">Last Name:</label>
+                                <input class="form-control" id="domain" formControlName="last_name" placeholder="Last Name">
+
+                            </div>
+
+
+                            <div class="col-md-6">
+                                <label for="matric_no">Email:</label>
+                                <input class="form-control" formControlName="email" id="matric_no" placeholder="email">
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label for="email">Phone Number:</label>
+                                <input class="form-control" formControlName="phone" id="email" placeholder="Email">
+
+
+
+
+                            </div>
+                            <div class="col-md-6">
+
+                                <div class="row">
+                                    <div class="col-md-6">
+
+
+
+                                        <label for="matric_no">Age:</label>
+                                        <input class="form-control" formControlName="age" id="matric_no" placeholder="Age" type="number">
+
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <p>Gender:</p>
+                                        <label for="create_male" class="radio-inline">Male</label>
+                                        <input id="create_male" formControlName="gender" value="Male" type="radio">
+
+                                        <label for="create_female" class="radio-inline">Female</label>
+                                        <input id="create_female" formControlName="gender" value="Female" type="radio">
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="row">
+                            <div class="col-md-6">
+
+                                <label for="country">Country:</label>
+                                <select class="form-control" #country id="country" (change)="getStateByCountryId(country.value)">
+                                    <option value="" disabled>Select Country</option>
+                                    <option *ngFor="let country of allCountries; let ind=index" value="{{country.id}}">{{country.name}}</option>
+                                </select>
+
+
+
+
+
+
+                            </div>
+                            <div class="col-md-6">
+
+                                <label for="state">State:</label>
+                                <i class="fa fa-spinner fa-spin" *ngIf="load.states.loading"></i>
+                                <select class="form-control" #createState formControlName="state_origin" id="state" (change)="getLgaByStateId(createState.value)">
+                                    <option value="" disabled>Select State</option>
+                                    <option *ngFor="let state of allStates; let ind=index" value="{{state.id}}">{{state.name}}</option>
+                                </select>
+
+                            </div>
+
+                        </div>
+
+
+
+
+
+                        <div class="row">
+
+
+                            <div class="col-md-6">
+
+                                <label for="course">LGA:</label>
+                                <i class="fa fa-spinner fa-spin" *ngIf="load.lgas.loading"></i>
+                                <select class="form-control" formControlName="lga" id="faculty">
+                                    <option value="" disabled>Select Lga</option>
+                                    <option *ngFor="let lga of allLgas; let ind=index" value="{{lga.id}}">{{lga.name}}</option>
+                                </select>
+
+
+
+
+
+
+                            </div>
+
+                            <div class="col-md-6">
+
+                                <label for="country">Programme:</label>
+                                <select class="form-control" formControlName="programme_id" id="country">
+                                    <option value="" disabled>Select Programme</option>
+                                    <option *ngFor="let programme of allProgrammes; let ind=index" value="{{programme.id}}">{{programme.name}}</option>
+                                </select>
+
+                            </div>
+                        </div>
+
+                        <div class="row">
+
+                            <div class="col-md-6">
+
+
+                                <label>Faculty:</label>
+                                <select class="form-control" #faculty (change)="getDepartmentByByFacultyId(faculty.value)">
+                                    <option value="" disabled>Select Faculty</option>
+                                    <option *ngFor="let faculty of allFaculties; let ind=index" value="{{faculty.id}}">{{faculty.name}}</option>
+                                </select>
+
+
+
+
+
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="department">Department:</label>
+                                <i class="fa fa-spinner fa-spin" *ngIf="load.departments.loading"></i>
+                                <select class="form-control" #createdeprtmnt formControlName="department_id" id="department" (change)="getCourseByDepartmentId(createdeprtmnt.value)"
+                                    [disabled]="!load.departments.list || load.departments.loading">
+                                    <option value="" disabled>Select Department</option>
+                                    <option *ngFor="let department of allDepartments; let ind=index" value="{{department.id}}">{{department.name}}</option>
+                                </select>
+
+
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label for="course">Course of Study:</label>
+                                <i class="fa fa-spinner fa-spin" *ngIf="load.courses.loading"></i>
+                                <select class="form-control" formControlName="course_of_study_id" id="course" [disabled]="!load.courses.list || load.courses.loading">
+                                    <option value="" disabled>Select Course</option>
+                                    <option *ngFor="let course of allCourses; let ind=index" value="{{course.id}}">{{course.name}}</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label>Home Address:</label>
+                                <textarea formControlName="address" class="form-control">Home Address</textarea>
+                            </div>
+
+                    </div>
+
+
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-success btn-sm" [disabled]="createApplicantForm.invalid || load.requesting.create">{{load.message.create}}
+                    <i *ngIf="load.requesting.create" class="m-loader m-loader-brand"></i>
+                </button>
+
+                <button type="button" class="btn btn-danger btn-sm" (click)="triggerModalOrOverlay('close','createApplicant')">Close</button>
+
+            </div>
+        </div>
+</div>
+</form>
+</div>
+
+<div id="updateApplicant" class="modal fade" role="dialog">
+    <form [formGroup]="updateApplicantForm" (ngSubmit)="updateApplicant()">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+
+                    <h4 class="modal-title">Update {{updatedApplicant?.first_name}} {{updatedApplicant?.last_name}}</h4>
+                    <!-- <button class="btn btn-danger btn-xs pull-right" type="button" (click)="triggerModalOrOverlay('close','updateApplicant')">Close</button> -->
+                    <button class="close" type="button" (click)="triggerModalOrOverlay('close','updateApplicant')">&times;</button>
+
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-6">
+
+                                <label for="schoolname">First Name:</label>
+                                <input class="form-control" formControlName="first_name" id="schoolname" placeholder="First Name">
+
+                            </div>
+                            <div class="col-md-6">
+
+                                <label for="middle_name">Middle Name:</label>
+                                <input class="form-control" id="domain" formControlName="middle_name" placeholder="Middle Name">
+
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label for="schooldomain">Last Name:</label>
+                                <input class="form-control" id="domain" formControlName="last_name" placeholder="Last Name">
+
+                            </div>
+
+
+                            <div class="col-md-6">
+
+                                <label for="email">Phone Number:</label>
+                                <input class="form-control" formControlName="phone" id="email" placeholder="Email">
+
+
+
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label for="matric_no">Age:</label>
+                                        <input class="form-control" formControlName="age" id="matric_no" placeholder="Age" type="number">
+
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <p>Gender:</p>
+                                        <label for="create_male" class="radio-inline">Male</label>
+                                        <input id="create_male" formControlName="gender" value="Male" type="radio">
+
+                                        <label for="create_female" class="radio-inline">Female</label>
+                                        <input id="create_female" formControlName="gender" value="Female" type="radio">
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col-md-6">
+
+
+                                <label for="country">Country:</label>
+                                <select class="form-control" #createcountry id="country" (change)="getStateByCountryId(createcountry.value)">
+                                    <option value="" disabled>Select Country</option>
+                                    <option *ngFor="let country of allCountries; let ind=index" value="{{country.id}}">{{country.name}}</option>
+                                </select>
+
+
+
+
+
+
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="row">
+                            <div class="col-md-6">
+
+
+                                <label for="state">State:</label>
+                                <i class="fa fa-spinner fa-spin" *ngIf="load.states.loading"></i>
+                                <select class="form-control" #updateState formControlName="state_origin" id="state" (change)="getLgaByStateId(updateState.value)">
+                                    <option value="" disabled>Select State</option>
+                                    <option *ngFor="let state of allStates; let ind=index" value="{{state.id}}">{{state.name}}</option>
+                                </select>
+
+
+
+
+                            </div>
+                            <div class="col-md-6">
+
+
+                                <label for="course">LGA:</label>
+                                <select class="form-control" formControlName="lga" id="faculty">
+                                    <option value="" disabled>Select Lga</option>
+                                    <option *ngFor="let lga of allLgas; let ind=index" value="{{lga.id}}">{{lga.name}}</option>
+                                </select>
+
+
+
+
+
+                            </div>
+
+                        </div>
+
+
+
+
+
+                        <div class="row">
+
+
+                            <div class="col-md-6">
+
+
+                                <label for="country">Programme:</label>
+                                <select class="form-control" formControlName="programme_id" id="country">
+                                    <option value="" disabled>Select Programme</option>
+                                    <option *ngFor="let programme of allProgrammes; let ind=index" value="{{programme.id}}">{{programme.name}}</option>
+                                </select>
+
+
+
+                            </div>
+
+                            <div class="col-md-6">
+
+                                <label for="department">Department:</label>
+                                <i class="fa fa-spinner fa-spin" *ngIf="load.departments.loading"></i>
+                                <select class="form-control" #deprtmnt formControlName="department_id" id="department" (change)="getCourseByDepartmentId(deprtmnt.value)"
+                                    [disabled]="!load.departments.list || load.departments.loading">
+                                    <option value="" disabled>Select Department</option>
+                                    <option *ngFor="let department of allDepartments; let ind=index" value="{{department.id}}">{{department.name}}</option>
+                                </select>
+
+                            </div>
+                        </div>
+
+                        <div class="row">
+
+                            <div class="col-md-6">
+
+                                <label for="course">Course of Study:</label>
+                                <i class="fa fa-spinner fa-spin" *ngIf="load.courses.loading"></i>
+                                <select class="form-control" formControlName="course_of_study_id" id="course" [disabled]="!load.courses.list || load.courses.loading">
+                                    <option value="" disabled>Select Course</option>
+                                    <option *ngFor="let course of allCourses; let ind=index" value="{{course.id}}">{{course.name}}</option>
+                                </select>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label>Home Address:</label>
+                                <textarea formControlName="address" class="form-control">Home Address</textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+
+                    <button type="submit" class="btn btn-success btn-sm" [disabled]="updateApplicantForm.invalid || load.requesting.create">{{load.message.update}}
+                        <i *ngIf="load.requesting.create" class="m-loader m-loader-brand"></i>
+                    </button>
+
+
+                    <button type="button" class="btn btn-danger btn-sm" (click)="triggerModalOrOverlay('close','updateApplicant')">Close</button>
+
+
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+<div class="m-content">
+    <div class="m-portlet m-portlet--mobile">
+        <div class="m-portlet__head">
+            <div class="m-portlet__head-caption">
+                <div class="m-portlet__head-title">
+                    <h3 class="m-portlet__head-text">
+                        Admissions / Applicants
+                    </h3>
+                </div>
+            </div>
+        </div>
+        <div class="m-portlet__body">
+            <!--begin: Search Form -->
+            <div class="m-form m-form--label-align-right m--margin-top-20 m--margin-bottom-30">
+                <div class="row align-items-center">
+                    <div class="col-xl-8 order-2 order-xl-1">
+                        <div class="form-group m-form__group row align-items-center">
+                            <div class="col-md-4">
+                              
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-4 order-1 order-xl-2 m--align-right">
+                        <button type="button" class="btn btn-success btn-sm" style="padding: 4px" (click)="triggerModalOrOverlay('open','createApplicant')">
+                            <i class="fa fa-plus"></i>
+                            Create
+                        </button>
+
+                    </div>
+                </div>
+            </div>
+            <!--end: Search Form -->
+            <!--begin: Datatable -->
+            <div class="table-responsive">
+                <table class="table table-hover table-striped table-bordered table-sm">
+                    <thead class="thead-color">
+                        <tr>
+                            <th>
+                                #
+                            </th>
+                            <th>
+                                Full Name
+                            </th>
+                            <th>
+                                    Matric No.
+                            </th>
+                            <th>
+                               Phone Number
+                            </th>
+                            <th>
+                                Email
+                            </th>
+                            <th>
+                                Programme
+                            </th>
+                            <th>
+                                Faculty
+                            </th>
+                            <th>
+                                Department
+                            </th>
+                            <th>
+                                Course of Study
+                            </th>
+                            <th>
+                                Status
+                            </th>
+                            <th>
+                                Action
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="text-center">
+                            <td colspan="11" *ngIf="allApplicants.length==0">
+                                <span *ngIf="allApplicants.length==0 && !load.requesting.list">No Record Found</span>
+                                <span *ngIf="load.requesting.list">Fetching Applicants..
+                                    <i class="fa fa-spinner fa-spin"></i>
+                                </span>
+                            </td>
+                        </tr>
+                        <tr *ngFor="let Applicant of allApplicants; let ind=index">
+                            <td>{{ind+1}}
+                                <td>{{Applicant?.first_name}}</td>
+                                <td>{{Applicant?.last_name}}</td>
+                                <td>{{Applicant?.matric_no}}</td>
+                                <td>{{Applicant?.email}}</td>
+                                <td>{{Applicant?.course_of_study?.degree?.programme?.name}}</td>
+                                <td>{{Applicant?.course_of_study?.department?.faculty?.name}}</td>
+                                <td>{{Applicant?.course_of_study?.department?.name}}</td>
+                                <td>{{Applicant?.course_of_study?.name}}</td>
+                                <td *ngIf="Applicant.status==='1'" style="color:green">
+                                    <i class="fa fa-check fa-2x"></i>
+                                </td>
+                                <td *ngIf="Applicant.status==='0'" style="color:red">
+                                    <i class="fa fa-times fa-2x"></i>
+                                </td>
+                                <td>
+                                    <button class="btn btn-info btn-xs" (click)="triggerModalOrOverlay('open','updateApplicant',ind)">
+                                        <i class="fa fa-pencil" *ngIf="!Applicant?.loading"></i>
+                                        <i class="fa fa-spinner fa-spin" *ngIf="Applicant?.loading"></i>
+
+                                    </button>
+                                </td>
+
+
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!--end: Datatable -->
+        </div>
+    </div>
+</div>

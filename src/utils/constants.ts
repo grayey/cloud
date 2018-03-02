@@ -1,0 +1,18 @@
+export const CONSTANTS = {
+    DEFUALT_ERROR_MESSAGE: 'Error was encountered while processing this request. please try again',
+    TIMEOUT_5: 5000,
+    TIMEOUT_9: 9000,
+    TIMEOUT_MIL_2: 200,
+    TIMEOUT_MIL_5: 500,
+    TIMEOUT_15: 15000,
+    TIMEOUT_20: 20000,
+    PAYMENT_CONFIRMATION_COMPLETED: 'payment-confirmation-completed',
+    PAYMENT_CONFIRMED: 'payment-confirmed',
+    SHOW_CONFIRM: 'show-confirm',
+    SHOW_RECEIPT: 'show-receipt',
+    SHOW_TABS: 'show-tabs',
+    SWITCH_DISPLAY_MODE: 'switch-display-mode',
+    SEARCH_COMPLETED: 'search-completed',
+    FILL_GLOBAL_FORM_FIELD: 'fill-global-form-field',
+    ACCEPT_LOGIN: 'accept-login',
+};

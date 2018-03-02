@@ -1,0 +1,413 @@
+<!-- Modal -->
+<div id="openModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">{{feedBack?.formType}} {{feedBack?.moduleName}}</h4>
+            </div>
+            <div class="modal-body">
+                <!--begin::Form-->
+                <!--end::Form-->
+                <form [formGroup] = "createForm" class="m-form m-form--fit m-form--label-align-right">
+                    <div class="m-portlet__body">
+                        <div class="form-group m-form__group row" style="padding-bottom: 1px;">
+                            <label for="example-text-input" class="col-3 col-form-label">
+                              <span class="styleStar">*</span> Maximum Unit Load
+                            </label>
+                            <div class="col-9">
+                                <input class="form-control m-input" formControlName="max_unit" type="number" value="Artisanal kale" id="example-text-input">
+                                <div  class="alert alert-danger col-12" role="alert" *ngIf="createForm.get('max_unit').invalid && createForm.get('max_unit').touched">
+                                    <strong>
+                                        Maximum Unit Load is Required
+                                    </strong>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group m-form__group row" style="padding-bottom: 1px;">
+                            <label for="example-text-input" class="col-3 col-form-label">
+                              <span class="styleStar">*</span>Minimum Unit Load
+                            </label>
+                            <div class="col-9">
+                                <input class="form-control m-input" formControlName="min_unit" type="number" value="Artisanal kale" id="example-text-input">
+                                <div  class="alert alert-danger col-12" role="alert" *ngIf="createForm.get('min_unit').invalid && createForm.get('min_unit').touched">
+                                    <strong>
+                                        Minimum Unit Load is Required
+                                    </strong>
+                                </div>
+                            </div>
+                        </div>
+                       <span *ngIf="!feedBack.showUpdateButton">
+                        <div class="form-group m-form__group row" style="padding-bottom: 1px;">
+                            <label class="col-3 col-form-label">
+                               <span class="styleStar">*</span> Semester
+                            </label>
+                            <div class="col-lg-9 col-md-9 col-sm-12">
+
+                                <select class="form-control" formControlName = "semester" style="width: 100%">
+                                    <option></option>
+                                    <option value=1>First</option>
+                                    <option value=2>Second</option>
+                                    <option value=3>Third</option>
+                                </select>
+                                <div  class="alert alert-danger col-12" role="alert" *ngIf="createForm.get('semester').invalid && createForm.get('semester').touched">
+                                    <strong>
+                                        Semester is Required
+                                    </strong>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group m-form__group row" style="padding-bottom: 1px;">
+                            <label class="col-3 col-form-label">
+                                <span class="styleStar">*</span>Programme
+                            </label>
+                            <div class="col-lg-9 col-md-9 col-sm-12">
+
+                                <select class="form-control" formControlName = "programme_id" style="width: 100%" (change)="extractProgrammeId($event)">
+                                    <option></option>
+                                    <option *ngFor="let type of feedBack?.programmeList " [value] = "type?.id" >
+                                        {{type?.name}}
+                                    </option>
+                                </select>
+                                <div  class="alert alert-danger col-12" role="alert" *ngIf="createForm.get('programme_id').invalid && createForm.get('programme_id').touched">
+                                    <strong>
+                                        Programme is Required
+                                    </strong>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="text-center" *ngIf="feedBack.loadLevel">loading level(s) and session(s) <i class="fa fa-spinner fa-spin"></i></div>
+                        <div class="text-center" *ngIf="feedBack.checkEmptyLevel && feedBack?.levelList.length === 0">No level(s) found</div>
+
+                        <div class="form-group m-form__group row" style="padding-bottom: 1px;" *ngIf="feedBack?.levelList.length !== 0 ">
+                            <label class="col-3 col-form-label">
+                                <span class="styleStar">*</span>Level
+                            </label>
+                            <div class="col-lg-9 col-md-9 col-sm-12">
+
+                                <select class="form-control" formControlName = "level_id" style="width: 100%">
+                                    <option></option>
+                                    <option *ngFor="let type of feedBack?.levelList " [value] = "type?.id">
+                                        {{type?.name}}
+                                    </option>
+                                </select>
+                                <div  class="alert alert-danger col-12" role="alert" *ngIf="createForm.get('level_id').invalid && createForm.get('level_id').touched">
+                                    <strong>
+                                        Level is Required
+                                    </strong>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="text-center" *ngIf="feedBack.checkEmptyLevel && feedBack?.sessionList.length === 0">No session found</div>
+                           <div class="form-group m-form__group row" style="padding-bottom: 1px;" *ngIf="feedBack?.sessionList.length !== 0 ">
+                            <label class="col-3 col-form-label">
+                                <span class="styleStar">*</span>Session
+                            </label>
+                            <div class="col-lg-9 col-md-9 col-sm-12">
+
+                                <select class="form-control" formControlName = "session_id" style="width: 100%">
+                                    <option></option>
+                                    <option *ngFor="let type of feedBack?.sessionList " [value] = "type?.id" >
+                                        {{type?.year}}
+                                    </option>
+                                </select>
+                                <div  class="alert alert-danger col-12" role="alert" *ngIf="createForm.get('session_id').invalid && createForm.get('session_id').touched">
+                                    <strong>
+                                        Session is Required
+                                    </strong>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group m-form__group row" style="padding-bottom: 1px;">
+                            <label class="col-3 col-form-label">
+                               <span class="styleStar">*</span> Faculty
+                            </label>
+                            <div class="col-lg-9 col-md-9 col-sm-12">
+
+                                <select class="form-control" formControlName = "faculty_id" style="width: 100%" (change)="extractId($event)">
+                                    <option></option>
+                                    <option *ngFor="let type of feedBack?.facultyList " [value] = "type?.id" >
+                                        {{type?.name}}
+                                    </option>
+                                </select>
+                                <div  class="alert alert-danger col-12" role="alert" *ngIf="createForm.get('faculty_id').invalid && createForm.get('faculty_id').touched">
+                                    <strong>
+                                        Faculty is Required
+                                    </strong>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-center" *ngIf="feedBack.loadDepartment">loading department(s)<i class="fa fa-spinner fa-spin"></i></div>
+                        <div class="text-center" *ngIf="feedBack.checkEmptyDepartment && feedBack?.departmentList.length === 0">No level found</div>
+                        <div class="form-group m-form__group row" style="padding-bottom: 1px;"  *ngIf="feedBack?.departmentList.length !== 0">
+                            <label class="col-3 col-form-label">
+                               <span class="styleStar">*</span> Department
+                            </label>
+                            <div class="col-lg-9 col-md-9 col-sm-12">
+
+                                <select class="form-control" formControlName = "department_id" style="width: 100%" (change)="extractCourseId($event)">
+                                    <option></option>
+                                    <option *ngFor="let type of feedBack?.departmentList " [value] = "type?.id">
+                                        {{type?.name}}
+                                    </option>
+                                </select>
+                                <div  class="alert alert-danger col-12" role="alert" *ngIf="createForm.get('department_id').invalid && createForm.get('department_id').touched">
+                                    <strong>
+                                        Department is Required
+                                    </strong>
+                                </div>
+                            </div>
+                        </div>
+                         <div class="text-center" *ngIf="feedBack.loadCourse">loading course(s)<i class="fa fa-spinner fa-spin"></i></div>
+                        <div class="text-center" *ngIf="feedBack.checkEmptyCourse && feedBack?.courseList.length === 0">No Course of Study found</div>
+                        <div class="form-group m-form__group row" style="padding-bottom: 1px;"  *ngIf="feedBack?.courseList.length !== 0">
+                            <label class="col-3 col-form-label">
+                               <span class="styleStar">*</span> Course of Study
+                            </label>
+                            <div class="col-lg-9 col-md-9 col-sm-12">
+
+                                <select class="form-control" formControlName = "course_of_study_id" style="width: 100%">
+                                    <option></option>
+                                    <option *ngFor="let type of feedBack?.courseList " [value] = "type?.id">
+                                        {{type?.name}}
+                                    </option>
+                                </select>
+                                <div  class="alert alert-danger col-12" role="alert" *ngIf="createForm.get('course_of_study_id').invalid && createForm.get('course_of_study_id').touched">
+                                    <strong>
+                                        Course is Required
+                                    </strong>
+                                </div>
+                            </div>
+                        </div>
+                       </span>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" *ngIf="!feedBack.showUpdateButton" (click)="createFormModal()" class="btn btn-success btn-xm" data-dismiss="modal" [disabled] ="feedBack.submitStatus || createForm.invalid">
+                    Submit <i class="fa fa-spinner fa-spin" *ngIf="feedBack.submitStatus"></i>
+                </button>
+                <button type="button" *ngIf="feedBack.showUpdateButton" (click)="updateFormModal()" class="btn btn-success btn-xm" data-dismiss="modal" [disabled] ="feedBack.submitStatus || createForm.invalid">
+                    Update <i class="fa fa-spinner fa-spin" *ngIf="feedBack.submitStatus"></i>
+                </button>
+                <button type="button" class="btn btn-danger btn-xm" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+<!-- Modal -->
+<div id="viewModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">{{feedBack?.moduleName}} Details</h4>
+            </div>
+            <div class="modal-body">
+                <form [formGroup] = "createForm" class="m-form m-form--fit m-form--label-align-right">
+                    <div class="m-portlet__body">
+                        <div class="form-group m-form__group row text-center" style="padding-bottom: 1px;">
+                            <div for="example-text-input" class="col-6 col-form-label text-right">
+                                Course of Study:
+                            </div>
+                            <div for="example-text-input" class="col-6 col-form-label text-left">
+                                {{feedBack?.viewDetails?.course_of_study?.name}}
+                            </div>
+                        </div>
+                        <div class="form-group m-form__group row text-center" style="padding-bottom: 1px;">
+                            <div for="example-text-input" class="col-6 col-form-label text-right">
+                                Maximum Unit Load:
+                            </div>
+                            <div for="example-text-input" class="col-6 col-form-label text-left">
+                                {{feedBack?.viewDetails?.max_unit}}
+                            </div>
+                        </div>
+                        <div class="form-group m-form__group row text-center" style="padding-bottom: 1px;">
+                            <div for="example-text-input" class="col-6 col-form-label text-right">
+                                Minimum Unit Load:
+                            </div>
+                            <div for="example-text-input" class="col-6 col-form-label text-left">
+                                {{feedBack?.viewDetails?.min_unit}}
+                            </div>
+                        </div>
+                        <div class="form-group m-form__group row text-center" style="padding-bottom: 1px;">
+                            <div for="example-text-input" class="col-6 col-form-label text-right">
+                                Level:
+                            </div>
+                            <div for="example-text-input" class="col-6 col-form-label text-left">
+                                {{feedBack?.viewDetails?.level?.name}}
+                            </div>
+                        </div>
+                        <div class="form-group m-form__group row text-center" style="padding-bottom: 1px;">
+                            <div for="example-text-input" class="col-6 col-form-label text-right">
+                                Session:
+                            </div>
+                            <div for="example-text-input" class="col-6 col-form-label text-left">
+                                {{feedBack?.viewDetails?.session?.year}}
+                            </div>
+                        </div>
+
+                        <div class="form-group m-form__group row text-center" style="padding-bottom: 1px;">
+                            <div for="example-text-input" class="col-6 col-form-label text-right">
+                                Level:
+                            </div>
+                            <div for="example-text-input" class="col-6 col-form-label text-left">
+                                {{feedBack?.viewDetails?.level?.name}}
+                            </div>
+                        </div>
+                        <div class="form-group m-form__group row text-center" style="padding-bottom: 1px;">
+                            <div for="example-text-input" class="col-6 col-form-label text-right">
+                                Semester
+                            </div>
+                            <div for="example-text-input" class="col-6 col-form-label text-left">
+                                {{feedBack?.viewDetails?.semester}}
+                            </div>
+                        </div><div class="form-group m-form__group row text-center" style="padding-bottom: 1px;">
+                            <div for="example-text-input" class="col-6 col-form-label text-right">
+                                Session Start Date:
+                            </div>
+                            <div for="example-text-input" class="col-6 col-form-label text-left">
+                                {{feedBack?.viewDetails?.session?.date_start}}
+                            </div>
+                        </div>
+                        <div class="form-group m-form__group row text-center" style="padding-bottom: 1px;">
+                            <div for="example-text-input" class="col-6 col-form-label text-right">
+                                Session End Date:
+                            </div>
+                            <div for="example-text-input" class="col-6 col-form-label text-left">
+                                {{feedBack?.viewDetails?.session?.date_end}}
+                            </div>
+                        </div>
+                        <div class="form-group m-form__group row text-center" style="padding-bottom: 1px;">
+                            <div for="example-text-input" class="col-6 col-form-label text-right">
+                                Department:
+                            </div>
+                            <div for="example-text-input" class="col-6 col-form-label text-left">
+                                {{feedBack?.viewDetails?.department?.name}}
+                            </div>
+                        </div>
+                        <div class="form-group m-form__group row text-center" style="padding-bottom: 1px;">
+                            <div for="example-text-input" class="col-6 col-form-label text-right">
+                                Faculty:
+                            </div>
+                            <div for="example-text-input" class="col-6 col-form-label text-left">
+                                {{feedBack?.viewDetails?.faculty?.name}}
+                            </div>
+                        </div>
+                        <div class="form-group m-form__group row text-center" style="padding-bottom: 1px;">
+                            <div for="example-text-input" class="col-6 col-form-label text-right">
+                                Programme:
+                            </div>
+                            <div for="example-text-input" class="col-6 col-form-label text-left">
+                                {{feedBack?.viewDetails?.programme?.name}}
+                            </div>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger btn-xm" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- BEGIN: Subheader -->
+<!-- END: Subheader -->
+<div class="m-content">
+    <div class="m-portlet m-portlet--mobile">
+        <div class="m-portlet__head">
+            <div class="m-portlet__head-caption">
+                <div class="m-portlet__head-title">
+                    <h3 class="m-portlet__head-text">
+                        {{feedBack?.moduleName}}
+                    </h3>
+                </div>
+            </div>
+        </div>
+        <div style="float: right; margin: 10px; margin-right: 4%">
+            <button class="btn btn-success btn-xm"  (click)="openModal()">
+                <i class="fa fa-plus"></i>
+                Create
+            </button>
+        </div>
+        <div class="m-portlet__body table-responsive">
+            <!--end: Ss"></ Form -->  		<!--begin: Datatable -->
+            <table id="myTable" class="table table-striped table-bordered">
+                <thead class="thead-color">
+                <tr>
+                    <th title="Field #1" class="serialnum">
+                        #
+                    </th>
+                    <th title="Field #2">
+                        Course of Study
+                    </th>
+                    <th title="Field #2">
+                        Max unit
+                    </th>
+                    <th title="Field #2">
+                        Min unit
+                    </th>
+                    <th title="Field #2">
+                        Level
+                    </th>
+                    <th title="Field #2">
+                        Semester
+                    </th>
+                    <th title="Field #2">
+                        Session
+                    </th>
+                    <th title="Field #3">
+                        Created date
+                    </th>
+                    <th title="Field #4">
+                        Action
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let data of feedBack?.allResponse; let i = index">
+                    <td scope="row">{{i+1}}</td>
+                    <td>{{data?.course_of_study?.name}}</td>
+                    <td>{{data?.max_unit}}</td>
+                    <td>{{data?.min_unit}}</td>
+                    <td>{{data?.level?.name}}</td>
+                    <td>{{data?.semester}}</td>
+                    <td>{{data?.session?.year}}</td>
+                    <td>{{data?.created_at | date}}</td>
+                    <td>
+                        <button (click)="onEdit(data)" class="btn btn-primary btn-xm" >
+                            <i class="fa fa-pencil"></i>
+                        </button>
+                        <button (click)="onView(data)" class="btn btn-primary btn-xm" >
+                            <i class="fa fa-eye"></i>
+                        </button>
+                        <button (click)="onViewCourseCurriculum(data?.id)" title="view course curriculum" class="btn btn-primary btn-xm" >
+                            <i class="fa fa-list"></i>
+                        </button>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="9" *ngIf="feedBack.loader">
+                        <div  class="text-center">Loading {{feedBack?.moduleName}} <i class="fa fa-spinner fa-spin"></i></div>
+                    </td>
+                    <td colspan="9" *ngIf="!feedBack.loader && feedBack?.allResponse.length === 0">
+                        <div  class="text-center">No Content Found</div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <!--<div class="text-center" *ngIf="feedBack.loader"> Loading {{feedBack?.moduleName}} <i class="fa fa-spinner fa-spin"></i></div>-->
+            <!--end: Datatable -->
+        </div>
+    </div>
+</div>

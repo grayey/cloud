@@ -1,0 +1,82 @@
+<div id="stdRegModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Student Registration</h4>
+      </div>
+      <div class="modal-body">
+        <!--begin::Form-->
+        <!--end::Form-->
+        <form [formGroup] = "createForm" class="m-form m-form--fit m-form--label-align-right">
+          <div class="m-portlet__body">
+            <div class="form-group m-form__group row" style="padding-bottom: 1px;">
+              <label class="col-3 col-form-label">
+                <span class="styleStar">*</span>Session
+              </label>
+              <div class="col-lg-9 col-md-9 col-sm-12">
+                <select class="form-control" formControlName = "session">
+                  <option></option>
+                  <option *ngFor="let session of sessionsArray"> {{session?.year}} </option>
+                </select>
+                <div  class="alert alert-danger col-12" role="alert" *ngIf="createForm.get('session').invalid && createForm.get('session').touched">
+                  <strong>
+                    session is Required
+                  </strong>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" (click)="createFormModal()" class="btn btn-success btn-xm" data-dismiss="modal" [disabled] ="submitStatus || createForm.invalid">
+          Submit <i class="fa fa-spinner fa-spin" *ngIf="submitStatus"></i>
+        </button>
+        <button type="button" class="btn btn-danger btn-xm" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<div>
+    <div class="m-portlet__body">
+      <div style="padding: 2%">
+        <div style="float: right; margin: 10px; margin-right: 4%">
+          <button class="btn btn-success btn-xm"  (click)="onStudentReg()">
+            <i class="fa fa-plus"></i>
+            Register New Session
+          </button>
+        </div>
+        <table class="table table-striped table-bordered table-advance table-hover">
+          <thead>
+          <tr>
+            <th>#</th>
+            <th>Session</th>
+            <th>Level</th>
+            <th>Action</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let session of feedBack.allResponse; let i = index">
+            <td>{{i+1}}</td>
+            <td>{{session?.session_year}}</td>
+            <td>{{session?.level?.name}}</td>
+            <td>
+              <button class="btn btn-info btn-xs" (click)="onViewCourse(session?.id)"><i class="fa fa-eye"></i></button>
+              <!--<button class="btn btn-success btn-xs" *ngIf="feedBack.showRegisterStatus" (click)="onForceReg()"><i class="fa fa-registered"></i></button>-->
+            </td>
+          </tr>
+          <tr>
+            <td colspan="4" *ngIf="feedBack.allResponse?.length === 0 && !feedBack?.loader" class="text-center"> No Content Found</td>
+            <td colspan="4" *ngIf="feedBack?.loader" class="text-center">Loading Session courses <i class="fa fa-spinner fa-spin"></i></td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+</div>

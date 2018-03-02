@@ -1,0 +1,511 @@
+<div class="m-content">
+  <div class="row">
+    <div class="col-xl-3 col-lg-4">
+      <div class="m-portlet m-portlet--full-height   m-portlet--rounded">
+        <div class="m-portlet__body">
+          <div class="m-card-profile">
+            <div class="m-card-profile__title m--hide">
+              Your Profile
+            </div>
+            <div class="m-card-profile__pic">
+              <div class="m-card-profile__pic-wrapper">
+                <img src="../../../../assets/student_assets/app/media/img/users/user4.jpg" alt=""/>
+              </div>
+            </div>
+            <div class="m-card-profile__details">
+												<span class="m-card-profile__name">
+													{{feedBack?.allResponse?.last_name}}  {{feedBack?.allResponse?.first_name}}  {{feedBack?.allResponse?.other_names}}
+												</span>
+              <a  class="m-card-profile__email m-link">
+                {{feedBack?.allResponse?.email}}
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-9 col-lg-8">
+      <div class="m-portlet m-portlet--full-height m-portlet--tabs   m-portlet--rounded">
+        <div class="m-portlet__head">
+          <div class="m-portlet__head-tools">
+            <ul class="nav nav-tabs m-tabs m-tabs-line   m-tabs-line--left m-tabs-line--primary" role="tablist">
+              <li class="nav-item m-tabs__item">
+                <a class="nav-link m-tabs__link active" data-toggle="tab" href="#m_user_profile_tab_1" role="tab">
+                  <i class="flaticon-share m--hide"></i>
+                   Profile
+                </a>
+              </li>
+              <li class="nav-item m-tabs__item">
+                <a class="nav-link m-tabs__link" data-toggle="tab" href="#m_user_profile_tab_2" role="tab">
+                  Birth Details
+                </a>
+              </li>
+              <li class="nav-item m-tabs__item">
+                <a class="nav-link m-tabs__link" data-toggle="tab" href="#m_user_profile_tab_3" role="tab">
+                  Address
+                </a>
+              </li>
+              <li class="nav-item m-tabs__item">
+                <a class="nav-link m-tabs__link" data-toggle="tab" href="#m_user_profile_tab_4" role="tab">
+                  Nexk of kin
+                </a>
+              </li>
+              <li class="nav-item m-tabs__item">
+              <li class="nav-item m-tabs__item">
+                <a class="nav-link m-tabs__link" data-toggle="tab" href="#m_user_profile_tab_5" role="tab">
+                  Marital/Religion
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div class="m-portlet__head-tools">
+            <ul class="m-portlet__nav">
+              <li class="m-portlet__nav-item m-portlet__nav-item--last">
+                <div class="m-dropdown m-dropdown--inline m-dropdown--arrow m-dropdown--align-right m-dropdown--align-push" data-dropdown-toggle="hover" aria-expanded="true">
+                  <a href="#" class="m-portlet__nav-link btn btn-lg btn-secondary  m-btn m-btn--icon m-btn--icon-only m-btn--pill  m-dropdown__toggle">
+                    <i class="la la-gear"></i>
+                  </a>
+                  <div class="m-dropdown__wrapper">
+                    <span class="m-dropdown__arrow m-dropdown__arrow--right m-dropdown__arrow--adjust"></span>
+                    <div class="m-dropdown__inner">
+                      <div class="m-dropdown__body">
+                        <div class="m-dropdown__content">
+                          <ul class="m-nav">
+                            <li class="m-nav__section m-nav__section--first">
+																				<span class="m-nav__section-text">
+																					Quick Actions
+																				</span>
+                            </li>
+                            <li class="m-nav__item">
+                              <a href="" class="m-nav__link">
+                                <i class="m-nav__link-icon flaticon-share"></i>
+                                <span class="m-nav__link-text">
+																						Create Post
+																					</span>
+                              </a>
+                            </li>
+                            <li class="m-nav__item">
+                              <a href="" class="m-nav__link">
+                                <i class="m-nav__link-icon flaticon-chat-1"></i>
+                                <span class="m-nav__link-text">
+																						Send Messages
+																					</span>
+                              </a>
+                            </li>
+                            <li class="m-nav__item">
+                              <a href="" class="m-nav__link">
+                                <i class="m-nav__link-icon flaticon-multimedia-2"></i>
+                                <span class="m-nav__link-text">
+																						Upload File
+																					</span>
+                              </a>
+                            </li>
+                            <li class="m-nav__section">
+																				<span class="m-nav__section-text">
+																					Useful Links
+																				</span>
+                            </li>
+                            <li class="m-nav__item">
+                              <a href="" class="m-nav__link">
+                                <i class="m-nav__link-icon flaticon-info"></i>
+                                <span class="m-nav__link-text">
+																						FAQ
+																					</span>
+                              </a>
+                            </li>
+                            <li class="m-nav__item">
+                              <a href="" class="m-nav__link">
+                                <i class="m-nav__link-icon flaticon-lifebuoy"></i>
+                                <span class="m-nav__link-text">
+																						Support
+																					</span>
+                              </a>
+                            </li>
+                            <li class="m-nav__separator m-nav__separator--fit m--hide"></li>
+                            <li class="m-nav__item m--hide">
+                              <a href="#" class="btn btn-outline-danger m-btn m-btn--pill m-btn--wide btn-sm">
+                                Submit
+                              </a>
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <form [formGroup] = "updateProfileForm" class="m-form m-form--fit m-form--label-align-right">
+        <div class="tab-content">
+          <div class="tab-pane active" id="m_user_profile_tab_1">
+              <div class="m-portlet__body">
+                <div class="form-group m-form__group row">
+                  <div class="col-10 ml-auto">
+                    <h3 class="m-form__section">
+                      1. Personal Details
+                    </h3>
+                  </div>
+                </div>
+
+                <div class="form-group m-form__group row">
+                  <label  class="col-2 col-form-label">
+                    Last Name
+                  </label>
+                  <div class="col-7 col-form-label unedit">
+                    {{feedBack.allResponse?.last_name}}
+                  </div>
+                </div>
+                <div class="form-group m-form__group row">
+                  <label  class="col-2 col-form-label">
+                    First Name
+                  </label>
+                  <div class="col-7 col-form-label unedit">
+                    {{feedBack.allResponse?.first_name}}
+                  </div>
+                </div>
+                <div class="form-group m-form__group row">
+                  <label  class="col-2 col-form-label">
+                    Other Name
+                  </label>
+                  <div class="col-7 col-form-label unedit">
+                    {{feedBack.allResponse?.other_names}}
+                  </div>
+                </div>
+                <div class="form-group m-form__group row">
+                  <label  class="col-2 col-form-label">
+                    Matric No.
+                  </label>
+                  <div class="col-7 col-form-label unedit">
+                    {{feedBack.allResponse?.matric_no}}
+                   </div>
+                </div>
+                <div class="form-group m-form__group row">
+                  <label  class="col-2 col-form-label">
+                    Email
+                  </label>
+                  <div class="col-7 col-form-label unedit">
+                    {{feedBack.allResponse?.email}}
+                   </div>
+                </div>
+                <div class="form-group m-form__group row">
+                  <label  class="col-2 col-form-label">
+                    Level
+                  </label>
+                  <div class="col-7 col-form-label unedit">
+                    {{feedBack.allResponse?.level?.name}}
+                  </div>
+                </div>
+                <div class="form-group m-form__group row">
+                  <label  class="col-2 col-form-label">
+                    Course of Study
+                  </label>
+                  <div class="col-7 col-form-label unedit">
+                    {{feedBack.allResponse?.course_of_study?.name}}
+                  </div>
+                </div>
+                <div class="form-group m-form__group row">
+                  <label  class="col-2 col-form-label">
+                    Mode of Entry
+                  </label>
+                  <div class="col-7 col-form-label unedit">
+                    {{feedBack.allResponse?.mode_of_entry}}
+                  </div>
+                </div>
+                <div class="form-group m-form__group row">
+                  <label  class="col-2 col-form-label">
+                    Phone No.
+                  </label>
+                  <div class="col-7">
+                    <input class="form-control m-input" type="text" formControlName="telephone_home">
+                  </div>
+                </div>
+              </div>
+              <div class="m-portlet__foot m-portlet__foot--fit">
+                <div class="m-form__actions">
+                  <div class="row">
+                    <div class="col-2"></div>
+                    <div class="col-7">
+                      <button type="reset" class="btn btn-accent m-btn m-btn--air m-btn--custom" (click)="updateFormModal()" [disabled] = "feedBack.submitStatus">
+                        Save changes <i class="fa fa-spinner fa-spin" *ngIf="feedBack.submitStatus"></i>
+                      </button>
+                      &nbsp;&nbsp;
+                    </div>
+                  </div>
+                </div>
+              </div>
+          </div>
+          <div class="tab-pane " id="m_user_profile_tab_2">
+              <div class="m-portlet__body">
+                <div class="form-group m-form__group row">
+                  <div class="col-10 ml-auto">
+                    <h3 class="m-form__section">
+                      2. Birth Details
+                    </h3>
+                  </div>
+                </div>
+                <div class="form-group m-form__group row">
+                  <label  class="col-2 col-form-label">
+                    Gender
+                  </label>
+                  <div class="col-7">
+                    {{feedBack?.allResponse?.gender}}
+                  </div>
+                </div>
+                <div class="form-group m-form__group row">
+                  <label  class="col-2 col-form-label">
+                    Geno type
+                  </label>
+                  <div class="col-7">
+                    <input class="form-control m-input" type="text" formControlName="geno_type">
+                  </div>
+                  <div class="col-7 text-center form-error"  *ngIf="updateProfileForm.get('geno_type').invalid && updateProfileForm.get('geno_type').touched">
+                    Geno type is required
+                  </div>
+                </div>
+                <div class="form-group m-form__group row">
+                  <label  class="col-2 col-form-label">
+                    Blood Group
+                  </label>
+                  <div class="col-7">
+                    <input class="form-control m-input" type="text" formControlName="blood_group">
+                  </div>
+                  <div class="col-7 text-center form-error"  *ngIf="updateProfileForm.get('blood_group').invalid && updateProfileForm.get('blood_group').touched">
+                    Blood Group is required
+                  </div>
+                </div>
+                <div class="form-group m-form__group row">
+                  <label  class="col-2 col-form-label">
+                    Height
+                  </label>
+                  <div class="col-7">
+                    <input class="form-control m-input" type="text" formControlName="height">
+                  </div>
+                  <div class="col-7 text-center form-error"  *ngIf="updateProfileForm.get('height').invalid && updateProfileForm.get('height').touched">
+                    Height is required
+                  </div>
+                </div>
+                <div class="form-group m-form__group row">
+                  <label  class="col-2 col-form-label">
+                    Date of Birth
+                  </label>
+                  <div class="col-7 col-form-label unedit">
+                    {{feedBack.allResponse?.birth_of_date | date}}
+                   </div>
+                </div>
+                <div class="form-group m-form__group row">
+                  <label  class="col-2 col-form-label">
+                    Place of Birth
+                  </label>
+                  <div class="col-7">
+                    <input class="form-control m-input" type="text" formControlName="place_of_birth">
+                  </div>
+                  <div class="col-7 text-center form-error"  *ngIf="updateProfileForm.get('place_of_birth').invalid && updateProfileForm.get('place_of_birth').touched">
+                    Place of Birth is required
+                  </div>
+                </div>
+              </div>
+            <div class="m-portlet__foot m-portlet__foot--fit">
+              <div class="m-form__actions">
+                <div class="row">
+                  <div class="col-2"></div>
+                  <div class="col-7">
+                    <button type="reset" class="btn btn-accent m-btn m-btn--air m-btn--custom" (click)="updateFormModal()" [disabled] = "feedBack.submitStatus">
+                      Save changes <i class="fa fa-spinner fa-spin" *ngIf="feedBack.submitStatus"></i>
+                    </button>
+                    </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="tab-pane " id="m_user_profile_tab_3">
+              <div class="m-portlet__body">
+                <div class="form-group m-form__group row">
+                  <div class="col-10 ml-auto">
+                    <h3 class="m-form__section">
+                      3. Address
+                    </h3>
+                  </div>
+                </div>
+                <div class="form-group m-form__group row">
+                  <label  class="col-2 col-form-label">
+                    Home Address
+                  </label>
+                  <div class="col-7">
+                    <input class="form-control m-input" type="text" formControlName="home_address">
+                  </div>
+                  <div class="col-7 text-center form-error"  *ngIf="updateProfileForm.get('home_address').invalid && updateProfileForm.get('home_address').touched">
+                    Home Address is required
+                  </div>
+                </div>
+                <div class="form-group m-form__group row">
+                  <label  class="col-2 col-form-label">
+                    Local Government of Area
+                  </label>
+                  <div class="col-7 col-form-label unedit">
+                    {{feedBack.allResponse?.lga?.name}}
+                   </div>
+                </div>
+                <div class="form-group m-form__group row">
+                  <label  class="col-2 col-form-label">
+                    State of Origin
+                  </label>
+                  <div class="col-7 col-form-label unedit">
+                    {{feedBack.allResponse?.state?.name}}
+                  </div>
+                </div>
+                <div class="form-group m-form__group row">
+                  <label  class="col-2 col-form-label">
+                    Country
+                  </label>
+                  <div class="col-7 col-form-label unedit">
+                    {{feedBack.allResponse?.country?.name}}
+                  </div>
+                </div>
+              </div>
+            <div class="m-portlet__foot m-portlet__foot--fit">
+              <div class="m-form__actions">
+                <div class="row">
+                  <div class="col-2"></div>
+                  <div class="col-7">
+                    <button type="reset" class="btn btn-accent m-btn m-btn--air m-btn--custom" (click)="updateFormModal()" [disabled] = "feedBack.submitStatus">
+                      Save changes <i class="fa fa-spinner fa-spin" *ngIf="feedBack.submitStatus"></i>
+                    </button>
+                    &nbsp;&nbsp;
+                    </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="tab-pane " id="m_user_profile_tab_4">
+            <div class="m-portlet__body">
+              <div class="form-group m-form__group row">
+                <div class="col-10 ml-auto">
+                  <h3 class="m-form__section">
+                    4. Next of Kin
+                  </h3>
+                </div>
+              </div>
+
+                <div class="form-group m-form__group row">
+                  <label  class="col-2 col-form-label">
+                    Next of Kin Relationship
+                  </label>
+                  <div class="col-7">
+                    <input class="form-control m-input" type="text" formControlName="nok_relationship">
+                  </div>
+                  <div class="col-7 text-center form-error"  *ngIf="updateProfileForm.get('geno_type').invalid && updateProfileForm.get('geno_type').touched">
+                    Geno type is required
+                  </div>
+                </div>
+
+                <div class="form-group m-form__group row">
+                  <label  class="col-2 col-form-label">
+                    Next of Kin Phone No.
+                  </label>
+                  <div class="col-7">
+                    <input class="form-control m-input" type="text" formControlName="nok_tel">
+                  </div>
+                  <div class="col-7 text-center form-error"  *ngIf="updateProfileForm.get('nok_tel').invalid && updateProfileForm.get('nok_tel').touched">
+                    Phone is required
+                  </div>
+                </div>
+
+                <div class="form-group m-form__group row">
+                  <label  class="col-2 col-form-label">
+                    Next of Kin Address
+                  </label>
+                  <div class="col-7">
+                    <input class="form-control m-input" type="text" formControlName="nok_address">
+                  </div>
+                  <div class="col-7 text-center form-error"  *ngIf="updateProfileForm.get('nok_address').invalid && updateProfileForm.get('nok_address').touched">
+                    Address is required
+                  </div>
+                </div>
+
+                <div class="form-group m-form__group row">
+                  <label  class="col-2 col-form-label">
+                    Parents Name
+                  </label>
+                  <div class="col-7">
+                    <input class="form-control m-input" type="text" formControlName="parents_name">
+                  </div>
+                  <div class="col-7 text-center form-error"  *ngIf="updateProfileForm.get('parents_name').invalid && updateProfileForm.get('parents_name').touched">
+                    Parents Name is required
+                  </div>
+
+                </div>
+              <div class="m-portlet__foot m-portlet__foot--fit">
+                <div class="m-form__actions">
+                  <div class="row">
+                    <div class="col-2"></div>
+                    <div class="col-7">
+                      <button type="reset" class="btn btn-accent m-btn m-btn--air m-btn--custom" (click)="updateFormModal()" [disabled] = "feedBack.submitStatus">
+                        Save changes <i class="fa fa-spinner fa-spin" *ngIf="feedBack.submitStatus"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="tab-pane " id="m_user_profile_tab_5">
+            <div class="m-portlet__body">
+              <div class="form-group m-form__group row">
+                <div class="col-10 ml-auto">
+                  <h3 class="m-form__section">
+                    5. Marital/Religion Details
+                  </h3>
+                </div>
+              </div>
+
+              <div class="form-group m-form__group row">
+                <label  class="col-2 col-form-label">
+                  Marital Status
+                </label>
+                <div class="col-7">
+                  <select class="form-control m-input" formControlName="marital_status">
+                    <option></option>
+                    <option>Single</option>
+                    <option>Married</option>
+                    <option>Divorced</option>
+                  </select>
+                  <div class="col-7 text-center form-error"  *ngIf="updateProfileForm.get('marital_status').invalid && updateProfileForm.get('marital_status').touched">
+                    Marital Status is required
+                  </div>
+                </div>
+              </div>
+              <div class="form-group m-form__group row">
+                <label  class="col-2 col-form-label">
+                  Religion
+                </label>
+                <div class="col-7">
+                  <input class="form-control m-input" type="text" formControlName="religion">
+                </div>
+                <div class="col-7 text-center form-error"  *ngIf="updateProfileForm.get('religion').invalid && updateProfileForm.get('religion').touched">
+                  Religion is required
+                </div>
+              </div>
+              <div class="m-portlet__foot m-portlet__foot--fit">
+                <div class="m-portlet__foot m-portlet__foot--fit">
+                  <div class="m-form__actions">
+                    <div class="row">
+                      <div class="col-2"></div>
+                      <div class="col-7">
+                        <button type="reset" class="btn btn-accent m-btn m-btn--air m-btn--custom" (click)="updateFormModal()" [disabled] = "updateProfileForm.invalid || feedBack.submitStatus">
+                          Save changes <i class="fa fa-spinner fa-spin" *ngIf="feedBack.submitStatus"></i>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

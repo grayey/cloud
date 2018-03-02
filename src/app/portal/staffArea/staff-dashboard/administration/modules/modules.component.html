@@ -1,0 +1,414 @@
+<!-- BEGIN: Subheader -->
+<!-- END: Subheader -->
+
+<div id="createModule" class="modal fade" role="dialog">
+    <form [formGroup]="createModuleForm" (ngSubmit)="createModule()">
+      <div class="modal-dialog">
+  
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+  
+            <h4 class="modal-title">Create Module</h4>
+            <!-- <button class="btn btn-danger btn-xs pull-right" type="button" (click)="triggerModalOrOverlay('close','createModule')">Close</button> -->
+            <button class="close" type="button" (click)="triggerModalOrOverlay('close','createModule')">&times;</button>
+  
+          </div>
+          <div class="modal-body">
+            <div class="form-group">
+              <div class="row">
+                <div class="col-md-6">
+  
+                  <label for="schoolname">Full Name:</label>
+                  <input class="form-control" formControlName="fullname" id="schoolname" placeholder="Full Name">
+  
+                </div>
+                <div class="col-md-6">
+  
+                  <label for="middle_name">Email:</label>
+                  <input class="form-control" id="domain" formControlName="email" placeholder="Email">
+                  <!--  -->
+  
+  
+                  <!--  -->
+                </div>
+  
+              </div>
+  
+  
+              <div class="row">
+                <div class="col-md-6">
+  
+                  <label for="schoolname">Module Id:</label>
+                  <input class="form-control" formControlName="employee_id" id="schoolname" placeholder="Module Id">
+  
+                </div>
+                <div class="col-md-6">
+  
+                  <label for="country">Group:</label>
+                  <select class="form-control" formControlName="group_id" id="country">
+                    <option value="" disabled>Select Group</option>
+                    <option *ngFor="let group of allGroups; let ind=index" value="{{group.id}}">{{group?.name}}</option>
+                  </select>
+  
+                </div>
+  
+              </div>
+  
+  
+              <div class="row">
+                <div class="col-md-6">
+  
+                  <label for="state">Active Hours:</label>
+                  <select class="form-control" formControlName="active_hour_id" id="state">
+                    <option value="" disabled>Choose Active Hours</option>
+                    <option *ngFor="let activeHour of allActiveHours; let ind=index" value="{{activeHour.id}}">{{activeHour?.name}}</option>
+                  </select>
+  
+                </div>
+  
+                <div class="col-md-6">
+  
+  
+  
+  
+                </div>
+  
+              </div>
+  
+  
+  
+  
+  
+  
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-success btn-sm" [disabled]="createModuleForm.invalid || load.requesting.create">{{load.message.create}}
+              <i *ngIf="load.requesting.create" class="m-loader m-loader-brand"></i>
+            </button>
+            <button type="button" class="btn btn-danger btn-sm" (click)="triggerModalOrOverlay('close','createModule')">Close</button>
+  
+  
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  
+  <div id="updateModule" class="modal fade" role="dialog">
+    <form [formGroup]="updateModuleForm" (ngSubmit)="updateModule()">
+      <div class="modal-dialog">
+  
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+  
+            <h4 class="modal-title">Update {{updatedModule?.fullname}}</h4>
+            <!-- <button class="btn btn-danger btn-xs pull-right" type="button" (click)="triggerModalOrOverlay('close','updateModule')">Close</button> -->
+            <button class="close" type="button" (click)="triggerModalOrOverlay('close','updateModule')">&times;</button>
+  
+          </div>
+          <div class="modal-body">
+            <div class="form-group">
+              <div class="row">
+                <div class="col-md-6">
+  
+                  <label for="schoolname">Full Name:</label>
+                  <input class="form-control" formControlName="fullname" id="schoolname" placeholder="Full Name">
+  
+                </div>
+                <div class="col-md-6">
+  
+                  <label for="middle_name">Email:</label>
+                  <input class="form-control" id="domain" formControlName="email" placeholder="Email">
+                  <!--  -->
+  
+  
+                  <!--  -->
+                </div>
+  
+              </div>
+  
+  
+  
+              <div class="row">
+                <div class="col-md-6">
+  
+  
+                  <label for="country">Group:</label>
+                  <select class="form-control" formControlName="group_id" id="country">
+                    <option value="" disabled>Select Group</option>
+                    <option *ngFor="let group of allGroups; let ind=index" value="{{group.id}}">{{group?.name}}</option>
+                  </select>
+  
+  
+  
+  
+                </div>
+                <div class="col-md-6">
+  
+                  <label for="state">Active Hours:</label>
+                  <select class="form-control" formControlName="active_hour_id" id="state">
+                    <option value="" disabled>Choose Active Hours</option>
+                    <option *ngFor="let activeHour of allActiveHours; let ind=index" value="{{activeHour.id}}">{{activeHour?.name}}</option>
+                  </select>
+  
+  
+                </div>
+  
+              </div>
+  
+  
+              <!-- <div class="row">
+                                  <div class="col-md-6">
+      
+      
+                                      <label for="course">Faculty:</label>
+                                      <select class="form-control" #faculty formControlName="faculty_id" id="faculty" (change)="getDepartmentByByFacultyId(faculty.value)">
+                                          <option value="" disabled>Select Faculty</option>
+                                          <option *ngFor="let faculty of allFaculties; let ind=index" value="{{faculty.id}}">{{faculty.name}}</option>
+                                      </select>
+      
+      
+                                  </div>
+                                  <div class="col-md-6">
+                                      <label for="department">Department:</label>
+                                      <i class="fa fa-spinner fa-spin" *ngIf="load.departments.loading"></i>
+                                      <select class="form-control" #deprtmnt formControlName="department_id" id="department"
+                                          (change)="getCourseByDepartmentId(deprtmnt.value)" [disabled]="!load.departments.list || load.departments.loading">
+                                          <option value="" disabled>Select Department</option>
+                                          <option *ngFor="let department of allDepartments; let ind=index" value="{{department.id}}">{{department.name}}</option>
+                                      </select>
+      
+      
+                                  </div>
+      
+                              </div>
+      
+       -->
+  
+  
+  
+  
+  
+  
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-success btn-sm" [disabled]="updateModuleForm.invalid || load.requesting.create">{{load.message.update}}
+              <i *ngIf="load.requesting.create" class="m-loader m-loader-brand"></i>
+            </button>
+            <button type="button" class="btn btn-danger btn-sm" (click)="triggerModalOrOverlay('close','updateModule')">Close</button>
+  
+  
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  
+  
+  
+  
+  
+  <div class="m-content">
+    <div class="m-portlet m-portlet--mobile">
+      <div class="m-portlet__head">
+        <div class="m-portlet__head-caption">
+          <div class="m-portlet__head-title">
+            <h3 class="m-portlet__head-text">
+              Administration /Module
+            </h3>
+          </div>
+        </div>
+      </div>
+      <div class="m-portlet__body">
+        <!--begin: Search Form -->
+        <div class="m-form m-form--label-align-right m--margin-top-20 m--margin-bottom-30">
+          <div class="row align-items-center">
+            <div class="col-xl-8 order-2 order-xl-1">
+              <div class="form-group m-form__group row align-items-center">
+                <div class="col-md-4">
+                 
+                </div>
+              </div>
+            </div>
+  
+            <div class="col-xl-4 order-1 order-xl-2 m--align-right">
+              <button type="button" class="btn btn-success btn-sm" style="padding: 4px" (click)="triggerModalOrOverlay('open','createModule')">
+                <i class="fa fa-plus"></i>
+                Create
+              </button>
+  
+            </div>
+          </div>
+        </div>
+        <!--end: Search Form -->
+        <!--begin: Datatable -->
+        <div class="table-responsive">
+          <table class="table table-hover table-striped table-bordered table-sm">
+            <thead class="thead-color">
+              <tr>
+                <th>
+                  #
+                </th>
+                <th>
+                  Full Name
+                </th>
+  
+                <th>
+                  Module Id
+                </th>
+                <th>
+                  Email
+                </th>
+                <th>
+                  Group
+                </th>
+                <th>
+                  Module Type
+                </th>
+  
+                <th>
+                  Status
+                </th>
+                <!-- <th>
+                        Action
+                      </th> -->
+                <th>
+                  Action
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="text-center">
+  
+                <td colspan="11" *ngIf="allModules.length==0">
+                  <span *ngIf="allModules.length==0 && !load.requesting.list">No Record Found</span>
+                  <span *ngIf="load.requesting.list">Fetching Module..
+                    <i class="fa fa-spinner fa-spin"></i>
+                  </span>
+                </td>
+  
+              </tr>
+              <tr *ngFor="let Module of allModules; let ind=index">
+                <td>{{ind+1}}
+                  <td>{{Module?.fullname}}</td>
+                  <td>{{Module?.employee_id}}</td>
+                  <td>{{Module?.email}}</td>
+                  <td>{{Module?.group?.role}}</td>
+                  <td>
+                    <span *ngIf="Module?.type==0">Non - Academic</span>
+                    <span *ngIf="Module?.type==1">Academic</span>
+  
+  
+                  </td>
+                  <td *ngIf="Module.enabled==='1'" style="color:green">
+                    <i class="fa fa-check fa-2x"></i>
+                  </td>
+                  <td *ngIf="Module.enabled==='0'" style="color:red">
+                    <i class="fa fa-times fa-2x"></i>
+                  </td>
+                  <td>
+                    <button class="btn btn-info btn-xs" (click)="triggerModalOrOverlay('open','updateModule',ind)">
+                      <i class="fa fa-pencil" *ngIf="!Module?.loading"></i>
+                      <i class="fa fa-spinner fa-spin" *ngIf="Module?.loading"></i>
+  
+                    </button>
+                  </td>
+                  <!-- <td>
+                          <div class="m-portlet__head-tools">
+                            <ul class="m-portlet__nav">
+                              <li class="m-portlet__nav-item">
+                                <div class="m-dropdown m-dropdown--inline m-dropdown--arrow m-dropdown--align-right m-dropdown--align-push" data-dropdown-toggle="hover"
+                                  aria-expanded="true">
+                                  <a  class="m-portlet__nav-link btn btn-lg btn-secondary  m-btn m-btn--icon m-btn--icon-only m-btn--pill  m-dropdown__toggle">
+                                    <i class="la la-ellipsis-h m--font-brand"></i>
+                                  </a>
+                                  <div class="m-dropdown__wrapper">
+                                    <span class="m-dropdown__arrow m-dropdown__arrow--right m-dropdown__arrow--adjust"></span>
+                                    <div class="m-dropdown__inner">
+                                      <div class="m-dropdown__body">
+                                        <div class="m-dropdown__content">
+                                          <ul class="m-nav">
+                                            <li class="m-nav__section m-nav__section--first">
+                                              <span class="m-nav__section-text">
+                                                Manage Module
+                                              </span>
+                                              <hr>
+                                            </li>
+                                            <li class="m-nav__item">
+                                              <a role="button" class="m-nav__link" style="cursor:pointer">
+                                                <i class="m-nav__link-icon flaticon-share"></i>
+                                                <span class="m-nav__link-text" (click)="triggerModalOrOverlay('open','updateModule',ind)">
+                                                  Edit {{Module?.fullname}}'s Profile 
+                                                  <i class="fa fa-pencil" *ngIf="!Module?.loading"></i>
+                                                  <i class="fa fa-spinner fa-spin" *ngIf="Module?.loading"></i>
+                                                </span>
+                                              </a>
+                                            </li>
+                                            <br>
+                                            <li class="m-nav__item">
+                                              <a  class="m-nav__link">
+                                                <i class="m-nav__link-icon flaticon-chat-1"></i>
+                                                <span class="m-nav__link-text">
+                                                 View {{Module?.fullname}}'s Profile <i class="fa fa-eye"></i>
+                                                </span>
+                                              </a>
+                                            </li>
+                                            <br>
+                                            <li class="m-nav__item">
+                                              <a  class="m-nav__link">
+                                                <i class="m-nav__link-icon flaticon-multimedia-2"></i>
+                                                <span class="m-nav__link-text">
+                                                  Assign Courses to {{Module?.fullname}}
+                                                </span>
+                                              </a>
+                                            </li>
+                                            <li class="m-nav__section">
+                                              <span class="m-nav__section-text">
+                                                Useful Links
+                                              </span>
+                                            </li>
+                                            <li class="m-nav__item">
+                                              <a href="" class="m-nav__link">
+                                                <i class="m-nav__link-icon flaticon-info"></i>
+                                                <span class="m-nav__link-text">
+                                                  FAQ
+                                                </span>
+                                              </a>
+                                            </li>
+                                            <li class="m-nav__item">
+                                              <a href="" class="m-nav__link">
+                                                <i class="m-nav__link-icon flaticon-lifebuoy"></i>
+                                                <span class="m-nav__link-text">
+                                                  Support
+                                                </span>
+                                              </a>
+                                            </li>
+                                            <li class="m-nav__separator m-nav__separator--fit m--hide"></li>
+                                            <li class="m-nav__item m--hide">
+                                              <a href="#" class="btn btn-outline-danger m-btn m-btn--pill m-btn--wide btn-sm">
+                                                Submit
+                                              </a>
+                                            </li>
+                                          </ul>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </li>
+                            </ul>
+                          </div>
+                        </td> -->
+              </tr>
+            </tbody>
+          </table>
+  
+        </div>
+        <!--end: Datatable -->
+      </div>
+    </div>
+  </div>

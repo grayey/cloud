@@ -1,0 +1,530 @@
+<div id="createStudent" class="modal fade" role="dialog">
+    <form [formGroup]="createStudentForm" (ngSubmit)="createStudent()">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+
+                    <h4 class="modal-title">Create Student</h4>
+                    <button class="close" type="button" (click)="triggerModalOrOverlay('close','createStudent')">
+                        &times;
+                    </button>
+
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-6">
+
+                                <label for="schoolname">First Name:</label>
+                                <input class="form-control" formControlName="first_name" id="schoolname"
+                                       placeholder="First Name">
+
+                            </div>
+                            <div class="col-md-6">
+
+                                <label for="middle_name">Middle Name:</label>
+                                <input class="form-control" id="domain" formControlName="middle_name"
+                                       placeholder="Middle Name">
+                                <!--  -->
+
+
+                                <!--  -->
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label for="schooldomain">Last Name:</label>
+                                <input class="form-control" id="domain" formControlName="last_name"
+                                       placeholder="Last Name">
+
+                            </div>
+
+                            <div class="col-md-6">
+
+                                <label for="email">Email:</label>
+                                <input class="form-control" formControlName="email" id="email" placeholder="Email">
+
+
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+
+
+                                <label for="country">Country:</label>
+                                <select class="form-control" #createCountry formControlName="country_id" id="country"
+                                        (change)="getStateByCountryId(createCountry.value)">
+                                    <option value="" disabled>Select Country</option>
+                                    <option *ngFor="let country of allCountries; let ind=index" value="{{country.id}}">
+                                        {{country.name}}
+                                    </option>
+                                </select>
+
+
+                            </div>
+                            <div class="col-md-6">
+
+                                <label for="state">State:</label>
+                                <select class="form-control" formControlName="state_id" id="state">
+                                    <option value="" disabled>Select State</option>
+                                    <option *ngFor="let state of allStates; let ind=index" value="{{state.id}}">
+                                        {{state.name}}
+                                    </option>
+                                </select>
+
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="row">
+                            <div class="col-md-6">
+
+
+                                <label for="course">Faculty:</label>
+                                <select class="form-control" #faculty formControlName="faculty_id" id="faculty"
+                                        (change)="getDepartmentByByFacultyId(faculty.value)">
+                                    <option value="" disabled>Select Faculty</option>
+                                    <option *ngFor="let faculty of allFaculties; let ind=index" value="{{faculty.id}}">
+                                        {{faculty.name}}
+                                    </option>
+                                </select>
+
+
+                            </div>
+                            <div class="col-md-6">
+                                <label for="department">Department:</label>
+                                <i class="fa fa-spinner fa-spin" *ngIf="load.departments.loading"></i>
+                                <select class="form-control" #deprtmnt formControlName="department_id" id="department"
+                                        (change)="getCourseByDepartmentId(deprtmnt.value)"
+                                        [disabled]="!load.departments.list || load.departments.loading">
+                                    <option value="" disabled>Select Department</option>
+                                    <option *ngFor="let department of allDepartments; let ind=index"
+                                            value="{{department.id}}">{{department.name}}
+                                    </option>
+                                </select>
+
+
+                            </div>
+
+
+                            <div class="col-md-6">
+                                <label for="state">Level:</label>
+                                <select class="form-control" formControlName="level_id" id="level">
+                                    <option value="" disabled>Select Level</option>
+                                    <option *ngFor="let level of allLevels; let ind=index" value="{{level.id}}">
+                                        {{level.name}}
+                                    </option>
+                                </select>
+
+
+                            </div>
+
+
+                            <div class="col-md-6">
+                                <label for="course">Course of Study:</label>
+                                <i class="fa fa-spinner fa-spin" *ngIf="load.courses.loading"></i>
+                                <select class="form-control" #course formControlName="course_of_study_id" id="course"
+                                        [disabled]="!load.courses.list || load.courses.loading">
+                                    <option value="" disabled>Select Course</option>
+                                    <option *ngFor="let course of allCourses; let ind=index" value="{{course.id}}">
+                                        {{course.name}}
+                                    </option>
+                                </select>
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+
+                            <div class="col-md-6">
+
+                                <label for="matric_no">Matriculation Number:</label>
+                                <input class="form-control" formControlName="matric_no" id="matric_no"
+                                       placeholder="Matric No">
+
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success btn-sm"
+                            [disabled]="createStudentForm.invalid || load.requesting.create">{{load.message.create}}
+                        <i *ngIf="load.requesting.create" class="m-loader m-loader-brand"></i>
+                    </button>
+
+                    <button type="button" class="btn btn-danger btn-sm"
+                            (click)="triggerModalOrOverlay('close','createStudent')">Close
+                    </button>
+
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div id="updateStudent" class="modal fade" role="dialog">
+    <form [formGroup]="updateStudentForm" (ngSubmit)="updateStudent()">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+
+                    <h4 class="modal-title">Update {{updatedStudent?.first_name}} {{updatedStudent?.last_name}}</h4>
+                    <!-- <button class="btn btn-danger btn-xs pull-right" type="button" (click)="triggerModalOrOverlay('close','updateStudent')">Close</button> -->
+                    <button class="close" type="button" (click)="triggerModalOrOverlay('close','updateStudent')">
+                        &times;
+                    </button>
+
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-6">
+
+                                <label for="schoolname">First Name:</label>
+                                <input class="form-control" formControlName="first_name" id="schoolname"
+                                       placeholder="First Name">
+
+                            </div>
+                            <div class="col-md-6">
+
+                                <label for="middle_name">Middle Name:</label>
+                                <input class="form-control" id="domain" formControlName="middle_name"
+                                       placeholder="Middle Name">
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label for="schooldomain">Last Name:</label>
+                                <input class="form-control" id="domain" formControlName="last_name"
+                                       placeholder="Last Name">
+
+                            </div>
+
+                            <div class="col-md-6">
+
+                                <label for="email">Email:</label>
+                                <input class="form-control" formControlName="email" id="email" placeholder="Email">
+
+
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+
+
+                                <label for="country">Country:</label>
+                                <select class="form-control" #country formControlName="country_id" id="country"
+                                        (change)="getStateByCountryId(country.value)">
+                                    <option value="" disabled>Select Country</option>
+                                    <option *ngFor="let country of allCountries; let ind=index" value="{{country.id}}">
+                                        {{country.name}}
+                                    </option>
+                                </select>
+
+
+                            </div>
+                            <div class="col-md-6">
+
+                                <label for="state">State:</label>
+                                <select class="form-control" formControlName="state_id" id="state">
+                                    <option value="" disabled>Select State</option>
+                                    <option *ngFor="let state of allStates; let ind=index" value="{{state.id}}">
+                                        {{state.name}}
+                                    </option>
+                                </select>
+
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- <div class="row">
+                                    <div class="col-md-6">
+        
+        
+                                        <label for="course">Faculty:</label>
+                                        <select class="form-control" #faculty formControlName="faculty_id" id="faculty" (change)="getDepartmentByByFacultyId(faculty.value)">
+                                            <option value="" disabled>Select Faculty</option>
+                                            <option *ngFor="let faculty of allFaculties; let ind=index" value="{{faculty.id}}">{{faculty.name}}</option>
+                                        </select>
+        
+        
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="department">Department:</label>
+                                        <i class="fa fa-spinner fa-spin" *ngIf="load.departments.loading"></i>
+                                        <select class="form-control" #deprtmnt formControlName="department_id" id="department"
+                                            (change)="getCourseByDepartmentId(deprtmnt.value)" [disabled]="!load.departments.list || load.departments.loading">
+                                            <option value="" disabled>Select Department</option>
+                                            <option *ngFor="let department of allDepartments; let ind=index" value="{{department.id}}">{{department.name}}</option>
+                                        </select>
+        
+        
+                                    </div>
+        
+                                </div>
+        
+         -->
+
+
+                        <div class="row">
+
+                            <div class="col-md-6">
+                                <label for="course">Course of Study:</label>
+                                <i class="fa fa-spinner fa-spin" *ngIf="load.courses.loading"></i>
+                                <select class="form-control" #course formControlName="course_of_study_id" id="course"
+                                        [disabled]="!load.courses.list || load.courses.loading">
+                                    <option value="" disabled>Select Course</option>
+                                    <option *ngFor="let course of allCourses; let ind=index" value="{{course.id}}">
+                                        {{course.name}}
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+
+                                <label for="matric_no">Matriculation Number:</label>
+                                <input class="form-control" formControlName="matric_no" id="matric_no"
+                                       placeholder="Matric No" readonly disabled>
+
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+
+                    <button type="submit" class="btn btn-success btn-sm"
+                            [disabled]="updateStudentForm.invalid || load.requesting.create">{{load.message.update}}
+                        <i *ngIf="load.requesting.create" class="m-loader m-loader-brand"></i>
+                    </button>
+
+
+                    <button type="button" class="btn btn-danger btn-sm"
+                            (click)="triggerModalOrOverlay('close','updateStudent')">Close
+                    </button>
+
+
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+<div class="m-portlet m-portlet--mobile ">
+    <div class="m-portlet__head">
+        <div class="m-portlet__head-caption">
+            <div class="m-portlet__head-title">
+                <h3 class="m-portlet__head-text">
+                    Students
+                </h3>
+            </div>
+        </div>
+        <div class="m-portlet__head-tools">
+            <ul class="m-portlet__nav">
+                <li class="m-portlet__nav-item">
+                    <div class="m-dropdown m-dropdown--inline m-dropdown--arrow m-dropdown--align-right m-dropdown--align-push"
+                         data-dropdown-toggle="hover"
+                         aria-expanded="true">
+                        <a href="#"
+                           class="m-portlet__nav-link btn btn-lg btn-secondary  m-btn m-btn--icon m-btn--icon-only m-btn--pill  m-dropdown__toggle">
+                            <i class="la la-ellipsis-h m--font-brand"></i>
+                        </a>
+                        <div class="m-dropdown__wrapper">
+                            <span class="m-dropdown__arrow m-dropdown__arrow--right m-dropdown__arrow--adjust"></span>
+                            <div class="m-dropdown__inner">
+                                <div class="m-dropdown__body">
+                                    <div class="m-dropdown__content">
+                                        <ul class="m-nav">
+                                            <li class="m-nav__section m-nav__section--first">
+                                                <span class="m-nav__section-text">
+                                                    Quick Actions
+                                                </span>
+                                            </li>
+                                            <li class="m-nav__item">
+                                                <a href="" class="m-nav__link">
+                                                    <i class="m-nav__link-icon flaticon-share"></i>
+                                                    <span class="m-nav__link-text">
+                                                        Create Post
+                                                    </span>
+                                                </a>
+                                            </li>
+                                            <li class="m-nav__item">
+                                                <a href="" class="m-nav__link">
+                                                    <i class="m-nav__link-icon flaticon-chat-1"></i>
+                                                    <span class="m-nav__link-text">
+                                                        Send Messages
+                                                    </span>
+                                                </a>
+                                            </li>
+                                            <li class="m-nav__item">
+                                                <a href="" class="m-nav__link">
+                                                    <i class="m-nav__link-icon flaticon-multimedia-2"></i>
+                                                    <span class="m-nav__link-text">
+                                                        Upload File
+                                                    </span>
+                                                </a>
+                                            </li>
+                                            <li class="m-nav__section">
+                                                <span class="m-nav__section-text">
+                                                    Useful Links
+                                                </span>
+                                            </li>
+                                            <li class="m-nav__item">
+                                                <a href="" class="m-nav__link">
+                                                    <i class="m-nav__link-icon flaticon-info"></i>
+                                                    <span class="m-nav__link-text">
+                                                        FAQ
+                                                    </span>
+                                                </a>
+                                            </li>
+                                            <li class="m-nav__item">
+                                                <a href="" class="m-nav__link">
+                                                    <i class="m-nav__link-icon flaticon-lifebuoy"></i>
+                                                    <span class="m-nav__link-text">
+                                                        Support
+                                                    </span>
+                                                </a>
+                                            </li>
+                                            <li class="m-nav__separator m-nav__separator--fit m--hide"></li>
+                                            <li class="m-nav__item m--hide">
+                                                <a href="#"
+                                                   class="btn btn-outline-danger m-btn m-btn--pill m-btn--wide btn-sm">
+                                                    Submit
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="m-portlet__body">
+        <!--begin: Datatable -->
+
+        <div class="m-datatable m-datatable--default m-datatable--brand m-datatable--loaded">
+            <table class="m-datatable__table table-striped" id="html_table" width="100%"
+                   style="display: block; min-height: 300px; overflow-x: auto;">
+                <!--<thead class="m-datatable__head">-->
+
+                <tbody class="m-datatable__body" style="">
+                <tr class="m-datatable__row" style="left: 0px;">
+                    <th title="Field #1" class="m-datatable__cell m-datatable__cell--sort" data-field="Order ID"><span
+                            style="width: 110px;">#</span></th>
+                    <th title="Field #2" class="m-datatable__cell m-datatable__cell--sort" data-field="Owner"><span
+                            style="width: 110px;">First Name</span></th>
+                    <th title="Field #3" class="m-datatable__cell m-datatable__cell--sort" data-field="Contact"><span
+                            style="width: 110px;">Last Name</span></th>
+                    <th title="Field #4" class="m-datatable__cell m-datatable__cell--sort" data-field="Car Make"><span
+                            style="width: 110px;">Matric No.</span></th>
+                    <th title="Field #5" class="m-datatable__cell m-datatable__cell--sort" data-field="Car Model"><span
+                            style="width: 110px;">Email</span></th>
+                    <th title="Field #6" class="m-datatable__cell m-datatable__cell--sort" data-field="Color"><span
+                            style="width: 110px;">Programme</span></th>
+                    <th title="Field #7" class="m-datatable__cell m-datatable__cell--sort" data-field="Deposit Paid">
+                        <span style="width: 110px;">Faculty</span></th>
+                    <th title="Field #8" class="m-datatable__cell m-datatable__cell--sort" data-field="Order Date"><span
+                            style="width: 110px;">Department</span></th>
+                    <th title="Field #9" class="m-datatable__cell m-datatable__cell--sort" data-field="Status"><span
+                            style="width: 110px;">Course of Study</span></th>
+                    <th title="Field #10" class="m-datatable__cell m-datatable__cell--sort" data-field="Type"><span
+                            style="width: 110px;">Status</span></th>
+                    <th title="Field #11" class="m-datatable__cell m-datatable__cell--sort" data-field="Type"><span
+                            style="width: 110px;">Action</span></th>
+                </tr>
+                <!--</thead>-->
+                <tr class="m-datatable__row" style="left: 0px;" *ngFor="let student of allStudents; let ind=index"
+                    [attr.data-row]="ind">
+
+                    <td data-field="Data Index" class="m-datatable__cell"><span style="width: 110px;">{{ind+1}}</span>
+                    </td>
+                    <td data-field="Order ID" class="m-datatable__cell"><span style="width: 110px;">{{student?.first_name}}</span>
+                    </td>
+                    <td data-field="Owner" class="m-datatable__cell"><span
+                            style="width: 110px;">{{student?.last_name}}</span>
+                    </td>
+                    <td data-field="Contact" class="m-datatable__cell"><span style="width: 110px;">{{student?.matric_no}}</span>
+                    </td>
+                    <td data-field="Car Make" class="m-datatable__cell"><span
+                            style="width: 110px;">{{student?.email}}</span></td>
+                    <td data-field="Car Model" class="m-datatable__cell"><span style="width: 110px;">
+                        {{student?.course_of_study?.degree?.programme?.name}}</span>
+                    </td>
+                    <td data-field="Color" class="m-datatable__cell"><span style="width: 110px;">
+                        {{student?.course_of_study?.department?.faculty?.name}}
+                    </span></td>
+                    <td data-field="Deposit Paid" class="m-datatable__cell"><span style="width: 110px;">
+                         {{student?.course_of_study?.department?.name}}
+                    </span>
+                    </td>
+                    <td data-field="Order Date" class="m-datatable__cell"><span style="width: 110px;">
+                           {{student?.course_of_study?.name}}
+                    </span>
+                    </td>
+
+                    <td data-field="Status" class="m-datatable__cell"><span style="width: 110px;"
+                                                                            *ngIf="student.status==='1'"><span
+                            class="m-badge  m-badge--success m-badge--wide">Approved</span></span>
+                    </td>
+                    <td data-field="Status" class="m-datatable__cell"><span style="width: 110px;"
+                                                                            *ngIf="student.status==='0'"><span
+                            class="m-badge  m-badge--warning m-badge--wide">Declined</span></span>
+                    </td>
+                    <td data-field="Type" class="m-datatable__cell">
+
+                        <div class="dropdown ">
+                            <a href="#"
+                               class="btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill"
+                               data-toggle="dropdown">
+                                <i class="la la-ellipsis-h"></i>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right">
+                                <a class="dropdown-item" href="#">
+                                    <i class="la la-edit"></i> Edit Details</a>
+                                <a class="dropdown-item" href="#">
+                                    <i class="la la-leaf"></i> Update Status</a>
+                                <a class="dropdown-item" href="#">
+                                    <i class="la la-print"></i> Generate Report</a>
+                            </div>
+                        </div>
+                        <a href="#"
+                           class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill"
+                           title="Edit details">
+                            <i class="la la-edit"></i>
+                        </a>
+                        <a href="#"
+                           class="m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill"
+                           title="Delete">
+                            <i class="la la-trash"></i>
+                        </a>
+
+
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <!--end: Datatable -->
+        </div>
+    </div>
+</div>
+
+
