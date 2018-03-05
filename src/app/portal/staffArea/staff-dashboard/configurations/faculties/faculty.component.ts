@@ -18,7 +18,7 @@ export class FacultyComponent implements OnInit {
     allResponse: [],
     viewDetails: [],
     allSchoolType: [],
-    moduleName: 'Faculty',
+    moduleName: 'Faculties',
     formType: 'Create',
     loader: false,
     submitStatus: false,

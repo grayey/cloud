@@ -15,6 +15,7 @@ import {SideBarComponentComponent} from './layoutComponents/side-bar-component/s
 import { StudentExceptionsComponent } from './student-exceptions/student-exceptions.component';
 import {FooterComponentComponent} from './layoutComponents/footer-component/footer-component.component';
 import {HeaderComponentComponent} from './layoutComponents/header-component/header-component.component';
+import { DashboardHomeComponent } from './dashboard-home/dashboard-home.component';
 
 
 

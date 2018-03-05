@@ -5,3 +5,6 @@ th {
     font-weight: bold;
     font-size: 1rem;
 }
+a{
+    cursor: pointer !important;
+}

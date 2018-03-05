@@ -433,7 +433,6 @@ var LayoutBuilder = function() {
 		},
 	};
 }();
-
 jQuery(document).ready(function() {
 	LayoutBuilder.init();
 });

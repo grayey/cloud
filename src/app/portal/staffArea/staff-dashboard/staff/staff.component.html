@@ -557,89 +557,23 @@
         <div class="m-portlet__head-caption">
             <div class="m-portlet__head-title">
                 <h3 class="m-portlet__head-text">
-                    Students
+                    Staff
                 </h3>
             </div>
         </div>
         <div class="m-portlet__head-tools">
             <ul class="m-portlet__nav">
                 <li class="m-portlet__nav-item">
-                    <div class="m-dropdown m-dropdown--inline m-dropdown--arrow m-dropdown--align-right m-dropdown--align-push"
-                         data-dropdown-toggle="hover"
-                         aria-expanded="true">
-                        <a href="#"
-                           class="m-portlet__nav-link btn btn-lg btn-secondary  m-btn m-btn--icon m-btn--icon-only m-btn--pill  m-dropdown__toggle">
-                            <i class="la la-ellipsis-h m--font-brand"></i>
-                        </a>
-                        <div class="m-dropdown__wrapper">
-                            <span class="m-dropdown__arrow m-dropdown__arrow--right m-dropdown__arrow--adjust"></span>
-                            <div class="m-dropdown__inner">
-                                <div class="m-dropdown__body">
-                                    <div class="m-dropdown__content">
-                                        <ul class="m-nav">
-                                            <li class="m-nav__section m-nav__section--first">
-                                                <span class="m-nav__section-text">
-                                                    Quick Actions
-                                                </span>
-                                            </li>
-                                            <li class="m-nav__item">
-                                                <a href="" class="m-nav__link">
-                                                    <i class="m-nav__link-icon flaticon-share"></i>
-                                                    <span class="m-nav__link-text">
-                                                        Create Post
-                                                    </span>
-                                                </a>
-                                            </li>
-                                            <li class="m-nav__item">
-                                                <a href="" class="m-nav__link">
-                                                    <i class="m-nav__link-icon flaticon-chat-1"></i>
-                                                    <span class="m-nav__link-text">
-                                                        Send Messages
-                                                    </span>
-                                                </a>
-                                            </li>
-                                            <li class="m-nav__item">
-                                                <a href="" class="m-nav__link">
-                                                    <i class="m-nav__link-icon flaticon-multimedia-2"></i>
-                                                    <span class="m-nav__link-text">
-                                                        Upload File
-                                                    </span>
-                                                </a>
-                                            </li>
-                                            <li class="m-nav__section">
-                                                <span class="m-nav__section-text">
-                                                    Useful Links
-                                                </span>
-                                            </li>
-                                            <li class="m-nav__item">
-                                                <a href="" class="m-nav__link">
-                                                    <i class="m-nav__link-icon flaticon-info"></i>
-                                                    <span class="m-nav__link-text">
-                                                        FAQ
-                                                    </span>
-                                                </a>
-                                            </li>
-                                            <li class="m-nav__item">
-                                                <a href="" class="m-nav__link">
-                                                    <i class="m-nav__link-icon flaticon-lifebuoy"></i>
-                                                    <span class="m-nav__link-text">
-                                                        Support
-                                                    </span>
-                                                </a>
-                                            </li>
-                                            <li class="m-nav__separator m-nav__separator--fit m--hide"></li>
-                                            <li class="m-nav__item m--hide">
-                                                <a href="#"
-                                                   class="btn btn-outline-danger m-btn m-btn--pill m-btn--wide btn-sm">
-                                                    Submit
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <a style="color: white !important;"
+                       class="btn btn-accent m-btn m-btn--custom m-btn--icon m-btn--pill m-btn--air"
+                       (click)="triggerModalOrOverlay('open','createStaff')">
+													<span>
+														<i class="la la-plus"></i>
+														<span>
+															Create Staff
+														</span>
+													</span>
+                    </a>
                 </li>
             </ul>
         </div>
@@ -732,75 +666,85 @@
         <!--</div>-->
         <!--end: Datatable -->
 
-        <div class="m-datatable m-datatable--default m-datatable--brand m-datatable--loaded">
-            <table class="m-datatable__table" id="html_table" width="100%"
-                   style="display: block; min-height: 300px; overflow-x: auto;">
-                <thead class="m-datatable__head">
-                <tr class="m-datatable__row" style="left: 0px;" >
-                    <th title="Field #1" class="m-datatable__cell m-datatable__cell--sort" data-field="Order ID"><span
-                            style="width: 110px;"> #</span></th>
-                    <th title="Field #2" class="m-datatable__cell m-datatable__cell--sort" data-field="Owner"><span
-                            style="width: 110px;">Full Name</span></th>
-                    <th title="Field #3" class="m-datatable__cell m-datatable__cell--sort" data-field="Contact"><span
-                            style="width: 110px;">Staff Id</span></th>
-                    <th title="Field #4" class="m-datatable__cell m-datatable__cell--sort" data-field="Car Make"><span
-                            style="width: 110px;">Email</span></th>
-                    <th title="Field #5" class="m-datatable__cell m-datatable__cell--sort" data-field="Car Model"><span
-                            style="width: 110px;">Group</span></th>
-                    <th title="Field #6" class="m-datatable__cell m-datatable__cell--sort" data-field="Color"><span
-                            style="width: 110px;">Staff Type</span></th>
-                    <th title="Field #6" class="m-datatable__cell m-datatable__cell--sort" data-field="Color"><span
-                            style="width: 110px;">Status</span></th>
-                    <th title="Field #10" class="m-datatable__cell m-datatable__cell--sort" data-field="Type"><span
-                            style="width: 110px;"> Action</span></th>
+
+        <div _ngcontent-c3="" class="m-datatable m-datatable--default m-datatable--brand m-datatable--loaded">
+            <table _ngcontent-c3="" class="m-datatable__table table-striped" id="html_table"
+                   style="display: block; min-height: 300px; overflow-x: auto;" width="100%">
+
+
+                <tbody _ngcontent-c3="" class="m-datatable__body" style="">
+                <tr _ngcontent-c3="" class="m-datatable__row" style="left: 0px;">
+                    <th _ngcontent-c3="" class="m-datatable__cell m-datatable__cell--sort" data-field="Order ID"
+                        title="Field #1"><span _ngcontent-c3="" style="width: 110px;">#</span></th>
+                    <th _ngcontent-c3="" class="m-datatable__cell m-datatable__cell--sort" data-field="Owner"
+                        title="Field #2"><span _ngcontent-c3="" style="width: 110px;">Full Name</span></th>
+                    <th _ngcontent-c3="" class="m-datatable__cell m-datatable__cell--sort" data-field="Contact"
+                        title="Field #3"><span _ngcontent-c3="" style="width: 110px;">Staff Id</span></th>
+                    <th _ngcontent-c3="" class="m-datatable__cell m-datatable__cell--sort" data-field="Car Make"
+                        title="Field #4"><span _ngcontent-c3="" style="width: 110px;">Email</span></th>
+                    <th _ngcontent-c3="" class="m-datatable__cell m-datatable__cell--sort" data-field="Car Model"
+                        title="Field #5"><span _ngcontent-c3="" style="width: 110px;">Group</span></th>
+                    <th _ngcontent-c3="" class="m-datatable__cell m-datatable__cell--sort" data-field="Color"
+                        title="Field #6"><span _ngcontent-c3="" style="width: 110px;">Staff Type</span></th>
+                    <th _ngcontent-c3="" class="m-datatable__cell m-datatable__cell--sort" data-field="Order Date"
+                        title="Field #8"><span _ngcontent-c3="" style="width: 110px;">Status</span></th>
+                    <th _ngcontent-c3="" class="m-datatable__cell m-datatable__cell--sort" data-field="Type"
+                        title="Field #11"><span _ngcontent-c3="" style="width: 110px;">Action</span></th>
                 </tr>
-                </thead>
-                <tbody class="m-datatable__body" style="">
-                <tr data-row="0" class="m-datatable__row" style="left: 0px;" *ngFor="let Staff of allStaffs; let ind=index">
-                    <td  class="m-datatable__cell"><span style="width: 110px;">{{ind + 1}}</span>
+
+                <!--bindings={
+  "ng-reflect-ng-for-of": "[object Object],[object Object"
+}-->
+                <tr _ngcontent-c3="" class="m-datatable__row" style="left: 0px;" [attr.data-row]="ind"
+                    *ngFor="let Staff of allStaffs; let ind=index">
+                    <td _ngcontent-c3="" class="m-datatable__cell" data-field="Data Index"><span _ngcontent-c3=""
+                                                                                                 style="width: 110px;">{{ind+1}}</span>
+                    </td>
+                    <td _ngcontent-c3="" class="m-datatable__cell" data-field="Order ID"><span _ngcontent-c3=""
+                                                                                               style="width: 110px;">{{Staff?.fullname}}</span>
+                    </td>
+                    <td _ngcontent-c3="" class="m-datatable__cell" data-field="Owner"><span _ngcontent-c3=""
+                                                                                            style="width: 110px;">{{Staff?.employee_id}}</span>
+                    </td>
+                    <td _ngcontent-c3="" class="m-datatable__cell" data-field="Contact"><span _ngcontent-c3=""
+                                                                                              style="width: 110px;">{{Staff?.email}}</span>
+                    </td>
+                    <td _ngcontent-c3="" class="m-datatable__cell" data-field="Car Make"><span _ngcontent-c3=""
+                                                                                               style="width: 110px;">{{Staff?.group?.role}}</span>
+                    </td>
+                    <td _ngcontent-c3="" class="m-datatable__cell" data-field="Car Model" *ngIf="Staff?.type==0 || !Staff?.type"><span
+                            _ngcontent-c3=""
+                            style="width: 110px;">
+                        Non - Academic</span>
+                    </td>
+                    <td _ngcontent-c3="" class="m-datatable__cell" data-field="Car Model" *ngIf="Staff?.type==1"><span
+                            _ngcontent-c3=""
+                            style="width: 110px;">
+                        Academic</span>
                     </td>
 
-                    <td  class="m-datatable__cell"><span style="width: 110px;">{{Staff?.fullname}}</span>
-                    </td>
-
-                    <td class="m-datatable__cell"><span style="width: 110px;">{{Staff?.employee_id}}</span>
-                    </td>
-                    <td  class="m-datatable__cell"><span style="width: 110px;">{{Staff?.email}}</span></td>
-                    <td  class="m-datatable__cell"><span style="width: 110px;">{{Staff?.group?.role}}</span>
-                    </td>
-                    <td  class="m-datatable__cell">
-                        <span style="width: 110px;" *ngIf="Staff?.type==0">Non - Academic</span>
-                        <span style="width: 110px;" *ngIf="Staff?.type==1">Academic</span>
-                    </td>
-                    <td  class="m-datatable__cell" *ngIf="Staff.enabled==='1'" >
+                    <td _ngcontent-c3="" class="m-datatable__cell" data-field="Deposit Paid">
+                        <span _ngcontent-c3=""
+                                                                                                   style="width: 110px;" *ngIf="Staff.enabled==='1'">
                         <i class="fa fa-check fa-2x"></i>
-                    </td>
-                    <td  class="m-datatable__cell" *ngIf="Staff.enabled==='0'">
-                        <span style="width: 110px;">
+                    </span>
+                        <span _ngcontent-c3=""
+                              style="width: 110px;" *ngIf="Staff.enabled==='0'">
                         <i class="fa fa-times fa-2x"></i>
                     </span>
                     </td>
-                    <td data-field="Status" class="m-datatable__cell">
-
-                        <button class="btn btn-primary btn-xs" (click)="triggerModalOrOverlay('open','updateStaff',ind)">
-                            <i class="fa fa-pencil" *ngIf="!Staff?.loading"></i>
-                            <i class="fa fa-spinner fa-spin" *ngIf="Staff?.loading"></i>
-                        </button>
-                        <button class="btn btn-info btn-xs" (click)="getStaff(Staff?.id)"
-                                [disabled]="loadStaff && Staff.id === id">
-                            <i class="fa fa-street-view"></i> <i class="fa fa-spinner fa-spin"
-                                                                 *ngIf="loadStaff && Staff.id === id"></i>
-                        </button>
+                    <td _ngcontent-c3="" class="m-datatable__cell" data-field="Deposit Paid"><span _ngcontent-c3=""
+                                                                                                   style="width: 110px;">
+                         Biological Sciences
+                    </span>
                     </td>
-                    <!--<td data-field="Type" class="m-datatable__cell"><span style="width: 110px;"><span-->
-                            <!--class="m-badge m-badge&#45;&#45;primary m-badge&#45;&#45;dot"></span>&nbsp;<span-->
-                            <!--class="m&#45;&#45;font-bold m&#45;&#45;font-primary">Retail</span></span></td>-->
                 </tr>
-
 
                 </tbody>
             </table>
+
         </div>
+
     </div>
 </div>
 
